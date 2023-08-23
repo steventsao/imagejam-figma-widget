@@ -1,15 +1,7 @@
 // add a route
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { VercelRequest, VercelResponse } from "@vercel/node";
 
-export default async function handler(
-  request: NextApiRequest,
-  res: NextApiResponse
-) {
-  const { searchParams } = request.nextUrl;
-  const hasTitle = searchParams.has("title");
-  const title = hasTitle
-    ? searchParams.get("title")?.slice(0, 100)
-    : "My default title";
-
-  return res.status(500).send(title);
+export default function (request: VercelRequest, response: VercelResponse) {
+  const { name = "World" } = request.query;
+  response.send(`Hello ${name}!`);
 }
