@@ -9,6 +9,7 @@ export default async function (
   response: VercelResponse
 ) {
   const { name = "World" } = request.query;
-  const { rows, fields } = await sql`SELECT * from WORD`;
+  //   Need double quote mixed case table names
+  const { rows, fields } = await sql`SELECT * from "Word"`;
   response.json({ rows, fields });
 }
