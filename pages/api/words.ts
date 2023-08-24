@@ -9,6 +9,6 @@ export default async function (
   response: VercelResponse
 ) {
   const { name = "World" } = request.query;
-  const { rows, fields } = await sql`SELECT * from words`;
+  const { rows, fields } = await sql`SELECT * from WORD`;
   response.json({ rows, fields });
 }
