@@ -4,5 +4,5 @@ export const config = {
 };
 
 export default async function handler(req: NextRequest) {
-  return new NextResponse("hi");
+  return new NextResponse().json({ hello: "world" });
 }
