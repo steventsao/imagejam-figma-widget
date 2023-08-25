@@ -1,4 +1,5 @@
 import { sql } from "@vercel/postgres";
+import Link from "next/link";
 
 // https://nextjs.org/docs/app/building-your-application/routing/dynamic-routes
 // TODO add type and use RSC https://nextjs.org/docs/pages/building-your-application/routing/dynamic-routes
@@ -16,12 +17,13 @@ export default async function Page(props: any) {
           {rows.map((target, i) => (
             <div className="my-5" key={i}>
               {/* TODO need icon for outbound */}
-              <a href={target.url} target="_blank" rel="noopener noreferrer">
+              {/* TODO handle word with spaces */}
+              <Link href={"/tools/words/" + target.word}>
                 <p className="text-base font-bold">{target.word} </p>
                 {/* linebreak */}
 
                 <p className="text-sm">{target.definition}</p>
-              </a>
+              </Link>
             </div>
           ))}
         </div>
