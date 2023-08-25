@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 let main = async () => {
   await prisma.word.updateMany({
     where: {
-      source: null,
+      sourceId: null,
     },
     data: {
       sourceId: 1,
