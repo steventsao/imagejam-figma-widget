@@ -6,7 +6,8 @@ export default async function Page(props: any) {
   const {
     params: { slug },
   } = props;
-  const { rows, fields } = await sql`SELECT * FROM "Word"`;
+  const { rows, fields } =
+    await sql`SELECT "Word".word, "Word".definition, "Source".url FROM "Word" inner join "Source" ON "Source".id="Word"."sourceId"`;
   if (rows.length) {
     // TODO add source
     return (
