@@ -17,8 +17,8 @@ model Word {
   example    String?
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  sourceId   Int?
-  source     Source?  @relation(fields: [sourceId], references: [id])
+  sourceId   Int
+  source     Source   @relation(fields: [sourceId], references: [id])
 }
 
 model Source {
