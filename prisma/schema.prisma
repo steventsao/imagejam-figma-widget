@@ -22,9 +22,10 @@ model Word {
 }
 
 model Source {
-  id        Int      @id @default(autoincrement())
-  url       String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  words     Word[]
+  id            Int       @id @default(autoincrement())
+  url           String    @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  lastCrawledAt DateTime?
+  words         Word[]
 }
