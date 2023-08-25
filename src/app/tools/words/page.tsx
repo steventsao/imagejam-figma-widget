@@ -18,7 +18,7 @@ export default async function Page(props: any) {
             <div className="my-5" key={i}>
               {/* TODO need icon for outbound */}
               {/* TODO handle word with spaces */}
-              <Link href={"/tools/words/" + target.word}>
+              <Link href={"/" + target.word}>
                 <p className="text-base font-bold">{target.word} </p>
                 {/* linebreak */}
 
