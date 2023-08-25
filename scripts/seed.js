@@ -50,17 +50,20 @@ function main() {
                         return line.split(",", 2).map(function (word) { return word.trim(); });
                     });
                     // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#create
+                    // TODO strip off blank and NA definitions
                     return [4 /*yield*/, prisma.word.createMany({
                             data: words.map(function (_a) {
                                 var word = _a[0], definition = _a[1];
                                 return ({
                                     word: word,
+                                    sourceId: 1,
                                     definition: definition || "NA"
                                 });
                             })
                         })];
                 case 1:
                     // https://www.prisma.io/docs/reference/api-reference/prisma-client-reference#create
+                    // TODO strip off blank and NA definitions
                     _a.sent();
                     return [2 /*return*/];
             }

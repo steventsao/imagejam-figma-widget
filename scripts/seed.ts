@@ -56,6 +56,7 @@ async function main() {
   await prisma.word.createMany({
     data: words.map(([word, definition]) => ({
       word,
+      sourceId: 1,
       definition: definition || "NA",
     })),
   });

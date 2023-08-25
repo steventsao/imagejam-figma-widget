@@ -43,7 +43,7 @@ var main = function () { return __awaiter(void 0, void 0, void 0, function () {
         switch (_a.label) {
             case 0: return [4 /*yield*/, prisma.word.updateMany({
                     where: {
-                        source: null
+                        sourceId: undefined
                     },
                     data: {
                         sourceId: 1
