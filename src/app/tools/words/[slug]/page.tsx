@@ -22,5 +22,5 @@ export default async function Page(props: any) {
       </main>
     );
   }
-  return <p>not found</p>;
+  return <p>not found, please return to home page</p>;
 }
