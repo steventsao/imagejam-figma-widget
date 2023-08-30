@@ -24,7 +24,7 @@ export default async function handler(
   res: NextApiResponse
 ) {
   const target = await prisma.source.findFirst({
-    where: { lastCrawledAt: null },
+    where: { objectId: null },
   });
   if (!target) {
     res.status(200).send("no links available");
