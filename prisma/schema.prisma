@@ -27,5 +27,6 @@ model Source {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
   lastCrawledAt DateTime?
+  objectId      String?   @unique
   words         Word[]
 }
