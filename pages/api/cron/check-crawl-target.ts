@@ -53,7 +53,7 @@ export default async function handler(
       });
       await prisma.source.update({
         where: { id: target.id },
-        data: { lastCrawledAt: new Date() },
+        data: { lastCrawledAt: new Date(), objectId: key },
       });
     } catch (err) {
       res.status(500).send(err);
