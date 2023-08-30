@@ -19,8 +19,12 @@ export default async function (
     Key: crypto.randomUUID(),
     Body: request.body,
   };
-  await s3.putObject(params, (err, data) => {
-    console.log(data);
-    response.send(data);
-  });
+  try {
+    await s3.putObject(params, (err, data) => {
+      console.log(data);
+      response.send(data);
+    });
+  } catch (err) {
+    response.send(err);
+  }
 }
