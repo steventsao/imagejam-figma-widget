@@ -14,14 +14,16 @@ export default async function (
   request: VercelRequest,
   response: VercelResponse
 ) {
+  if (typeof request.query.key !== "string") {
+    response.send({ message: "key must be a string" });
+    return;
+  }
   const params = {
     Bucket: "bogeybot",
-    Key: crypto.randomUUID(),
-    Body: request.body,
+    Key: request.query.key,
   };
   try {
-    await s3.putObject(params, (err, data) => {
-      console.log(data);
+    await s3.getObject(params, (err, data) => {
       response.send(data);
     });
   } catch (err) {
