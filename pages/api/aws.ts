@@ -23,8 +23,12 @@ export default async function (
     Key: request.query.key,
   };
   try {
-    await s3.getObject(params, (err, data) => {
-      response.send(data);
+    await s3.getObject(params, async (err, data) => {
+      // https://stackoverflow.com/questions/71213825/how-to-call-expressjs-endpoint-from-static-html-file-in-vercel
+      // s3 defaults data to streaming instead
+      let html = await data.Body;
+      response.setHeader("Content-Type", "text/html");
+      response.send(html);
     });
   } catch (err) {
     response.send(err);
