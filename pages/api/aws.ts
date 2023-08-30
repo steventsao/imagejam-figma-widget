@@ -26,7 +26,9 @@ export default async function (
     await s3.getObject(params, async (err, data) => {
       // https://stackoverflow.com/questions/71213825/how-to-call-expressjs-endpoint-from-static-html-file-in-vercel
       // s3 defaults data to streaming instead
-      let html = await data.Body;
+      const html = await data.Body;
+
+      // Set text/html so browser renders instead of download
       response.setHeader("Content-Type", "text/html");
       response.send(html);
     });
