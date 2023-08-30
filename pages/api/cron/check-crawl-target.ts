@@ -46,9 +46,14 @@ export default async function handler(
       Body: html.body,
     };
     try {
+      // TODO add s3 object ID to prisma
       await s3.putObject(params, (err, data) => {
         console.log(data);
         res.status(200).json({ key });
+      });
+      await prisma.source.update({
+        where: { id: target.id },
+        data: { lastCrawledAt: new Date() },
       });
     } catch (err) {
       res.status(500).send(err);
