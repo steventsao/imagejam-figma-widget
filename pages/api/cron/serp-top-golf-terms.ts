@@ -24,16 +24,13 @@ export default async function handler(
     throw new Error("Must provide api_key");
   }
 
-  const url = new URL("https://serpapi.com/search.json");
-  const base = "https://serpapi.com/search.json?";
-  const params = new URLSearchParams(url.search);
+  const base = "https://serpapi.com/search.json";
+  const params = new URLSearchParams();
   params.append("api_key", process.env.SERP_API_KEY);
   params.append("q", "golf terms");
   params.append("engine", "google");
 
-  console.log(base + params);
-  const results = await fetch(base + params);
-  // return json hello
+  const results = await fetch(`${base}?${params}`);
   try {
     const json = await results.json();
 
