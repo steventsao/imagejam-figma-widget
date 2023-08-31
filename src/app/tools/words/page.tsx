@@ -18,7 +18,12 @@ export default async function Page(props: any) {
             <div className="my-5" key={i}>
               {/* TODO need icon for outbound */}
               {/* TODO handle word with spaces */}
-              <Link href={"/" + target.word}>
+              <Link
+                href={
+                  "/tools/words/" +
+                  target.word.replaceAll(" ", "-").toLowerCase()
+                }
+              >
                 <p className="text-base font-bold">{target.word} </p>
                 {/* linebreak */}
 

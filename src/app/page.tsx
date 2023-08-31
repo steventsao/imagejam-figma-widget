@@ -13,7 +13,7 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            By bogeybot
+            bogeybot
           </a>
         </div>
       </div>

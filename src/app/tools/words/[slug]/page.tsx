@@ -6,8 +6,10 @@ export default async function Page(props: any) {
   const {
     params: { slug },
   } = props;
+  // TODO bad code
+  const slugQuery = slug.replaceAll("-", " ");
   const { rows, fields } =
-    await sql`SELECT * FROM "Word" WHERE LOWER(word) = LOWER(${slug});`;
+    await sql`SELECT * FROM "Word" WHERE LOWER(word) = LOWER(${slugQuery});`;
   const target = rows[0];
   if (target) {
     // TODO add source
