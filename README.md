@@ -6,3 +6,8 @@ database for your golf swings
 
 - `npx prisma migrate dev`
 - `npx prisma generate`
+
+# Premium offering
+
+- anonymize your swing
+- critique your swing

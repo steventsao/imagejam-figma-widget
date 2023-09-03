@@ -33,9 +33,15 @@ model Swing {
 model Prediction {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
-  swingId   Int?
-  swing     Swing?   @relation(fields: [swingId], references: [id])
+  swingId   Int
+  swing     Swing    @relation(fields: [swingId], references: [id])
   url       String
+}
+
+model ReplicateWebhook {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  payload   Json
 }
 
 model Word {
