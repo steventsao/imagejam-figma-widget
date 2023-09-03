@@ -10,6 +10,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  email     String   @unique
+  name      String?
+  password  String
+  swings    Swing[]
+}
+
+model Swing {
+  id          Int          @id @default(autoincrement())
+  createdAt   DateTime     @default(now())
+  predictions Prediction[]
+  userId      Int?
+  user        User?        @relation(fields: [userId], references: [id])
+}
+
+model Prediction {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  swingId   Int
+  swing     Swing    @relation(fields: [swingId], references: [id])
+}
+
 model Word {
   id         Int      @id @default(autoincrement())
   word       String
