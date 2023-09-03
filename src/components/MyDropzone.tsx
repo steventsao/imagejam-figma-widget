@@ -27,11 +27,11 @@ const postFile = async (files) => {
   if (!file) {
     throw new Error("Must attach file");
   }
-  console.log("uploading file", file);
+  // console.log("uploading file", file);
   // TODO nested bS
   // @ts-ignore
   await fileToDataURI(file, async (result) => {
-    console.log(result);
+    // console.log(result);
     const promise = await fetch("/api/pose", {
       method: "POST",
       headers: { "Content-Type": "image/png" },
