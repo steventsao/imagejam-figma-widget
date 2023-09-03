@@ -45,7 +45,8 @@ export default function Home() {
         {/* @ts-ignore */}
         <Grid>
           {swingImages.map((item, i) => (
-            <Grid.Col span={3} key={i}>
+            // TODO use 6 for now for both des
+            <Grid.Col span={6} key={i}>
               <Card shadow="sm" padding="xl">
                 <Image
                   src={item.image_url}
