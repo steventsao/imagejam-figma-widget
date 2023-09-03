@@ -21,12 +21,13 @@ export default async function (
   response: VercelResponse
 ) {
   const { body: file } = request;
-  var etag = "";
   console.log(Object.keys(file));
-  const saved = await s3.putObject(
+  const s3key = crypto.randomUUID();
+  console.log("Saving to key ");
+  const s3request = await s3.putObject(
     {
       Bucket: "bogeybot",
-      Key: crypto.randomUUID(),
+      Key: s3key,
       Body: file,
     },
     (err, data: PutObjectOutput) => {
@@ -34,12 +35,17 @@ export default async function (
         response.send(err);
       }
       console.log("stored at", data.ETag);
-      etag = data.ETag || "";
+      const etag = data.ETag || "";
+      return Promise.resolve(etag);
     }
   );
+  const s3data = await s3request.promise().then((data) => {
+    return data;
+  });
+  console.log(s3data.ETag, s3key, "tag and key");
   const savedImage = await prisma.swing.create({
     data: {
-      imageUrl: `https://bogeybot.com/api/aws?key=${etag}`,
+      blogId: s3data.ETag,
     },
   });
   response.send(savedImage);

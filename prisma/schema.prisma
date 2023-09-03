@@ -24,7 +24,8 @@ model Swing {
   id          Int          @id @default(autoincrement())
   createdAt   DateTime     @default(now())
   predictions Prediction[]
-  imageUrl    String
+  imageUrl    String?
+  blobId      String?
   userId      Int?
   user        User?        @relation(fields: [userId], references: [id])
 }
