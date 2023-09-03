@@ -16,10 +16,13 @@ import {
 
 import { useEffect, useState } from "react";
 
+type SwingItem = {
+  image_url: string;
+};
 // https://supabase.com/dashboard/project/tkbhdbhsnikrpsutyyxk/settings/api?
 export default function Home() {
   const supabase = createClientComponentClient();
-  const [swingImages, setSwingImages] = useState<string[]>([]);
+  const [swingImages, setSwingImages] = useState<SwingItem[]>([]);
 
   // TODO make realtime
   useEffect(() => {
@@ -42,8 +45,8 @@ export default function Home() {
         {/* @ts-ignore */}
         <Grid>
           {swingImages.map((item, i) => (
-            <Grid.Col span={3}>
-              <Card shadow="sm" padding="xl" key={i}>
+            <Grid.Col span={3} key={i}>
+              <Card shadow="sm" padding="xl">
                 <Image
                   src={item.image_url}
                   width={150}
