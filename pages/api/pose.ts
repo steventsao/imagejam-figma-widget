@@ -3,6 +3,7 @@ import { sql } from "@vercel/postgres";
 import Replicate from "replicate";
 import { PrismaClient } from "@prisma/client";
 import s3 from "@/lib/aws";
+import { PutObjectOutput } from "aws-sdk/clients/s3";
 
 const prisma = new PrismaClient();
 
@@ -39,11 +40,11 @@ export default async function (
       Key: `${prediction.id}`,
       Body: file,
     },
-    (err, data) => {
-      console.log(err, data);
+    (err, data: PutObjectOutput) => {
+      console.log("stored at", data.ETag);
+      response.send(data.ETag);
     }
   );
 
   // console.log(saved);
-  response.send(prediction);
 }
