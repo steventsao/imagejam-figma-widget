@@ -5,9 +5,7 @@ export default async function (
   request: VercelRequest,
   response: VercelResponse
 ) {
-  console.log('received webhook...')
-  console.log(request.query)
-  response.status(200).send('ok');
-};
-
-
+  console.log("received webhook...");
+  console.log(request);
+  response.status(200).send("ok");
+}
