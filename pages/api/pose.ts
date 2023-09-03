@@ -39,9 +39,16 @@ export default async function (
       return Promise.resolve(etag);
     }
   );
-  const s3data = await s3request.promise().then((data) => {
-    return data;
-  });
+  const s3data = await s3request
+    .promise()
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => console.error(err));
+  if (!s3data) {
+    response.status(500);
+    return;
+  }
   console.log(s3data.ETag, s3key, "tag and key");
   const savedImage = await prisma.swing.create({
     data: {
