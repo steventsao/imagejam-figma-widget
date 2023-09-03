@@ -2,6 +2,9 @@
 import { Group, Text, useMantineTheme, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
+import s3 from "@/lib/aws";
+import crypto from "crypto";
+import { PutObjectOutput } from "aws-sdk/clients/s3";
 
 function fileToDataURI(file: File, callback: Function) {
   const reader = new FileReader();
@@ -27,6 +30,28 @@ const postFile = async (files) => {
   if (!file) {
     throw new Error("Must attach file");
   }
+
+  // const s3key = crypto.randomUUID();
+  // const s3request = await s3.putObject(
+  //   {
+  //     Bucket: "bogeybot",
+  //     Key: s3key,
+  //     Body: file,
+  //   },
+  //   (err, data: PutObjectOutput) => {
+  //     if (err) {
+  //       console.log(err);
+  //     }
+  //     console.log("stored at", data.ETag);
+  //     const etag = data.ETag || "";
+  //     return Promise.resolve(etag);
+  //   }
+  // );
+  // const s3data = await s3request.promise().then((data) => {
+  //   return data;
+  // });
+  // console.log(s3data, "upload stsao");
+
   // console.log("uploading file", file);
   // TODO nested bS
   // @ts-ignore
@@ -47,7 +72,6 @@ export default function MyDropzone(props: Partial<DropzoneProps>) {
     <Dropzone
       onDrop={postFile}
       onReject={(files) => console.log("rejected files", files)}
-      maxSize={3 * 1024 * 2}
       accept={IMAGE_MIME_TYPE}
       {...props}
     >

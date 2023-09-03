@@ -11,3 +11,7 @@ database for your golf swings
 
 - anonymize your swing
 - critique your swing
+
+# Stack
+
+- https://supabase.com/dashboard/project/tkbhdbhsnikrpsutyyxk/editor/28556
