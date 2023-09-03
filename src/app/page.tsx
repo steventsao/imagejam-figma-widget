@@ -39,16 +39,16 @@ export default function Home() {
   console.log(swingImages);
 
   return (
-    <main className="flex min-h-screen flex-col p-24">
+    <main className="flex flex-col dekstop:p-24">
       <MyDropzone />
       <Space h="xl" />
       <section>
         {/* @ts-ignore */}
         <Container fluid>
-          <Grid>
+          <Grid gutter={3}>
             {swingImages.map((item, i) => (
               // TODO use 6 for now for both desktop and mobile
-              <Grid.Col span={6} key={i}>
+              <Grid.Col span="auto" key={i}>
                 <Card shadow="sm" padding="xl">
                   <Image
                     src={item.image_url}
