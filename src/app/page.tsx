@@ -45,14 +45,14 @@ export default function Home() {
       <section>
         {/* @ts-ignore */}
         <Container fluid>
-          <Grid gutter={3}>
+          <Grid gutter={5}>
             {swingImages.map((item, i) => (
               // TODO use 6 for now for both desktop and mobile
-              <Grid.Col span="auto" key={i}>
+              <Grid.Col span={6} key={i}>
                 <Card shadow="sm" padding="xl">
                   <Image
                     src={item.image_url}
-                    width={150}
+                    height={300}
                     alt={`golf swing ${i}`}
                   />
                 </Card>

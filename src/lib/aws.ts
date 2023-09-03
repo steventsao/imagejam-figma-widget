@@ -1,5 +1,7 @@
 import aws from "aws-sdk";
 
+// TODO need another config clientside
+
 aws.config.update({
   accessKeyId: process.env.AWS_S3_ACCESS_ID,
   secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,

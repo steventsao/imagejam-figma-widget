@@ -2,9 +2,8 @@
 import { Group, Text, useMantineTheme, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import s3 from "@/lib/aws";
-import crypto from "crypto";
-import { PutObjectOutput } from "aws-sdk/clients/s3";
+// import s3 from "@/lib/aws";
+// import { PutObjectOutput } from "aws-sdk/clients/s3";
 
 function fileToDataURI(file: File, callback: Function) {
   const reader = new FileReader();
@@ -40,16 +39,19 @@ const postFile = async (files) => {
   //   },
   //   (err, data: PutObjectOutput) => {
   //     if (err) {
-  //       console.log(err);
+  //       throw err;
   //     }
   //     console.log("stored at", data.ETag);
   //     const etag = data.ETag || "";
   //     return Promise.resolve(etag);
   //   }
   // );
-  // const s3data = await s3request.promise().then((data) => {
-  //   return data;
-  // });
+  // const s3data = await s3request
+  //   .promise()
+  //   .then((data) => {
+  //     return data;
+  //   })
+  //   .catch((err) => console.log(err, "error"));
   // console.log(s3data, "upload stsao");
 
   // console.log("uploading file", file);
