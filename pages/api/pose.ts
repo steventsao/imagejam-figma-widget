@@ -3,6 +3,10 @@ import { sql } from "@vercel/postgres";
 import Replicate from "replicate";
 
 
+if (typeof process.env.REPLICATE_API_TOKEN !== 'string') {
+  throw new Error("must have api token replicate")
+}
+
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN,
 });
@@ -22,7 +26,7 @@ const prediction = await replicate.predictions.create({
     prompt: "just pose detection"
   },
   // TODO fix later
-  webhook: "https://bogeybot.com/api/words",
+  webhook: "https://bogeybot.com/api/pose-webhook",
   webhook_events_filter: ["completed"]
 });
 
