@@ -1,11 +1,15 @@
 import Image from "next/image";
 import Link from "next/link";
 import MyDropzone from "@/components/MyDropzone";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import {
+  createServerComponentClient,
+  createClientComponentClient,
+} from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 
+// https://supabase.com/dashboard/project/tkbhdbhsnikrpsutyyxk/settings/api?
 export default async function Home() {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createClientComponentClient();
   let { data, error } = await supabase.from("swing-public").select("image_url");
 
   // @ts-ignore
