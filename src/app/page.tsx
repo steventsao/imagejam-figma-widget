@@ -4,6 +4,7 @@ import Link from "next/link";
 import MyDropzone from "@/components/MyDropzone";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
+  Container,
   Grid,
   Card,
   Image,
@@ -43,20 +44,22 @@ export default function Home() {
       <Space h="xl" />
       <section>
         {/* @ts-ignore */}
-        <Grid>
-          {swingImages.map((item, i) => (
-            // TODO use 6 for now for both des
-            <Grid.Col span={6} key={i}>
-              <Card shadow="sm" padding="xl">
-                <Image
-                  src={item.image_url}
-                  width={150}
-                  alt={`golf swing ${i}`}
-                />
-              </Card>
-            </Grid.Col>
-          ))}
-        </Grid>
+        <Container fluid>
+          <Grid>
+            {swingImages.map((item, i) => (
+              // TODO use 6 for now for both desktop and mobile
+              <Grid.Col span={6} key={i}>
+                <Card shadow="sm" padding="xl">
+                  <Image
+                    src={item.image_url}
+                    width={150}
+                    alt={`golf swing ${i}`}
+                  />
+                </Card>
+              </Grid.Col>
+            ))}
+          </Grid>
+        </Container>
       </section>
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <div className="bottom-0 left-0 flex h-48 w-full items-end justify-center">
