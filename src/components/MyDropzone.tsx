@@ -2,8 +2,9 @@
 import { Group, Text, useMantineTheme, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-// import s3 from "@/lib/aws";
-// import { PutObjectOutput } from "aws-sdk/clients/s3";
+import s3 from "@/lib/aws";
+import { PutObjectOutput } from "aws-sdk/clients/s3";
+console.log(process.env.NEXT_PUBLIC_AWS_S3_ACCESS_ID);
 
 function fileToDataURI(file: File, callback: Function) {
   const reader = new FileReader();
@@ -30,29 +31,29 @@ const postFile = async (files) => {
     throw new Error("Must attach file");
   }
 
-  // const s3key = crypto.randomUUID();
-  // const s3request = await s3.putObject(
-  //   {
-  //     Bucket: "bogeybot",
-  //     Key: s3key,
-  //     Body: file,
-  //   },
-  //   (err, data: PutObjectOutput) => {
-  //     if (err) {
-  //       throw err;
-  //     }
-  //     console.log("stored at", data.ETag);
-  //     const etag = data.ETag || "";
-  //     return Promise.resolve(etag);
-  //   }
-  // );
-  // const s3data = await s3request
-  //   .promise()
-  //   .then((data) => {
-  //     return data;
-  //   })
-  //   .catch((err) => console.log(err, "error"));
-  // console.log(s3data, "upload stsao");
+  const s3key = crypto.randomUUID();
+  const s3request = await s3.putObject(
+    {
+      Bucket: "bogeybot",
+      Key: s3key,
+      Body: file,
+    },
+    (err, data: PutObjectOutput) => {
+      if (err) {
+        throw err;
+      }
+      console.log("stored at", data.ETag);
+      const etag = data.ETag || "";
+      return Promise.resolve(etag);
+    }
+  );
+  const s3data = await s3request
+    .promise()
+    .then((data) => {
+      return data;
+    })
+    .catch((err) => console.log(err, "error"));
+  console.log(s3data, "upload stsao");
 
   // console.log("uploading file", file);
   // TODO nested bS
