@@ -4,7 +4,6 @@ import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import s3 from "@/lib/aws";
 import { PutObjectOutput } from "aws-sdk/clients/s3";
-console.log(process.env.NEXT_PUBLIC_AWS_S3_ACCESS_ID);
 
 function fileToDataURI(file: File, callback: Function) {
   const reader = new FileReader();
