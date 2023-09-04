@@ -2,24 +2,38 @@
 import { Group, Text, useMantineTheme, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import s3 from "@/lib/aws";
 import { PutObjectOutput } from "aws-sdk/clients/s3";
 
-function fileToDataURI(file: File, callback: Function) {
-  const reader = new FileReader();
+// async function uploadToS3(file: File) {
+//   const s3key = crypto.randomUUID();
+//   const s3request = await s3.putObject(
+//     {
+//       Bucket: "bogeybot",
+//       Key: s3key,
+//       Body: file,
+//     },
+//     (err, data: PutObjectOutput) => {
+//       if (err) {
+//         throw err;
+//       }
+//       console.log("stored at", data.ETag);
+//       const etag = data.ETag || "";
+//       return Promise.resolve(etag);
+//     }
+//   );
+//   const s3data = await s3request
+//     .promise()
+//     .then((data) => {
+//       return data;
+//     })
+//     .catch((err) => console.log(err, "error"));
+//   console.log(s3data, "upload stsao");
+// }
+function getFormData(file: File): FormData {
+  const data = new FormData();
 
-  reader.onload = function (event) {
-    if (!event.target) {
-      throw new Error("No target");
-    }
-    callback(event.target.result);
-  };
-
-  reader.onerror = function (error) {
-    console.error("Error reading file:", error);
-  };
-
-  reader.readAsDataURL(file);
+  data.append("file", file);
+  return data;
 }
 // @ts-ignore
 const postFile = async (files) => {
@@ -30,44 +44,19 @@ const postFile = async (files) => {
     throw new Error("Must attach file");
   }
 
-  const s3key = crypto.randomUUID();
-  const s3request = await s3.putObject(
-    {
-      Bucket: "bogeybot",
-      Key: s3key,
-      Body: file,
-    },
-    (err, data: PutObjectOutput) => {
-      if (err) {
-        throw err;
-      }
-      console.log("stored at", data.ETag);
-      const etag = data.ETag || "";
-      return Promise.resolve(etag);
-    }
-  );
-  const s3data = await s3request
-    .promise()
-    .then((data) => {
-      return data;
-    })
-    .catch((err) => console.log(err, "error"));
-  console.log(s3data, "upload stsao");
-
   // console.log("uploading file", file);
   // TODO nested bS
   // @ts-ignore
-  await fileToDataURI(file, async (result) => {
-    // console.log(result);
-    const promise = await fetch("/api/pose", {
-      method: "POST",
-      headers: { "Content-Type": "image/png" },
-      body: result,
-    });
-    const data = await promise.body;
-    console.log(data, promise);
-    return data;
+  const formData = getFormData(file);
+  // console.log(result);
+  const promise = await fetch("/api/pose", {
+    method: "POST",
+    headers: { "Content-Type": "image/png" },
+    body: formData,
   });
+  const data = await promise.body;
+  console.log(data, promise);
+  return data;
 };
 export default function MyDropzone(props: Partial<DropzoneProps>) {
   return (

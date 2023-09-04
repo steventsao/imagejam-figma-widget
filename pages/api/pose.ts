@@ -3,10 +3,11 @@ import { sql } from "@vercel/postgres";
 import Replicate from "replicate";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
-import s3 from "@/lib/aws";
+import aws from "@/lib/aws";
 import { PutObjectOutput } from "aws-sdk/clients/s3";
 
 const prisma = new PrismaClient();
+const s3 = new aws.S3();
 
 if (typeof process.env.REPLICATE_API_TOKEN !== "string") {
   throw new Error("must have api token replicate");
@@ -21,18 +22,18 @@ export default async function (
   response: VercelResponse
 ) {
   const { body: file } = request;
-  console.log(Object.keys(file));
   const s3key = crypto.randomUUID();
   console.log("Saving to key ");
   const s3request = await s3.putObject(
     {
       Bucket: "bogeybot",
       Key: s3key,
-      Body: file,
+      Body: JSON.stringify(file),
     },
     (err, data: PutObjectOutput) => {
       if (err) {
         response.send(err);
+        return;
       }
       console.log("stored at", data.ETag);
       const etag = data.ETag || "";

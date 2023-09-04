@@ -8,6 +8,5 @@ aws.config.update({
   secretAccessKey: process.env.NEXT_PUBLIC_AWS_S3_SECRET_ACCESS_KEY,
   region: "us-west-1", // e.g., 'us-west-1'
 });
-const s3 = new aws.S3();
 
-export default s3;
+export default aws;
