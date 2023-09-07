@@ -39,20 +39,19 @@ function getFormData(file: File): FormData {
 const postFile = async (files) => {
   // TODO need to accept jpeg too
   const file = files[0];
-
   if (!file) {
     throw new Error("Must attach file");
   }
 
-  // console.log("uploading file", file);
+  console.log("uploading file", file);
   // TODO nested bS
   // @ts-ignore
-  const formData = getFormData(file);
   // console.log(result);
-  const promise = await fetch("/api/pose", {
-    method: "POST",
-    headers: { "Content-Type": "image/png" },
-    body: formData,
+  const promise = await file.arrayBuffer().then((buffer: ArrayBuffer) => {
+    return fetch("/api/pose", {
+      method: "POST",
+      body: buffer,
+    });
   });
   const data = await promise.body;
   console.log(data, promise);

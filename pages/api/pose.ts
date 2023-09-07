@@ -3,8 +3,18 @@ import { sql } from "@vercel/postgres";
 import Replicate from "replicate";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
-import aws from "@/lib/aws";
 import { PutObjectOutput } from "aws-sdk/clients/s3";
+import aws from "aws-sdk";
+import fs from "fs";
+
+// TODO need another config clientside
+
+// TODO need to not expose this key
+aws.config.update({
+  accessKeyId: process.env.NEXT_PUBLIC_AWS_S3_ACCESS_ID,
+  secretAccessKey: process.env.NEXT_PUBLIC_AWS_S3_SECRET_ACCESS_KEY,
+  region: "us-west-1", // e.g., 'us-west-1'
+});
 
 const prisma = new PrismaClient();
 const s3 = new aws.S3();
@@ -21,8 +31,11 @@ export default async function (
   request: VercelRequest,
   response: VercelResponse
 ) {
-  const { body: file } = request;
-  const s3key = crypto.randomUUID();
+  // add type of file
+  const { body: file }: { body: string } = request;
+  // const pipe = fs.createReadStream(file).pipe(fs.createWriteStream('image.png'));
+  // pipe.on
+  let s3key = crypto.randomUUID();
   console.log("Saving to key ");
   const s3request = await s3.putObject(
     {
@@ -35,7 +48,7 @@ export default async function (
         response.send(err);
         return;
       }
-      console.log("stored at", data.ETag);
+      console.log("ETag generated");
       const etag = data.ETag || "";
       return Promise.resolve(etag);
     }
@@ -50,16 +63,19 @@ export default async function (
     response.status(500);
     return;
   }
-  console.log(s3data.ETag, s3key, "tag and key");
+  console.log("S3 data and etag present");
   const savedImage = await prisma.swing.create({
     data: {
       blobId: s3data.ETag,
     },
   });
+  const image =
+    "data:image/png;base64," + Buffer.from(file, "binary").toString("base64");
+  // console.log("IMAGE::::", image);
   const prediction = await replicate.predictions.create({
     version: "0304f7f774ba7341ef754231f794b1ba3d129e3c46af3022241325ae0c50fb99",
     input: {
-      image: file,
+      image,
       // TODO remove this model so it's only pose later
       prompt: "just pose detection",
     },
@@ -67,7 +83,7 @@ export default async function (
     webhook: "https://bogeybot.com/api/pose-webhook",
     webhook_events_filter: ["completed"],
   });
-  response.send({ savedImage, prediction });
+  response.send({ image, prediction });
   const replicatePrediction = await prisma.prediction.create({
     data: {
       url: prediction.urls.get,
