@@ -1,4 +1,5 @@
-import type { VercelRequest, VercelResponse } from "@vercel/node";
+import { NextApiRequest, NextApiResponse } from "next";
+
 import Replicate from "replicate";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
@@ -33,8 +34,8 @@ const replicate = new Replicate({
 });
 
 export default async function (
-  request: VercelRequest,
-  response: VercelResponse
+  request: NextApiRequest,
+  response: NextApiResponse
 ) {
   const { body: file }: { body: string } = request;
   const s3key = crypto.randomUUID();
