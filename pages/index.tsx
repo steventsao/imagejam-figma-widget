@@ -5,7 +5,7 @@ type SwingItem = {
 };
 
 // https://stackoverflow.com/questions/76725399/nextjs-how-to-fix-getserversideprops-is-not-supported-in-app
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const supabase = createClientComponentClient();
   const promise = await supabase.from("swing-public").select("image_url");
   return {
