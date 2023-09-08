@@ -40,27 +40,41 @@ export default function Home() {
 
   return (
     <main className="flex flex-col dekstop:p-24">
-      <MyDropzone />
-      <Space h="xl" />
       <section>
         {/* @ts-ignore */}
         <Container fluid>
           <Grid gutter={5}>
             {swingImages.map((item, i) => (
               // TODO use 6 for now for both desktop and mobile
-              <Grid.Col span={6} key={i}>
-                <Card shadow="sm" padding="xl">
-                  <Image
-                    src={item.image_url}
-                    height={300}
-                    alt={`golf swing ${i}`}
-                  />
+              <Grid.Col span={4} xs={12} sm={12} md={4} key={i}>
+                <Card shadow="sm" padding="xl" radius="md" withBorder>
+                  <Card.Section>
+                    <Image
+                      src={item.image_url}
+                      height={300}
+                      alt={`golf swing ${i}`}
+                    />
+                  </Card.Section>
+                  <Group position="apart" mt="md" mb="xs">
+                    <Text weight={500}>Norway Fjord Adventures</Text>
+                    <Badge color="pink" variant="light">
+                      On Sale
+                    </Badge>
+                  </Group>
+
+                  <Text size="sm" color="dimmed">
+                    With Fjord Tours you can explore more of the magical fjord
+                    landscapes with tours and activities on and around the
+                    fjords of Norway
+                  </Text>
                 </Card>
               </Grid.Col>
             ))}
           </Grid>
         </Container>
       </section>
+      <Space h="xl" />
+      <MyDropzone />
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
         <div className="bottom-0 left-0 flex h-48 w-full items-end justify-center">
           <a

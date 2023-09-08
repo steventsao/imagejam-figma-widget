@@ -1,34 +1,8 @@
 "use client";
-import { Group, Text, useMantineTheme, rem } from "@mantine/core";
+import { FileButton, Group, Text, useMantineTheme, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
 import { PutObjectOutput } from "aws-sdk/clients/s3";
-
-// async function uploadToS3(file: File) {
-//   const s3key = crypto.randomUUID();
-//   const s3request = await s3.putObject(
-//     {
-//       Bucket: "bogeybot",
-//       Key: s3key,
-//       Body: file,
-//     },
-//     (err, data: PutObjectOutput) => {
-//       if (err) {
-//         throw err;
-//       }
-//       console.log("stored at", data.ETag);
-//       const etag = data.ETag || "";
-//       return Promise.resolve(etag);
-//     }
-//   );
-//   const s3data = await s3request
-//     .promise()
-//     .then((data) => {
-//       return data;
-//     })
-//     .catch((err) => console.log(err, "error"));
-//   console.log(s3data, "upload stsao");
-// }
 
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
