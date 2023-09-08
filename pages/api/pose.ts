@@ -5,14 +5,14 @@ import crypto from "crypto";
 import { PutObjectOutput } from "aws-sdk/clients/s3";
 import aws from "aws-sdk";
 
+// https://nextjs.org/docs/pages/building-your-application/routing/api-routes#custom-config
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: "3mb",
+      sizeLimit: false,
     },
   },
 };
-// TODO need another config clientside
 
 // TODO need to not expose this key
 aws.config.update({
