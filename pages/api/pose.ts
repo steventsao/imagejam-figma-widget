@@ -36,12 +36,15 @@ export default async function (
   // const pipe = fs.createReadStream(file).pipe(fs.createWriteStream('image.png'));
   // pipe.on
   let s3key = crypto.randomUUID();
+  console.log(typeof file);
   console.log("Saving to key ");
   const s3request = await s3.putObject(
     {
       Bucket: "bogeybot",
       Key: s3key,
-      Body: JSON.stringify(file),
+      Body: Buffer.from(file, 'base64'),
+      // TODO hard
+      ContentType: "image/png",
     },
     (err, data: PutObjectOutput) => {
       if (err) {
@@ -69,8 +72,8 @@ export default async function (
       blobId: s3data.ETag,
     },
   });
-  const image =
-    "data:image/png;base64," + Buffer.from(file, "binary").toString("base64");
+  // assuming file is already base64
+  const image = "data:image/png;base64," + file;
   // console.log("IMAGE::::", image);
   const prediction = await replicate.predictions.create({
     version: "0304f7f774ba7341ef754231f794b1ba3d129e3c46af3022241325ae0c50fb99",

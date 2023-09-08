@@ -29,14 +29,34 @@ import { PutObjectOutput } from "aws-sdk/clients/s3";
 //     .catch((err) => console.log(err, "error"));
 //   console.log(s3data, "upload stsao");
 // }
+
+function fileToBase64(file: File): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      if (typeof reader.result === "string") {
+        const base64String = reader.result.split(",")[1];
+        resolve(base64String);
+      }
+    };
+
+    reader.onerror = (error) => {
+      reject(error);
+    };
+
+    reader.readAsDataURL(file);
+  });
+}
+
 function getFormData(file: File): FormData {
   const data = new FormData();
 
   data.append("file", file);
   return data;
 }
-// @ts-ignore
-const postFile = async (files) => {
+
+const postFile = async (files: File[]) => {
   // TODO need to accept jpeg too
   const file = files[0];
   if (!file) {
@@ -44,14 +64,13 @@ const postFile = async (files) => {
   }
 
   console.log("uploading file", file);
-  // TODO nested bS
-  // @ts-ignore
-  // console.log(result);
-  const promise = await file.arrayBuffer().then((buffer: ArrayBuffer) => {
-    return fetch("/api/pose", {
-      method: "POST",
-      body: buffer,
-    });
+  const base64File = await fileToBase64(file);
+  const promise = await fetch("/api/pose", {
+    method: "POST",
+    body: base64File,
+    headers: {
+      "Content-Type": "application/text", // since we are sending a base64 string
+    },
   });
   const data = await promise.body;
   console.log(data, promise);
