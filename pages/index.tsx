@@ -1,9 +1,18 @@
 import MainSection from "@/components/MainSection";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { sql } from "@vercel/postgres";
-type SwingItem = {
-  image_url: string;
-};
+import aws from "aws-sdk";
+import { SwingItem } from "@/lib/types";
+
+aws.config.update({
+  accessKeyId: process.env.AWS_S3_ACCESS_ID,
+  secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+  region: "us-west-1", // e.g., 'us-west-1'
+});
+
+const s3 = new aws.S3();
+
+// get public URL of s3 objects
 
 // https://stackoverflow.com/questions/76725399/nextjs-how-to-fix-getserversideprops-is-not-supported-in-app
 export const getServerSideProps = async () => {
@@ -11,7 +20,9 @@ export const getServerSideProps = async () => {
   const supabase = createClientComponentClient();
   const promise = await supabase.from("swing-public").select("image_url");
   const payload =
-    await sql`select * from "Swing" inner join "Prediction" on "Prediction"."swingId" = "Swing".id where "Swing"."blobId" is not null and "Prediction"."url" is not null`;
+    await sql`select "Prediction"."url" from "Swing" inner join "Prediction" on "Prediction"."swingId" = "Swing".id where "Swing"."blobId" is not null and "Prediction"."url" is not null`;
+  // Use s3 etag to get url of file
+  // https://stackoverflow.com/questions/3749231/download-file-from-amazon-s3-bucket-using-etag
   console.log("stsao payload:", payload);
   return {
     props: {

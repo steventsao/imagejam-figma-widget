@@ -28,6 +28,16 @@ model Swing {
   blobId      String?
   userId      Int?
   user        User?        @relation(fields: [userId], references: [id])
+  s3          s3?
+}
+
+model s3 {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  createdAt DateTime @default(now())
+  url       String?
+  swingId   Int?     @unique
+  swing     Swing?   @relation(fields: [swingId], references: [id])
 }
 
 model Prediction {

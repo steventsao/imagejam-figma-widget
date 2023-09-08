@@ -66,12 +66,25 @@ export default async function (
     response.status(500);
     return;
   }
+
   console.log("S3 data and etag present");
   const savedImage = await prisma.swing.create({
     data: {
       blobId: s3data.ETag,
     },
   });
+  const params = {
+    Bucket: "bogeybot",
+    Key: s3key,
+  };
+  const s3Instance = await prisma.s3.create({
+    data: {
+      key: s3key,
+      url: s3.getSignedUrl("getObject", params),
+      swingId: savedImage.id,
+    },
+  });
+
   // assuming file is already base64
   const image = "data:image/png;base64," + file;
   const prediction = await replicate.predictions.create({
