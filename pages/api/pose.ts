@@ -1,12 +1,17 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { sql } from "@vercel/postgres";
 import Replicate from "replicate";
 import { PrismaClient } from "@prisma/client";
 import crypto from "crypto";
 import { PutObjectOutput } from "aws-sdk/clients/s3";
 import aws from "aws-sdk";
-import fs from "fs";
 
+export const config = {
+  api: {
+    bodyParser: {
+      sizeLimit: "3mb",
+    },
+  },
+};
 // TODO need another config clientside
 
 // TODO need to not expose this key
@@ -31,19 +36,14 @@ export default async function (
   request: VercelRequest,
   response: VercelResponse
 ) {
-  // add type of file
   const { body: file }: { body: string } = request;
-  // const pipe = fs.createReadStream(file).pipe(fs.createWriteStream('image.png'));
-  // pipe.on
-  let s3key = crypto.randomUUID();
-  console.log(typeof file);
-  console.log("Saving to key ");
+  const s3key = crypto.randomUUID();
   const s3request = await s3.putObject(
     {
       Bucket: "bogeybot",
       Key: s3key,
-      Body: Buffer.from(file, 'base64'),
-      // TODO hard
+      Body: Buffer.from(file, "base64"),
+      // TODO hardcoded
       ContentType: "image/png",
     },
     (err, data: PutObjectOutput) => {
@@ -74,7 +74,6 @@ export default async function (
   });
   // assuming file is already base64
   const image = "data:image/png;base64," + file;
-  // console.log("IMAGE::::", image);
   const prediction = await replicate.predictions.create({
     version: "0304f7f774ba7341ef754231f794b1ba3d129e3c46af3022241325ae0c50fb99",
     input: {
@@ -94,16 +93,4 @@ export default async function (
     },
   });
   console.log("Prediction saved: " + replicatePrediction.id);
-
-  // response.send(prediction);
-  // const savedPrecition = await prisma.prediction.create({
-  //   data: {
-  //     url:
-  // response.send(data.ETag);
-  // const entity = await prisma.swing.create({
-  //   data: {
-  //     imageUrl: `https://bogeybot.com/api/aws?key=${etag}`,
-  //     replicateId: prediction.id,
-
-  // console.log(saved);
 }
