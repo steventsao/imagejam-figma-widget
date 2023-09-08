@@ -1,7 +1,5 @@
 "use client";
-import Link from "next/link";
 import MyDropzone from "@/components/MyDropzone";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import {
   Container,
   Grid,
@@ -22,12 +20,6 @@ export default function MainSection({
 }: {
   swingImages: SwingItem[];
 }) {
-  // TODO select * from "Swing" inner join "Prediction" on "Prediction"."swingId" = "Swing".id where "Swing"."blobId" is not null and "Prediction"."url" is not null
-
-  // @ts-ignore
-  console.log(...arguments);
-  console.log(swingImages);
-
   return (
     <main className="flex flex-col dekstop:p-24">
       <section>
@@ -53,7 +45,6 @@ export default function MainSection({
                   </Group>
 
                   <Text size="sm" color="dimmed">
-                    With Fjord Tours you can explore more of the magical fjord
                     landscapes with tours and activities on and around the
                     fjords of Norway
                   </Text>
