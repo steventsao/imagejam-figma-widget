@@ -1,5 +1,4 @@
 "use client";
-// TODO convert to server component because this is slow af
 import Link from "next/link";
 import MyDropzone from "@/components/MyDropzone";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -11,31 +10,22 @@ import {
   Space,
   Text,
   Badge,
-  Button,
   Group,
 } from "@mantine/core";
-
-import { useEffect, useState } from "react";
 
 type SwingItem = {
   image_url: string;
 };
 // https://supabase.com/dashboard/project/tkbhdbhsnikrpsutyyxk/settings/api?
-export default function Home() {
-  const supabase = createClientComponentClient();
-  const [swingImages, setSwingImages] = useState<SwingItem[]>([]);
-
-  // TODO make realtime
-  useEffect(() => {
-    (async () => {
-      // ref https://ultimatecourses.com/blog/using-async-await-inside-react-use-effect-hook
-      const promise = await supabase.from("swing-public").select("image_url");
-      // @ts-ignore
-      setSwingImages(promise.data || []);
-    })();
-  }, []);
+export default function MainSection({
+  swingImages,
+}: {
+  swingImages: SwingItem[];
+}) {
+  // TODO select * from "Swing" inner join "Prediction" on "Prediction"."swingId" = "Swing".id where "Swing"."blobId" is not null and "Prediction"."url" is not null
 
   // @ts-ignore
+  console.log(...arguments);
   console.log(swingImages);
 
   return (
