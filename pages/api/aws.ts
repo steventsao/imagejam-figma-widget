@@ -20,8 +20,7 @@ export default async function (
   }
   const params = {
     Bucket: "bogeybot",
-    // Key: request.query.key,
-    ETag: request.query.etag,
+    Key: request.query.key,
   };
   try {
     await s3.getObject(params, async (err, data) => {
