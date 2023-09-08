@@ -10,11 +10,10 @@ import aws from "aws-sdk";
 export const config = {
   api: {
     bodyParser: {
-      sizeLimit: false,
+      sizeLimit: "4mb", // Set desired value here
     },
   },
 };
-
 // TODO need to not expose this key
 aws.config.update({
   accessKeyId: process.env.NEXT_PUBLIC_AWS_S3_ACCESS_ID,
