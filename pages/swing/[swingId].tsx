@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext } from "next";
-import { Image } from "@mantine/core";
+import { Image, Card } from "@mantine/core";
 import { sql } from "@vercel/postgres";
 
 type SwingProps = {
@@ -34,8 +34,15 @@ export const getServerSideProps = async (
 export default function Swing({ swing }: SwingProps) {
   return (
     <>
-      <div>hi {swing.id}</div>
-      <Image src={swing.image_url} alt={`golf swing ${swing.id}`} />
+      <Card>
+        <Card.Section>
+          <Image
+            src={swing.image_url}
+            width={300}
+            alt={`golf swing ${swing.id}`}
+          />
+        </Card.Section>
+      </Card>
     </>
   );
 }

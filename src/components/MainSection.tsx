@@ -29,6 +29,8 @@ export default function MainSection({
             {swingImages.map((item, i) => (
               // TODO use 6 for now for both desktop and mobile
               <Grid.Col span={4} xs={12} sm={12} md={4} key={i}>
+                {/* TODO issue #11 */}
+                {/* TODO should just pass in the URLs for all images so another query is not necessary in /swing/pages */}
                 <Card shadow="sm" padding="xl" radius="md" withBorder>
                   <Card.Section>
                     <Image
