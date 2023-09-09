@@ -6,7 +6,7 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "s3.amazonaws.com",
+        hostname: "bogeybot.s3.us-west-1.amazonaws.com",
         port: "",
         pathname: "/bogeybot/**",
       },
