@@ -2,6 +2,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   crossOrigin: "anonymous",
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "s3.amazonaws.com",
+        port: "",
+        pathname: "/bogeybot/**",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;
