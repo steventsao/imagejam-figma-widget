@@ -80,7 +80,8 @@ export default async function (
   const s3Instance = await prisma.s3.create({
     data: {
       key: s3key,
-      url: s3.getSignedUrl("getObject", params),
+      // https://bogeybot.s3.us-west-1.amazonaws.com/0260d52e-0aa5-4106-a027-9cea7fce3dbf
+      url: `https://bogeybot.s3.us-west-1.amazonaws.com/${s3key}`,
       swingId: savedImage.id,
     },
   });
