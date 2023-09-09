@@ -24,11 +24,11 @@ export const getServerSideProps = async () => {
   // await sql`select "Prediction"."url" from "Swing" inner join "Prediction" on "Prediction"."swingId" = "Swing".id where "Swing"."blobId" is not null and "Prediction"."url" is not null`;
   const payload =
     await sql`WITH swing_prediction as (select "Swing".id as swing_id, "Prediction"."url" as prediction_url from "Swing" inner join "Prediction" on "Prediction"."swingId" = "Swing".id where "Swing"."blobId" is not null and "Prediction"."url" is not null)
-    select s3.url as source_url, swing_prediction.prediction_url from s3 inner join swing_prediction on s3."swingId" = swing_prediction.swing_id`;
-  console.log(payload, "payload");
+    select s3.url as source_url, swing_prediction.prediction_url as image_url from s3 inner join swing_prediction on s3."swingId" = swing_prediction.swing_id`;
+  console.log(payload.rows, "payload");
   return {
     props: {
-      swingImages: promise.data || [],
+      swingImages: payload.rows || [],
     },
   };
 };
