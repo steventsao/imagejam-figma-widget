@@ -103,6 +103,7 @@ export default async function (
     data: {
       url: prediction.urls.get,
       swingId: savedImage.id,
+      replicate_prediction_id: prediction.id,
     },
   });
   console.log("Prediction saved: " + replicatePrediction.id);
