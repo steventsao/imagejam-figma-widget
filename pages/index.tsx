@@ -19,11 +19,13 @@ export const getServerSideProps = async () => {
   // TODO Converge supabase and postgres into one payload
   const supabase = createClientComponentClient();
   const promise = await supabase.from("swing-public").select("image_url");
+  // https://vercel.com/steventsao-pro/bogeybot/stores/postgres/store_21MWJgp02zT6wYOZ/data
+  //   const payload =
+  // await sql`select "Prediction"."url" from "Swing" inner join "Prediction" on "Prediction"."swingId" = "Swing".id where "Swing"."blobId" is not null and "Prediction"."url" is not null`;
   const payload =
-    await sql`select "Prediction"."url" from "Swing" inner join "Prediction" on "Prediction"."swingId" = "Swing".id where "Swing"."blobId" is not null and "Prediction"."url" is not null`;
-  // Use s3 etag to get url of file
-  // https://stackoverflow.com/questions/3749231/download-file-from-amazon-s3-bucket-using-etag
-  console.log("stsao payload:", payload);
+    await sql`WITH swing_prediction as (select "Swing".id as swing_id, "Prediction"."url" as prediction_url from "Swing" inner join "Prediction" on "Prediction"."swingId" = "Swing".id where "Swing"."blobId" is not null and "Prediction"."url" is not null)
+    select s3.url as source_url, swing_prediction.prediction_url from s3 inner join swing_prediction on s3."swingId" = swing_prediction.swing_id`;
+  console.log(payload, "payload");
   return {
     props: {
       swingImages: promise.data || [],
