@@ -7,8 +7,8 @@ const prisma = new PrismaClient({ log: ["query"] });
 const scrapingbeeUrl = "https://app.scrapingbee.com/api/v1/";
 
 aws.config.update({
-  accessKeyId: process.env.AWS_S3_ACCESS_ID,
-  secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
+  accessKeyId: process.env.NEXT_PUBLIC_AWS_S3_ACCESS_ID,
+  secretAccessKey: process.env.NEXT_PUBLIC_AWS_S3_SECRET_ACCESS_KEY,
   region: "us-west-1", // e.g., 'us-west-1'
 });
 
