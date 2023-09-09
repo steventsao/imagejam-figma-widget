@@ -38,15 +38,15 @@ export default function MainSection({
                     />
                   </Card.Section>
                   <Group position="apart" mt="md" mb="xs">
-                    <Text weight={500}>Norway Fjord Adventures</Text>
+                    {/* <Text weight={500}>Norway Fjord Adventures</Text> */}
+                    {/* Image or Video */}
                     <Badge color="pink" variant="light">
-                      On Sale
+                      Image
                     </Badge>
                   </Group>
 
                   <Text size="sm" color="dimmed">
-                    landscapes with tours and activities on and around the
-                    fjords of Norway
+                    xxx Views
                   </Text>
                 </Card>
               </Grid.Col>
