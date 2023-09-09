@@ -98,7 +98,6 @@ export default async function (
     webhook: "https://bogeybot.com/api/pose-webhook",
     webhook_events_filter: ["completed"],
   });
-  response.send({ image, prediction });
   const replicatePrediction = await prisma.prediction.create({
     data: {
       url: prediction.urls.get,
@@ -107,4 +106,5 @@ export default async function (
     },
   });
   console.log("Prediction saved: " + replicatePrediction.id);
+  response.send({ image, prediction });
 }
