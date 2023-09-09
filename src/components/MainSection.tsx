@@ -34,6 +34,7 @@ export default function MainSection({
                 <Card shadow="sm" padding="xl" radius="md" withBorder>
                   <Card.Section>
                     <Image
+                      placeholder="blur"
                       src={item.image_url}
                       height={300}
                       alt={`golf swing ${i}`}
