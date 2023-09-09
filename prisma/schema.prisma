@@ -41,12 +41,21 @@ model s3 {
 }
 
 model Prediction {
-  id                      Int      @id @default(autoincrement())
-  createdAt               DateTime @default(now())
+  id                      Int               @id @default(autoincrement())
+  createdAt               DateTime          @default(now())
   swingId                 Int
-  swing                   Swing    @relation(fields: [swingId], references: [id])
+  swing                   Swing             @relation(fields: [swingId], references: [id])
   url                     String
   replicate_prediction_id String
+  predictionImages        PredictionImage[]
+}
+
+model PredictionImage {
+  id           Int        @id @default(autoincrement())
+  createdAt    DateTime   @default(now())
+  url          String
+  predictionId Int
+  prediction   Prediction @relation(fields: [predictionId], references: [id])
 }
 
 model ReplicateWebhook {

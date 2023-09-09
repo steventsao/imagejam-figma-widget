@@ -27,6 +27,18 @@ export default async function (
     },
   });
   const imageUrl = request.body.output[0];
+  // TODO shitty querying pattern, should update all in one go
+  const targetPrediction = await prisma.prediction.findFirst({
+    where: { replicate_prediction_id: request.body.id },
+  });
+  if (imageUrl && targetPrediction) {
+    const predictionImage = await prisma.predictionImage.create({
+      data: {
+        url: imageUrl,
+        predictionId: targetPrediction.id,
+      },
+    });
+  }
 
   const { error } = await supabase
     .from("swing-public")
