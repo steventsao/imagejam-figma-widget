@@ -37,6 +37,8 @@ export default function MainSection({
                       placeholder="blur"
                       src={item.image_url}
                       height={300}
+                      // TODO hardcoding is not right
+                      width={500}
                       alt={`golf swing ${i}`}
                     />
                   </Card.Section>
