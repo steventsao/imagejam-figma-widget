@@ -1,4 +1,3 @@
-"use client";
 import MyDropzone from "@/components/MyDropzone";
 import {
   Container,
