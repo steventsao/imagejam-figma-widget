@@ -1,11 +1,14 @@
 import MainSection from "@/components/MainSection";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { sql } from "@vercel/postgres";
 import { Analytics } from "@vercel/analytics/react";
 import aws from "aws-sdk";
 import { SwingItem } from "@/lib/types";
 import "../styles/globals.css";
 
+// TODO https://github.com/steventsao/bogeybot/issues/8
+// use supabase realtime database later
+
+const IMAGEKIT_URL = "https://ik.imagekit.io/cirnjtkq1/";
 aws.config.update({
   accessKeyId: process.env.AWS_S3_ACCESS_ID,
   secretAccessKey: process.env.AWS_S3_SECRET_ACCESS_KEY,
@@ -19,8 +22,6 @@ const s3 = new aws.S3();
 // https://stackoverflow.com/questions/76725399/nextjs-how-to-fix-getserversideprops-is-not-supported-in-app
 export const getServerSideProps = async () => {
   // TODO Converge supabase and postgres into one payload
-  const supabase = createClientComponentClient();
-  const promise = await supabase.from("swing-public").select("image_url");
   // https://vercel.com/steventsao-pro/bogeybot/stores/postgres/store_21MWJgp02zT6wYOZ/data
   //   const payload =
   // await sql`select "Prediction"."url" from "Swing" inner join "Prediction" on "Prediction"."swingId" = "Swing".id where "Swing"."blobId" is not null and "Prediction"."url" is not null`;
@@ -29,7 +30,7 @@ export const getServerSideProps = async () => {
     select s3.key as s3_key, swing_prediction.prediction_url as prediction_image_url from s3 inner join swing_prediction on s3."swingId" = swing_prediction.swing_id order by s3."createdAt" desc`;
   console.log(payload.rows, "payload");
   const swingImages = payload.rows.map((item) => {
-    const imageUrl = "https://ik.imagekit.io/cirnjtkq1/" + item.s3_key;
+    const imageUrl = IMAGEKIT_URL + item.s3_key;
     return { image_url: imageUrl, ...item };
   });
   return {
