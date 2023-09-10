@@ -53,6 +53,7 @@ const postFile = async (files: File[]) => {
 export default function MyDropzone(props: Partial<DropzoneProps>) {
   return (
     <Dropzone
+      className="m-4"
       onDrop={postFile}
       onReject={(files) => console.log("rejected files", files)}
       accept={IMAGE_MIME_TYPE}
