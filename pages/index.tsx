@@ -3,6 +3,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { sql } from "@vercel/postgres";
 import aws from "aws-sdk";
 import { SwingItem } from "@/lib/types";
+import "../styles/globals.css";
 
 aws.config.update({
   accessKeyId: process.env.AWS_S3_ACCESS_ID,
