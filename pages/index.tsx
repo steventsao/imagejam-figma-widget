@@ -1,6 +1,7 @@
 import MainSection from "@/components/MainSection";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { sql } from "@vercel/postgres";
+import { Analytics } from "@vercel/analytics/react";
 import aws from "aws-sdk";
 import { SwingItem } from "@/lib/types";
 import "../styles/globals.css";
@@ -40,5 +41,10 @@ export const getServerSideProps = async () => {
 // https://supabase.com/dashboard/project/tkbhdbhsnikrpsutyyxk/settings/api?
 export default function Home({ swingImages }: { swingImages: SwingItem[] }) {
   // @ts-ignore
-  return <MainSection swingImages={swingImages} />;
+  return (
+    <>
+      <MainSection swingImages={swingImages} />;
+      <Analytics />
+    </>
+  );
 }
