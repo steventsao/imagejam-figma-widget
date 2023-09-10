@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   description: "free stuff for golfers",
 };
 
+// Duplicated from /app/layout.tsx
 export default function RootLayout({
   children,
 }: {
@@ -16,7 +17,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>{children}</body>
-      <Analytics />
     </html>
   );
 }
