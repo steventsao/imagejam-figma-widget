@@ -1,8 +1,7 @@
 "use client";
-import { FileButton, Group, Text, useMantineTheme, rem } from "@mantine/core";
+import { Group, Text, rem } from "@mantine/core";
 import { IconUpload, IconPhoto, IconX } from "@tabler/icons-react";
 import { Dropzone, DropzoneProps, IMAGE_MIME_TYPE } from "@mantine/dropzone";
-import { PutObjectOutput } from "aws-sdk/clients/s3";
 
 function fileToBase64(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
