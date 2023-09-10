@@ -34,7 +34,7 @@ export default function MainSection({
                 <Card shadow="sm" padding="xl" radius="md" withBorder>
                   <Card.Section>
                     <Image
-                      placeholder="blur"
+                      placeholder="blurred"
                       src={item.image_url}
                       height={300}
                       // TODO hardcoding is not right
