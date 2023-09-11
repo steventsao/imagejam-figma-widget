@@ -32,7 +32,6 @@ const getFrameUrl = (frame: number, urlBase = imagekit_base): string => {
     frameString = "0" + frameString;
     frameLength++;
   }
-  console.log(frameString);
   return `${urlBase}/steven-test-swing/frame_${frameString}.png`;
 };
 const getFrameUrls = (maxFrame: number): string[] => {
@@ -108,15 +107,19 @@ export default function Swing({ swingFrames }: SwingProps) {
           >
             Next 10
           </Button>
-          {/* <Slider
+          <Slider
             value={Math.floor((frame / max_frame) * 100)}
-            onChange={setFrame}
+            onChange={(currentPercent: number) => {
+              const frame = Math.floor(max_frame * (currentPercent / 100));
+              setFrame(frame);
+              // const currentPercent = Math.floor((frame / max_frame) * 100);
+            }}
             marks={[
               { value: 20, label: "20%" },
               { value: 50, label: "50%" },
               { value: 80, label: "80%" },
             ]}
-          /> */}
+          />
         </Card.Section>
       </Card>
       {/* <Card>
