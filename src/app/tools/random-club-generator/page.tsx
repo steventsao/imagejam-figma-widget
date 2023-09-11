@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Layout from "@/components/layoutClient";
+import Layout from "@/components/appShellLayoutClient";
 
 export default function Home() {
   return (
