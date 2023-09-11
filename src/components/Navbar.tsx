@@ -1,13 +1,23 @@
 "use client";
-import { Navbar, Stack, Button, Text, Title, FileButton } from "@mantine/core";
+import {
+  Navbar,
+  Stack,
+  Button,
+  Text,
+  Title,
+  FileButton,
+  LoadingOverlay,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { useState, useEffect } from "react";
 import s3Init from "@/lib/aws";
 import fs from "fs";
 
 const s3 = s3Init();
 export default function MyNavbar() {
+  const [visible, { open, close, toggle }] = useDisclosure(false);
   const [opened, setOpened] = useState(false);
-  const [file, setFile] = useState<File | null>(null); // TODO: use this
+  const [file, setFile] = useState<PromiseConstructor | null>(null); // TODO: use this
   const handleUpload = async (e: File) => {
     console.log(e);
     if (e) {
@@ -21,12 +31,14 @@ export default function MyNavbar() {
         Body: Buffer.from(fileBuffer),
         ContentType: e.type,
       });
+      open();
       const done = await request.promise().then((data) => {
         console.log(data, "promise");
+        close();
       });
-      setFile(file);
     }
   };
+  console.log("visible", visible);
 
   return (
     <Navbar
@@ -48,7 +60,13 @@ export default function MyNavbar() {
           accept="video/mp4,video/x-m4v,video/*"
           onChange={handleUpload}
         >
-          {(props) => <Button {...props}>Upload</Button>}
+          {(props) => {
+            return visible ? (
+              <LoadingOverlay visible={visible} overlayBlur={2} />
+            ) : (
+              <Button {...props}>Upload</Button>
+            );
+          }}
         </FileButton>
         {/* <Text>Swings</Text> */}
       </Stack>
