@@ -78,7 +78,7 @@ export default function MyNavbar(props: Props = { items: [] }) {
         {/* <Text>Swings</Text> */}
         {/* TODO implement refresh */}
         {/* https://github.com/steventsao/bogeybot/issues/18 */}
-        {props.items.map((item, i) => (
+        {props.items?.map((item, i) => (
           <a target="_blank" key={`${i}-prop`} href={item.url}>
             {item.url}
           </a>
