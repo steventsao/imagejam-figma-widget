@@ -4,10 +4,10 @@ import { Analytics } from "@vercel/analytics/react";
 
 // Duplicated from /app/layout.tsx
 export default function RootLayout({
-  items,
+  items = [],
   children,
 }: {
-  items: any[];
+  items: any[] | undefined;
   children: React.ReactNode;
 }) {
   console.log(items);
