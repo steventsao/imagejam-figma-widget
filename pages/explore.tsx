@@ -3,7 +3,7 @@ import { sql } from "@vercel/postgres";
 import { Container } from "@mantine/core";
 import aws from "aws-sdk";
 import { SwingItem } from "@/lib/types";
-import "../styles/globals.css";
+import Layout from "@/components/layout";
 
 // TODO https://github.com/steventsao/bogeybot/issues/8
 // use supabase realtime database later
@@ -43,10 +43,10 @@ export const getServerSideProps = async () => {
 export default function Explore({ swingImages }: { swingImages: SwingItem[] }) {
   // @ts-ignore
   return (
-    <>
+    <Layout>
       <Container p="xs">
         <MainSection swingImages={swingImages} />;
       </Container>
-    </>
+    </Layout>
   );
 }

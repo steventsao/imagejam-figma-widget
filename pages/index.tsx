@@ -11,6 +11,7 @@ import {
   Slider,
 } from "@mantine/core";
 import { useState } from "react";
+import "../styles/globals.css";
 // useRouter import
 
 type SwingProps = {
