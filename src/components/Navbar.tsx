@@ -1,9 +1,32 @@
 "use client";
 import { Navbar, Stack, Button, Text, Title, FileButton } from "@mantine/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import s3Init from "@/lib/aws";
+import fs from "fs";
+
+const s3 = s3Init();
 export default function MyNavbar() {
   const [opened, setOpened] = useState(false);
   const [file, setFile] = useState<File | null>(null); // TODO: use this
+  const handleUpload = async (e: File) => {
+    console.log(e);
+    if (e) {
+      // TODO stream  issue #17
+      const fileBuffer = await e.arrayBuffer();
+      const uuid = crypto.randomUUID();
+      console.log("file changed, ", e);
+      const request = s3.putObject({
+        Bucket: "bogeybot",
+        Key: uuid,
+        Body: Buffer.from(fileBuffer),
+        ContentType: e.type,
+      });
+      const done = await request.promise().then((data) => {
+        console.log(data, "promise");
+      });
+      setFile(file);
+    }
+  };
 
   return (
     <Navbar
@@ -21,7 +44,10 @@ export default function MyNavbar() {
           //       : theme.colors.gray[0],
         })}
       >
-        <FileButton accept="video/mp4,video/x-m4v,video/*" onChange={setFile}>
+        <FileButton
+          accept="video/mp4,video/x-m4v,video/*"
+          onChange={handleUpload}
+        >
           {(props) => <Button {...props}>Upload</Button>}
         </FileButton>
         {/* <Text>Swings</Text> */}
