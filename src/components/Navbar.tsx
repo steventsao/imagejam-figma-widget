@@ -3,21 +3,17 @@ import {
   Navbar,
   Stack,
   Button,
-  Text,
-  Title,
   FileButton,
   LoadingOverlay,
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import s3Init from "@/lib/aws";
-import fs from "fs";
 
 const s3 = s3Init();
 export default function MyNavbar() {
-  const [visible, { open, close, toggle }] = useDisclosure(false);
+  const [visible, { open, close }] = useDisclosure(false);
   const [opened, setOpened] = useState(false);
-  const [file, setFile] = useState<PromiseConstructor | null>(null); // TODO: use this
   const handleUpload = async (e: File) => {
     console.log(e);
     if (e) {
@@ -32,7 +28,7 @@ export default function MyNavbar() {
         ContentType: e.type,
       });
       open();
-      const done = await request.promise().then((data) => {
+      await request.promise().then((data) => {
         console.log(data, "promise");
         close();
       });

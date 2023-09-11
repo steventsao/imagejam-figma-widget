@@ -10,14 +10,27 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+// "A upload job can have 0 or 1 s3 instance"
+model UploadJob {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  email     String   @unique
+  status    String
+  s3        s3?
+  s3Id      Int?     @unique
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model User {
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  email     String      @unique
   name      String?
   password  String
   swings    Swing[]
+  UploadJob UploadJob[]
 }
 
 model Swing {
@@ -32,12 +45,14 @@ model Swing {
 }
 
 model s3 {
-  id        Int      @id @default(autoincrement())
-  key       String   @unique
-  createdAt DateTime @default(now())
-  url       String?
-  swingId   Int?     @unique
-  swing     Swing?   @relation(fields: [swingId], references: [id])
+  id          Int        @id @default(autoincrement())
+  key         String     @unique
+  createdAt   DateTime   @default(now())
+  url         String?
+  swingId     Int?       @unique
+  swing       Swing?     @relation(fields: [swingId], references: [id])
+  uploadJob   UploadJob? @relation(fields: [uploadJobId], references: [id])
+  uploadJobId Int?       @unique
 }
 
 model Prediction {
