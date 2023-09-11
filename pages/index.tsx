@@ -65,63 +65,59 @@ export default function Home({ swingFrames }: SwingProps) {
   return (
     <Layout>
       <Container p="xs">
-        <Card shadow="sm" padding="lg" radius="md">
-          <Card.Section>
-            <Image
-              maw={800}
-              mx="auto"
-              radius="md"
-              src={getFrameUrl(frame)}
-              alt={`golf swing ${frame}`}
-            />
-          </Card.Section>
-          <Group position="apart" mt="md" mb="xs">
-            <Button
-              onClick={() => {
-                setFrame(frame - 10);
-              }}
-            >
-              Back 10
-            </Button>
-            <Button
-              onClick={() => {
-                setFrame(frame - 1);
-              }}
-            >
-              Back
-            </Button>
-            <Button
-              onClick={() => {
-                setFrame(frame + 1);
-              }}
-            >
-              Next
-            </Button>
-            <Button
-              onClick={() => {
-                setFrame(frame + 10);
-              }}
-            >
-              Next 10
-            </Button>
-          </Group>
-          <Text>
-            Frame {frame} of {max_frame}
-          </Text>
-          <Slider
-            value={Math.floor((frame / max_frame) * 100)}
-            onChange={(currentPercent: number) => {
-              const frame = Math.floor(max_frame * (currentPercent / 100));
-              setFrame(frame);
-              // const currentPercent = Math.floor((frame / max_frame) * 100);
+        <Image
+          maw={800}
+          mx="auto"
+          radius="md"
+          src={getFrameUrl(frame)}
+          alt={`golf swing ${frame}`}
+        />
+        <Group position="apart" mt="md" mb="xs">
+          <Button
+            onClick={() => {
+              setFrame(frame - 10);
             }}
-            marks={[
-              { value: 20, label: "20%" },
-              { value: 50, label: "50%" },
-              { value: 80, label: "80%" },
-            ]}
-          />
-        </Card>
+          >
+            Back 10
+          </Button>
+          <Button
+            onClick={() => {
+              setFrame(frame - 1);
+            }}
+          >
+            Back
+          </Button>
+          <Button
+            onClick={() => {
+              setFrame(frame + 1);
+            }}
+          >
+            Next
+          </Button>
+          <Button
+            onClick={() => {
+              setFrame(frame + 10);
+            }}
+          >
+            Next 10
+          </Button>
+        </Group>
+        <Text>
+          Frame {frame} of {max_frame}
+        </Text>
+        <Slider
+          value={Math.floor((frame / max_frame) * 100)}
+          onChange={(currentPercent: number) => {
+            const frame = Math.floor(max_frame * (currentPercent / 100));
+            setFrame(frame);
+            // const currentPercent = Math.floor((frame / max_frame) * 100);
+          }}
+          marks={[
+            { value: 20, label: "20%" },
+            { value: 50, label: "50%" },
+            { value: 80, label: "80%" },
+          ]}
+        />
         {/* <Card>
         <Card.Section>
           <Image
