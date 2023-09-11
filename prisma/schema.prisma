@@ -48,7 +48,7 @@ model s3 {
   id          Int        @id @default(autoincrement())
   key         String     @unique
   createdAt   DateTime   @default(now())
-  url         String?
+  url         String
   swingId     Int?       @unique
   swing       Swing?     @relation(fields: [swingId], references: [id])
   uploadJob   UploadJob? @relation(fields: [uploadJobId], references: [id])

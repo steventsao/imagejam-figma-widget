@@ -14,6 +14,7 @@ const s3 = s3Init();
 export default function MyNavbar() {
   const [visible, { open, close }] = useDisclosure(false);
   const [opened, setOpened] = useState(false);
+  //   TODO handle reupload
   const handleUpload = async (e: File) => {
     console.log(e);
     if (e) {
@@ -28,10 +29,18 @@ export default function MyNavbar() {
         ContentType: e.type,
       });
       open();
-      await request.promise().then((data) => {
-        console.log(data, "promise");
-        close();
-      });
+      await request
+        .promise()
+        .then((data) => {
+          console.log(data, "promise");
+          return fetch("/api/upload", {
+            method: "POST",
+            body: JSON.stringify({ uuid, etag: data.ETag }),
+          });
+        })
+        .then((res) => {
+          close();
+        });
     }
   };
   console.log("visible", visible);

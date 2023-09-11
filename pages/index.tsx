@@ -2,9 +2,10 @@ import { GetServerSidePropsContext } from "next";
 import Layout from "@/components/pagesLayout";
 import { Container, Group, Image, Button, Text, Slider } from "@mantine/core";
 import { useState } from "react";
+import { sql } from "@vercel/postgres";
 // useRouter import
 
-type SwingProps = {
+type ViewerProps = {
   swing?: {
     id: number;
     createdAt: Date;
@@ -18,6 +19,7 @@ type SwingProps = {
     predictions?: any[];
   };
   swingFrames: string[];
+  uploads: any[];
 };
 const max_frame = 750;
 const aws_base = "https://bogeybot.s3.us-west-1.amazonaws.com";
@@ -47,11 +49,21 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const urls = getFrameUrls(max_frame);
-  return { props: { swingFrames: urls } };
+  const uploads = await sql`select * from "UploadJob"`;
+  return {
+    props: {
+      swingFrames: urls,
+      uploads: uploads.rows.map((u) => {
+        console.log(u);
+        return u.status;
+      }),
+    },
+  };
 };
 
-export default function Home({ swingFrames }: SwingProps) {
+export default function Home({ swingFrames, uploads }: ViewerProps) {
   const [frame, setFrame] = useState(1);
+  console.log({ uploads });
 
   return (
     <Layout>
