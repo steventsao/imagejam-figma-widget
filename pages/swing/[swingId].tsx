@@ -1,7 +1,9 @@
 import { GetServerSidePropsContext } from "next";
-import { Image, Card, Button, Text } from "@mantine/core";
+import { Image, Card, Button, Text, Slider } from "@mantine/core";
 import { sql } from "@vercel/postgres";
 import { useState } from "react";
+// useRouter import
+import { useRouter } from "next/router";
 
 type SwingProps = {
   swing?: {
@@ -19,8 +21,10 @@ type SwingProps = {
   swingFrames: string[];
 };
 const max_frame = 750;
+const aws_base = "https://bogeybot.s3.us-west-1.amazonaws.com";
+const imagekit_base = "https://ik.imagekit.io/cirnjtkq1/tr:q-25,w-300,h-500";
 // https://ik.imagekit.io/cirnjtkq1/steven-test-swing/frame_0700.png
-const getFrameUrl = (frame: number): string => {
+const getFrameUrl = (frame: number, urlBase = imagekit_base): string => {
   // for frame 1, return frame_0001.png, for frame 750, return frame_0750.png
   let frameString = frame.toString();
   let frameLength = frameString.length;
@@ -29,7 +33,7 @@ const getFrameUrl = (frame: number): string => {
     frameLength++;
   }
   console.log(frameString);
-  return `https://ik.imagekit.io/cirnjtkq1/tr:q-25,w-300,h-500/steven-test-swing/frame_${frameString}.png`;
+  return `${urlBase}/steven-test-swing/frame_${frameString}.png`;
 };
 const getFrameUrls = (maxFrame: number): string[] => {
   let currentFrame = 1;
@@ -59,6 +63,8 @@ export const getServerSideProps = async (
 
 export default function Swing({ swingFrames }: SwingProps) {
   const [frame, setFrame] = useState(1);
+  const router = useRouter();
+
   return (
     <>
       <Text>
@@ -102,6 +108,15 @@ export default function Swing({ swingFrames }: SwingProps) {
           >
             Next 10
           </Button>
+          {/* <Slider
+            value={Math.floor((frame / max_frame) * 100)}
+            onChange={setFrame}
+            marks={[
+              { value: 20, label: "20%" },
+              { value: 50, label: "50%" },
+              { value: 80, label: "80%" },
+            ]}
+          /> */}
         </Card.Section>
       </Card>
       {/* <Card>
