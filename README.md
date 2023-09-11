@@ -28,6 +28,8 @@ database for your golf swings
 - An existing app is V1 Golf, which sucks because you have to login before seeing anything. There's definitely marketing opportunities for free-access tools https://apps.apple.com/us/app/v1-golf-golf-swing-analyzer/id349715369
 - Swingbot.com also is a login only site https://swingbot.com/video
 
+- What does the viewing experience offer better than that of YouTube? It doesn't.
+
 # Sources
 
 - https://imagekit.io/dashboard

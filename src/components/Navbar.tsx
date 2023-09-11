@@ -9,6 +9,7 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import s3Init from "@/lib/aws";
+import Link from "next/link";
 
 const s3 = s3Init();
 type Props = { items?: any[] };
@@ -79,10 +80,14 @@ export default function MyNavbar(props: Props = { items: [] }) {
         {/* TODO implement refresh */}
         {/* https://github.com/steventsao/bogeybot/issues/18 */}
         {props.items?.map((item, i) => (
+          // TODO query the swingId page and split image automatically
+          //   Think about the value prop besides frame-by-frame viewing. YouTube does that better
           <a target="_blank" key={`${i}-prop`} href={item.url}>
             {item.url}
           </a>
         ))}
+        {/* TODO https://vercel.com/guides/how-can-i-use-aws-s3-with-vercel */}
+        {/* Try form data; maybe that would help streaming the upload */}
       </Stack>
     </Navbar>
   );
