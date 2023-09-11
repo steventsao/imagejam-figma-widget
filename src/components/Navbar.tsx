@@ -11,7 +11,7 @@ import { useState } from "react";
 import s3Init from "@/lib/aws";
 
 const s3 = s3Init();
-type Props = { items: any[] };
+type Props = { items?: any[] };
 export default function MyNavbar(props: Props = { items: [] }) {
   const [visible, { open, close }] = useDisclosure(false);
   const [opened, setOpened] = useState(false);
