@@ -7,7 +7,7 @@ export default function RootLayout({
   items = [],
   children,
 }: {
-  items: any[] | undefined;
+  items?: any[];
   children: React.ReactNode;
 }) {
   console.log(items);
