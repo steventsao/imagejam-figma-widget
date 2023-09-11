@@ -22,7 +22,7 @@ type SwingProps = {
 };
 const max_frame = 750;
 const aws_base = "https://bogeybot.s3.us-west-1.amazonaws.com";
-const imagekit_base = "https://ik.imagekit.io/cirnjtkq1/tr:q-25,w-300,h-500";
+const imagekit_base = "https://ik.imagekit.io/cirnjtkq1/tr:q-25";
 // https://ik.imagekit.io/cirnjtkq1/steven-test-swing/frame_0700.png
 const getFrameUrl = (frame: number, urlBase = imagekit_base): string => {
   // for frame 1, return frame_0001.png, for frame 750, return frame_0750.png
@@ -32,7 +32,7 @@ const getFrameUrl = (frame: number, urlBase = imagekit_base): string => {
     frameString = "0" + frameString;
     frameLength++;
   }
-  return `${urlBase}/steven-test-swing/frame_${frameString}.png`;
+  return `${urlBase}/slomo/frame_${frameString}.png`;
 };
 const getFrameUrls = (maxFrame: number): string[] => {
   let currentFrame = 1;
@@ -72,8 +72,9 @@ export default function Swing({ swingFrames }: SwingProps) {
       <Card>
         <Card.Section>
           <Image
-            height={500}
-            width={300}
+            maw={800}
+            mx="auto"
+            radius="md"
             src={getFrameUrl(frame)}
             alt={`golf swing ${frame}`}
           />
