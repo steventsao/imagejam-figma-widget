@@ -23,18 +23,9 @@ export default async function Upload(
 
     const upload = await prisma.uploadJob.create({
       data: {
-        s3: {
-          connect: {
-            id: s3instance.id,
-          },
-        },
+        s3Id: s3instance.id,
         status: "complete",
-        user: {
-          connect: {
-            // Hardcode all as me
-            id: 1,
-          },
-        },
+        userId: 1,
       },
     });
     response.json({ uploadId: upload.id, s3: s3instance.id });

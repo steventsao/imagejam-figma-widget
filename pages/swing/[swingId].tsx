@@ -68,6 +68,8 @@ export const getServerSideProps = async (
   return { props: { swingFrames: urls } };
 };
 
+// Share raw video link
+// Share current frame link
 export default function Swing({ swingFrames }: SwingProps) {
   const [frame, setFrame] = useState(1);
 

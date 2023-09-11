@@ -11,14 +11,15 @@ datasource db {
 }
 
 // "A upload job can have 0 or 1 s3 instance"
+// `userId` is non-unique because a user can have multiple upload jobs
 model UploadJob {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   status    String
-  s3        s3?
+  s3        s3?      @relation(fields: [s3Id], references: [id], onUpdate: Cascade)
   s3Id      Int?     @unique
-  userId    Int      @unique
+  userId    Int
   user      User     @relation(fields: [userId], references: [id])
 }
 
@@ -51,7 +52,7 @@ model s3 {
   url         String
   swingId     Int?       @unique
   swing       Swing?     @relation(fields: [swingId], references: [id])
-  uploadJob   UploadJob? @relation(fields: [uploadJobId], references: [id])
+  uploadJob   UploadJob?
   uploadJobId Int?       @unique
 }
 

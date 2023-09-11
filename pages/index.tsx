@@ -49,13 +49,14 @@ export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
   const urls = getFrameUrls(max_frame);
-  const uploads = await sql`select * from "UploadJob"`;
+  const uploads =
+    await sql`select "UploadJob".status as status, s3.url as url from "UploadJob" inner join s3 on "UploadJob"."s3Id" = s3.id`;
   return {
     props: {
       swingFrames: urls,
       uploads: uploads.rows.map((u) => {
         console.log(u);
-        return u.status;
+        return { status: u.status, url: u.url };
       }),
     },
   };
