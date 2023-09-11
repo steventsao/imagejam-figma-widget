@@ -65,6 +65,9 @@ export default function Home({ swingFrames }: SwingProps) {
         />
         <Group position="apart" mt="md" mb="xs">
           <Button
+            // secondary
+            compact={true}
+            variant="outline"
             onClick={() => {
               setFrame(frame - 10);
             }}
@@ -72,6 +75,8 @@ export default function Home({ swingFrames }: SwingProps) {
             Back 10
           </Button>
           <Button
+            compact={true}
+            variant="outline"
             onClick={() => {
               setFrame(frame - 1);
             }}
@@ -79,6 +84,8 @@ export default function Home({ swingFrames }: SwingProps) {
             Back
           </Button>
           <Button
+            compact={true}
+            variant="outline"
             onClick={() => {
               setFrame(frame + 1);
             }}
@@ -86,6 +93,8 @@ export default function Home({ swingFrames }: SwingProps) {
             Next
           </Button>
           <Button
+            compact={true}
+            variant="outline"
             onClick={() => {
               setFrame(frame + 10);
             }}
