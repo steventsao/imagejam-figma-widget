@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from "next";
 import { Analytics } from "@vercel/analytics/react";
-import Layout from "@/components/layout";
+import Layout from "@/components/appShellLayout";
 import { Container, Group, Image, Button, Text, Slider } from "@mantine/core";
 import { useState } from "react";
 // useRouter import
@@ -120,7 +120,6 @@ export default function Home({ swingFrames }: SwingProps) {
         </Card.Section>
       </Card> */}
       </Container>
-      <Analytics />
     </Layout>
   );
 }
