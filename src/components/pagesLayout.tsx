@@ -1,4 +1,4 @@
-import { AppShell, Header, Text } from "@mantine/core";
+import { AppShell, Header, Text, Badge } from "@mantine/core";
 import Navbar from "@/components/Navbar";
 import { Analytics } from "@vercel/analytics/react";
 
@@ -17,7 +17,9 @@ export default function RootLayout({
         navbar={<Navbar items={items} />}
         header={
           <Header height={60} p="md">
-            <Text>bogeybot</Text>
+            <Text>
+              bogeybot <Badge>beta</Badge>
+            </Text>
             {/* Header content */}
           </Header>
         }
