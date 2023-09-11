@@ -1,17 +1,8 @@
 import { GetServerSidePropsContext } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import Layout from "@/components/layout";
-import {
-  Container,
-  Group,
-  Image,
-  Card,
-  Button,
-  Text,
-  Slider,
-} from "@mantine/core";
+import { Container, Group, Image, Button, Text, Slider } from "@mantine/core";
 import { useState } from "react";
-import "../styles/globals.css";
 // useRouter import
 
 type SwingProps = {
