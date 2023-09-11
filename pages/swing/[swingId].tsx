@@ -70,7 +70,6 @@ export const getServerSideProps = async (
 
 export default function Swing({ swingFrames }: SwingProps) {
   const [frame, setFrame] = useState(1);
-  const router = useRouter();
 
   return (
     <>

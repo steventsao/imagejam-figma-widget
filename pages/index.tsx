@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext } from "next";
-import Layout from "@/components/appShellLayout";
+import Layout from "@/components/pagesLayout";
 import { Container, Group, Image, Button, Text, Slider } from "@mantine/core";
 import { useState } from "react";
 // useRouter import

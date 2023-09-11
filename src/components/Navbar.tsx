@@ -10,8 +10,6 @@ export default function MyNavbar() {
       hiddenBreakpoint="sm"
       hidden={!opened}
       width={{ sm: 200, lg: 300 }}
-    >
-      <Text>bogeybot</Text>
-    </Navbar>
+    ></Navbar>
   );
 }

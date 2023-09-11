@@ -3,7 +3,7 @@ import { sql } from "@vercel/postgres";
 import { Container } from "@mantine/core";
 import aws from "aws-sdk";
 import { SwingItem } from "@/lib/types";
-import Layout from "@/components/appShellLayout";
+import Layout from "@/components/pagesLayout";
 
 // TODO https://github.com/steventsao/bogeybot/issues/8
 // use supabase realtime database later
