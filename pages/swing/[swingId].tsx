@@ -1,5 +1,13 @@
 import { GetServerSidePropsContext } from "next";
-import { Image, Card, Button, Text, Slider } from "@mantine/core";
+import {
+  Container,
+  Group,
+  Image,
+  Card,
+  Button,
+  Text,
+  Slider,
+} from "@mantine/core";
 import { sql } from "@vercel/postgres";
 import { useState } from "react";
 // useRouter import
@@ -66,48 +74,50 @@ export default function Swing({ swingFrames }: SwingProps) {
 
   return (
     <>
-      <Text>
-        Frame {frame} of {max_frame}
-      </Text>
-      <Card>
-        <Card.Section>
-          <Image
-            maw={800}
-            mx="auto"
-            radius="md"
-            src={getFrameUrl(frame)}
-            alt={`golf swing ${frame}`}
-          />
-        </Card.Section>
-        <Card.Section>
-          <Button
-            onClick={() => {
-              setFrame(frame - 10);
-            }}
-          >
-            Back 10
-          </Button>
-          <Button
-            onClick={() => {
-              setFrame(frame - 1);
-            }}
-          >
-            Back
-          </Button>
-          <Button
-            onClick={() => {
-              setFrame(frame + 1);
-            }}
-          >
-            Next
-          </Button>
-          <Button
-            onClick={() => {
-              setFrame(frame + 10);
-            }}
-          >
-            Next 10
-          </Button>
+      <Container p="xs">
+        <Card shadow="sm" padding="lg" radius="md">
+          <Card.Section>
+            <Image
+              maw={800}
+              mx="auto"
+              radius="md"
+              src={getFrameUrl(frame)}
+              alt={`golf swing ${frame}`}
+            />
+          </Card.Section>
+          <Group position="apart" mt="md" mb="xs">
+            <Button
+              onClick={() => {
+                setFrame(frame - 10);
+              }}
+            >
+              Back 10
+            </Button>
+            <Button
+              onClick={() => {
+                setFrame(frame - 1);
+              }}
+            >
+              Back
+            </Button>
+            <Button
+              onClick={() => {
+                setFrame(frame + 1);
+              }}
+            >
+              Next
+            </Button>
+            <Button
+              onClick={() => {
+                setFrame(frame + 10);
+              }}
+            >
+              Next 10
+            </Button>
+          </Group>
+          <Text>
+            Frame {frame} of {max_frame}
+          </Text>
           <Slider
             value={Math.floor((frame / max_frame) * 100)}
             onChange={(currentPercent: number) => {
@@ -121,9 +131,8 @@ export default function Swing({ swingFrames }: SwingProps) {
               { value: 80, label: "80%" },
             ]}
           />
-        </Card.Section>
-      </Card>
-      {/* <Card>
+        </Card>
+        {/* <Card>
         <Card.Section>
           <Image
             src={swing.image_url}
@@ -132,6 +141,7 @@ export default function Swing({ swingFrames }: SwingProps) {
           />
         </Card.Section>
       </Card> */}
+      </Container>
     </>
   );
 }

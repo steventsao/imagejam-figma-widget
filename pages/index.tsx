@@ -1,6 +1,7 @@
 import MainSection from "@/components/MainSection";
 import { sql } from "@vercel/postgres";
 import { Analytics } from "@vercel/analytics/react";
+import { Container } from "@mantine/core";
 import aws from "aws-sdk";
 import { SwingItem } from "@/lib/types";
 import "../styles/globals.css";
@@ -44,8 +45,10 @@ export default function Home({ swingImages }: { swingImages: SwingItem[] }) {
   // @ts-ignore
   return (
     <>
-      <MainSection swingImages={swingImages} />;
-      <Analytics />
+      <Container p="xs">
+        <MainSection swingImages={swingImages} />;
+        <Analytics />
+      </Container>
     </>
   );
 }
