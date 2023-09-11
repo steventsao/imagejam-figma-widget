@@ -67,7 +67,7 @@ export default function Home({ swingFrames, uploads }: ViewerProps) {
   console.log({ uploads });
 
   return (
-    <Layout>
+    <Layout items={uploads}>
       <Container p="xs">
         <Image
           maw={800}

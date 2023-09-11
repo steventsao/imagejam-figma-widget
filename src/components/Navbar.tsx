@@ -11,7 +11,8 @@ import { useState } from "react";
 import s3Init from "@/lib/aws";
 
 const s3 = s3Init();
-export default function MyNavbar() {
+type Props = { items: any[] };
+export default function MyNavbar(props: Props) {
   const [visible, { open, close }] = useDisclosure(false);
   const [opened, setOpened] = useState(false);
   //   TODO handle reupload
@@ -44,6 +45,7 @@ export default function MyNavbar() {
     }
   };
   console.log("visible", visible);
+  console.log(props.items, "items");
 
   return (
     <Navbar
@@ -74,6 +76,13 @@ export default function MyNavbar() {
           }}
         </FileButton>
         {/* <Text>Swings</Text> */}
+        {/* TODO implement refresh */}
+        {/* https://github.com/steventsao/bogeybot/issues/18 */}
+        {props.items.map((item, i) => (
+          <a target="_blank" key={`${i}-prop`} href={item.url}>
+            {item.url}
+          </a>
+        ))}
       </Stack>
     </Navbar>
   );
