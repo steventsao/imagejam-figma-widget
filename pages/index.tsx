@@ -1,5 +1,4 @@
 import { GetServerSidePropsContext } from "next";
-import { Analytics } from "@vercel/analytics/react";
 import Layout from "@/components/appShellLayout";
 import { Container, Group, Image, Button, Text, Slider } from "@mantine/core";
 import { useState } from "react";
