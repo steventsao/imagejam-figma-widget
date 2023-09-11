@@ -2,7 +2,6 @@ import { GetServerSidePropsContext } from "next";
 import { Analytics } from "@vercel/analytics/react";
 import Layout from "@/components/layout";
 import {
-  AppShell,
   Container,
   Group,
   Image,
@@ -10,7 +9,6 @@ import {
   Button,
   Text,
   Slider,
-  useMantineTheme,
 } from "@mantine/core";
 import { useState } from "react";
 // useRouter import

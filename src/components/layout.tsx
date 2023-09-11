@@ -29,28 +29,24 @@ export default function RootLayout({
   const theme = useMantineTheme();
   const [opened, setOpened] = useState(false);
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <AppShell
-          styles={{
-            main: {
-              // background: theme.colors.gray[8],
-            },
-          }}
-          navbar={
-            <Navbar
-              p="md"
-              hiddenBreakpoint="sm"
-              hidden={!opened}
-              width={{ sm: 200, lg: 300 }}
-            >
-              <Text>bogeybot</Text>
-            </Navbar>
-          }
+    <AppShell
+      styles={{
+        main: {
+          // background: theme.colors.gray[8],
+        },
+      }}
+      navbar={
+        <Navbar
+          p="md"
+          hiddenBreakpoint="sm"
+          hidden={!opened}
+          width={{ sm: 200, lg: 300 }}
         >
-          {children}
-        </AppShell>
-      </body>
-    </html>
+          <Text>bogeybot</Text>
+        </Navbar>
+      }
+    >
+      {children}
+    </AppShell>
   );
 }
