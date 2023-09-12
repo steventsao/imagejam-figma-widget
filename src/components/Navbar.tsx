@@ -23,8 +23,8 @@ export default function MyNavbar(props: Props = { items: [] }) {
       const uuid = crypto.randomUUID();
       console.log("file changed, ", e);
       const request = s3.putObject({
-        Bucket: "bogeybot",
-        Key: uuid,
+        Bucket: "bogeybot-videos",
+        Key: `${uuid}.mp4`,
         Body: Buffer.from(fileBuffer),
         ContentType: e.type,
       });
