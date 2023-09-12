@@ -1,0 +1,58 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Resize video with ffmpeg
+
+Parameters:
+  SourceBucketName:
+    Type: String
+    Default: "bogeybot-videos"
+  OutputBucketName:
+    Type: String
+    Default: "bogeybot-resized"
+  LayerARN:
+    Type: String
+    Default: "arn:aws:lambda:us-west-1:771594331351:layer:ffmpeg:1"
+
+Resources:
+  ## S3 buckets
+  SourceBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref SourceBucketName
+  OutputBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Ref OutputBucketName
+
+  ## Lambda functions
+  ResizeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: resizeFunction/
+      Handler: app.handler
+      Runtime: nodejs14.x
+      Timeout: 900
+      MemorySize: 3000
+      EphemeralStorage:
+        Size: 10240
+      Layers:
+        - !Ref LayerARN
+      Environment:
+        Variables:
+          OutputBucketName: !Ref OutputBucketName
+      Policies:
+        - S3ReadPolicy:
+            BucketName: !Ref SourceBucketName
+        - S3WritePolicy:
+            BucketName: !Ref OutputBucketName
+      Events:
+        CreatedEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref SourceBucket
+            Events: s3:ObjectCreated:*
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: suffix
+                    Value: ".mp4"
