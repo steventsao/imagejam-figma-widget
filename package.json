@@ -11,6 +11,8 @@
     "prisma:generate": "prisma generate"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/server": "^11.11.0",
     "@mantine/core": "^6.0.19",
     "@mantine/dropzone": "^6.0.19",
     "@mantine/next": "^6.0.20",
@@ -37,6 +39,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "replicate": "^0.16.1",
+    "stylis-plugin-rtl": "^2.1.1",
     "tailwind-merge": "^1.14.0",
     "tailwindcss": "3.3.3",
     "tailwindcss-animate": "^1.0.7",
