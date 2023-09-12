@@ -8,7 +8,7 @@
 const AWS = require("aws-sdk");
 AWS.config.update({ region: process.env.AWS_REGION });
 const s3 = new AWS.S3({ apiVersion: "2006-03-01" });
-
+const https = require("https");
 // Set ffpmeg
 const ffmpegPath = process.env.localTest
   ? require("@ffmpeg-installer/ffmpeg").path
@@ -40,6 +40,35 @@ const execPromise = async (command) => {
   });
 };
 
+
+
+function fetchS3Frames(count, key, callback) {
+  console.log('count is ', count)
+    const options = {
+        hostname: 'www.bogeybot.com',
+        path: `/api/s3-frames?count=${count}&key=${key}`,
+        method: 'GET',
+    };
+
+    const req = https.request(options, (res) => {
+        let data = '';
+
+        res.on('data', (chunk) => {
+            data += chunk;
+        });
+
+        res.on('end', () => {
+            callback(null, data);
+        });
+    });
+
+    req.on('error', (error) => {
+        callback(error);
+    });
+
+    req.end();
+}
+
 const resizeVideo = async (record) => {
   // Get signed URL for source object
   console.log("UPLOADING to ", process.env.SnippetsBucketNam);
@@ -63,7 +92,15 @@ const resizeVideo = async (record) => {
 
   console.log("Read tmp file into tmpData");
   const files = fs.readdirSync(ffTmp);
-  const fetched = await fetch("https://bogeybot.com/api/s3-frames?count=" files.length);
+  
+  fetchS3Frames(files.length, Key, (err, data) => {
+    if (err) {
+      console.error(err)
+      
+    }
+    console.log(data)
+    })
+
   for (const file of files) {
     if (file.startsWith("frame_") && file.endsWith(".png")) {
       let filePath = path.join(ffTmp, file);
