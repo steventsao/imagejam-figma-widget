@@ -1,6 +1,7 @@
 "use client";
 import { AppShell, useMantineTheme } from "@mantine/core";
 import Navbar from "@/components/Navbar";
+import "@/styles/globals.css";
 
 // export const metadata: Metadata = {
 //   title: "bogeybot",

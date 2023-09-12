@@ -1,4 +1,3 @@
-"use client";
 import {
   Navbar,
   Stack,
@@ -9,7 +8,6 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import s3Init from "@/lib/aws";
-import Link from "next/link";
 
 const s3 = s3Init();
 type Props = { items?: any[] };
@@ -72,7 +70,7 @@ export default function MyNavbar(props: Props = { items: [] }) {
             return visible ? (
               <LoadingOverlay visible={visible} overlayBlur={2} />
             ) : (
-              <Button {...props}>Upload</Button>
+              <Button variant="filled">Upload</Button>
             );
           }}
         </FileButton>
