@@ -23,6 +23,12 @@ database for your golf swings
 3. Easy to share
 4. Different Filters to view a video
 
+# Data flow
+
+- User uploads video
+  - Client uploads to S3
+    - Lambda on frame count
+
 # Market research
 
 - An existing app is V1 Golf, which sucks because you have to login before seeing anything. There's definitely marketing opportunities for free-access tools https://apps.apple.com/us/app/v1-golf-golf-swing-analyzer/id349715369

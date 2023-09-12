@@ -23,6 +23,7 @@ export default function MyNavbar(props: Props = { items: [] }) {
       // TODO stream  issue #17
       const fileBuffer = await e.arrayBuffer();
       const uuid = crypto.randomUUID();
+      // TODO this is gonna cause problems with other media types. Be certain to check the type
       const key = e.type === "video/mp4" ? `${uuid}.mp4` : uuid;
       const request = s3.putObject({
         Bucket: TARGET_BUCKET,

@@ -10,6 +10,7 @@ import {
   Slider,
 } from "@mantine/core";
 import { useState } from "react";
+import { sql } from "@vercel/postgres";
 
 type SwingProps = {
   swing?: {
@@ -26,8 +27,8 @@ type SwingProps = {
   };
   swingFrames: string[];
   swingId: string;
+  frames: number;
 };
-const max_frame = 750;
 const aws_base = "https://bogeybot.s3.us-west-1.amazonaws.com";
 const imagekit_base = "https://ik.imagekit.io/cirnjtkq1/tr:q-25";
 // https://ik.imagekit.io/cirnjtkq1/steven-test-swing/frame_0700.png
@@ -63,22 +64,28 @@ export const getServerSideProps = async (
       ? context.params?.swingId[0]
       : context.params?.swingId) || "";
   console.log(swingId, "swingId");
+  const frames =
+    await sql`select total from "Frames" where key = ${swingId} limit 1`;
+  console.log("FRAMES: ", frames);
+  const maxFrames = frames.rows[0].total;
+  console.log(maxFrames, "maxFrames");
 
   // TODO needs to be predictionId instead of `swingId` so it cannot be enumerated
   // const result =
   //   await sql`select "PredictionImage".url as image_url from "PredictionImage" INNER JOIN "Prediction" on "Prediction".id = "PredictionImage"."predictionId" where "PredictionImage"."predictionId" = ${swingId}`;
 
   // console.log(result.rows[0], "swing");
-  const urls = getFrameUrls(max_frame, swingId);
-  return { props: { swingFrames: urls, swingId } };
+  const urls = getFrameUrls(maxFrames, swingId);
+  return { props: { swingFrames: urls, swingId, frames: maxFrames } };
 };
 
 // Share raw video link
 // Share current frame link
-export default function Swing({ swingFrames, swingId }: SwingProps) {
+export default function Swing({ swingFrames, swingId, frames }: SwingProps) {
+  console.log(frames, "MAX");
   const [frame, setFrame] = useState(0);
 
-  console.log(swingFrames);
+  // console.log(swingFrames);
   return (
     <Layout>
       <Container p="xs">
@@ -123,12 +130,12 @@ export default function Swing({ swingFrames, swingId }: SwingProps) {
             </Button>
           </Group>
           <Text>
-            Frame {frame} of {max_frame}
+            Frame {frame} of {frames}
           </Text>
           <Slider
-            value={Math.floor((frame / max_frame) * 100)}
+            value={Math.floor((frame / frames) * 100)}
             onChange={(currentPercent: number) => {
-              const frame = Math.floor(max_frame * (currentPercent / 100));
+              const frame = Math.floor(frames * (currentPercent / 100));
               setFrame(frame);
               // const currentPercent = Math.floor((frame / max_frame) * 100);
             }}
