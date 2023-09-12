@@ -51,13 +51,13 @@ export const getServerSideProps = async (
 ) => {
   const urls = getFrameUrls(max_frame);
   const uploads =
-    await sql`select "UploadJob".status as status, s3.url as url from "UploadJob" inner join s3 on "UploadJob"."s3Id" = s3.id`;
+    await sql`select s3.key, s3.id, "UploadJob".status as status, s3.url as url from "UploadJob" inner join s3 on "UploadJob"."s3Id" = s3.id order by s3."createdAt" desc`;
   return {
     props: {
       swingFrames: urls,
       uploads: uploads.rows.map((u) => {
         console.log(u);
-        return { status: u.status, url: u.url };
+        return { key: u.key, id: u.id, status: u.status, url: u.url };
       }),
     },
   };
@@ -80,15 +80,6 @@ export default function Home({ swingFrames, uploads }: ViewerProps) {
         <Suspense fallback={<div>Loading...</div>}>
           <FramesControls frame={frame} setFrame={setFrame} />
         </Suspense>
-        {/* <Card>
-        <Card.Section>
-          <Image
-            src={swing.image_url}
-            width={300}
-            alt={`golf swing ${swing.id}`}
-          />
-        </Card.Section>
-      </Card> */}
       </Container>
     </Layout>
   );

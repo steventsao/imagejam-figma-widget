@@ -8,9 +8,11 @@ import {
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import s3Init from "@/lib/aws";
+import Link from "next/link";
 
 const s3 = s3Init();
 type Props = { items?: any[] };
+const TARGET_BUCKET = "bogeybot-videos";
 export default function MyNavbar(props: Props = { items: [] }) {
   const [visible, { open, close }] = useDisclosure(false);
   const [opened, setOpened] = useState(false);
@@ -21,10 +23,10 @@ export default function MyNavbar(props: Props = { items: [] }) {
       // TODO stream  issue #17
       const fileBuffer = await e.arrayBuffer();
       const uuid = crypto.randomUUID();
-      console.log("file changed, ", e);
+      const key = e.type === "video/mp4" ? `${uuid}.mp4` : uuid;
       const request = s3.putObject({
-        Bucket: "bogeybot-videos",
-        Key: `${uuid}.mp4`,
+        Bucket: TARGET_BUCKET,
+        Key: key,
         Body: Buffer.from(fileBuffer),
         ContentType: e.type,
       });
@@ -35,7 +37,7 @@ export default function MyNavbar(props: Props = { items: [] }) {
           console.log(data, "promise");
           return fetch("/api/upload", {
             method: "POST",
-            body: JSON.stringify({ uuid, etag: data.ETag }),
+            body: JSON.stringify({ uuid: key, etag: data.ETag }),
           });
         })
         .then((res) => {
@@ -82,9 +84,9 @@ export default function MyNavbar(props: Props = { items: [] }) {
         {props.items?.map((item, i) => (
           // TODO query the swingId page and split image automatically
           //   Think about the value prop besides frame-by-frame viewing. YouTube does that better
-          <a target="_blank" key={`${i}-prop`} href={item.url}>
-            {item.url}
-          </a>
+          <Link href={`/swing/${item.key}`} key={`${i}-prop`}>
+            Swing #{item.id}
+          </Link>
         ))}
         {/* TODO https://vercel.com/guides/how-can-i-use-aws-s3-with-vercel */}
         {/* Try form data; maybe that would help streaming the upload */}

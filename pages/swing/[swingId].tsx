@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from "next";
+import Layout from "@/components/pagesLayout";
 import {
   Container,
   Group,
@@ -74,7 +75,7 @@ export default function Swing({ swingFrames }: SwingProps) {
   const [frame, setFrame] = useState(1);
 
   return (
-    <>
+    <Layout>
       <Container p="xs">
         <Card shadow="sm" padding="lg" radius="md">
           <Card.Section>
@@ -143,6 +144,6 @@ export default function Swing({ swingFrames }: SwingProps) {
         </Card.Section>
       </Card> */}
       </Container>
-    </>
+    </Layout>
   );
 }
