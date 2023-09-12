@@ -34,6 +34,22 @@ const handler = async (request: VercelRequest, response: VercelResponse) => {
   console.log("received webhook...");
   const data = await request.body;
   console.log("YEEEE", data, request.query);
+  const key =
+    typeof request.query.key === "string"
+      ? request.query.key
+      : request.query.key[0];
+  const withoutExtension = key.split(".")[0];
+  await prisma.frames.create({
+    data: {
+      total: Number(request.query.count),
+      key: request.query.key as string,
+      s3: {
+        connect: {
+          key: withoutExtension,
+        },
+      },
+    },
+  });
   response.status(200).send("ok");
 };
 
