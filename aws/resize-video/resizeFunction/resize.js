@@ -63,6 +63,7 @@ const resizeVideo = async (record) => {
 
   console.log("Read tmp file into tmpData");
   const files = fs.readdirSync(ffTmp);
+  const fetched = await fetch("https://bogeybot.com/api/s3-frames?count=" files.length);
   for (const file of files) {
     if (file.startsWith("frame_") && file.endsWith(".png")) {
       let filePath = path.join(ffTmp, file);

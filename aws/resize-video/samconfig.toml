@@ -5,5 +5,5 @@ resolve_s3 = true
 s3_prefix = "sam-app-9"
 region = "us-west-1"
 capabilities = "CAPABILITY_IAM"
-parameter_overrides = "SourceBucketName=\"bogeybot-videos\" OutputBucketName=\"bogeybot-resized\" LayerARN=\"arn:aws:lambda:us-west-1:771594331351:layer:ffmpeg:1\t\""
+parameter_overrides = "SourceBucketName=\"bogeybot-videos\" OutputBucketName=\"bogeybot\" LayerARN=\"arn:aws:lambda:us-west-1:771594331351:layer:ffmpeg:1\t\""
 image_repositories = []

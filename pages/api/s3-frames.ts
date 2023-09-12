@@ -16,6 +16,6 @@ export default async function (
 ) {
   console.log("received webhook...");
   const data = await request.body;
-  console.log(data);
+  console.log("YEEEE", data, request.query);
   response.status(200).send("ok");
 }
