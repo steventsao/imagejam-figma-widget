@@ -1,30 +1,33 @@
 "use client";
-import { AppShell, useMantineTheme } from "@mantine/core";
+import { AppShell, Header, Text, Badge } from "@mantine/core";
 import Navbar from "@/components/Navbar";
-// import "@/styles/globals.css";
-
-// export const metadata: Metadata = {
-//   title: "bogeybot",
-//   description: "free stuff for golfers",
-// };
+import { Analytics } from "@vercel/analytics/react";
 
 // Duplicated from /app/layout.tsx
 export default function RootLayout({
+  items = [],
   children,
 }: {
+  items?: any[];
   children: React.ReactNode;
 }) {
-  const theme = useMantineTheme();
+  console.log(items);
   return (
-    <AppShell
-      styles={{
-        main: {
-          // background: theme.colors.gray[8],
-        },
-      }}
-      navbar={<Navbar />}
-    >
-      {children}
-    </AppShell>
+    <>
+      <AppShell
+        navbar={<Navbar items={items} />}
+        header={
+          <Header height={60} p="md">
+            <Text>
+              bogeybot <Badge>beta</Badge>
+            </Text>
+            {/* Header content */}
+          </Header>
+        }
+      >
+        {children}
+      </AppShell>
+      <Analytics />
+    </>
   );
 }
