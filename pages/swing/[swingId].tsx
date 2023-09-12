@@ -9,10 +9,7 @@ import {
   Text,
   Slider,
 } from "@mantine/core";
-import { sql } from "@vercel/postgres";
 import { useState } from "react";
-// useRouter import
-import { useRouter } from "next/router";
 
 type SwingProps = {
   swing?: {
@@ -28,12 +25,17 @@ type SwingProps = {
     predictions?: any[];
   };
   swingFrames: string[];
+  swingId: string;
 };
 const max_frame = 750;
 const aws_base = "https://bogeybot.s3.us-west-1.amazonaws.com";
 const imagekit_base = "https://ik.imagekit.io/cirnjtkq1/tr:q-25";
 // https://ik.imagekit.io/cirnjtkq1/steven-test-swing/frame_0700.png
-const getFrameUrl = (frame: number, urlBase = imagekit_base): string => {
+const getFrameUrl = (
+  frame: number,
+  key: string,
+  urlBase = imagekit_base
+): string => {
   // for frame 1, return frame_0001.png, for frame 750, return frame_0750.png
   let frameString = frame.toString();
   let frameLength = frameString.length;
@@ -41,13 +43,13 @@ const getFrameUrl = (frame: number, urlBase = imagekit_base): string => {
     frameString = "0" + frameString;
     frameLength++;
   }
-  return `${urlBase}/slomo/frame_${frameString}.png`;
+  return `${urlBase}/${key}/frame_${frameString}.png`;
 };
-const getFrameUrls = (maxFrame: number): string[] => {
+const getFrameUrls = (maxFrame: number, key: string): string[] => {
   let currentFrame = 1;
   const urls: string[] = [];
   while (currentFrame <= maxFrame) {
-    urls.push(getFrameUrl(currentFrame));
+    urls.push(getFrameUrl(currentFrame, key));
     currentFrame++;
   }
   return urls;
@@ -56,24 +58,27 @@ const getFrameUrls = (maxFrame: number): string[] => {
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const swingId = Array.isArray(context.params?.swingId)
-    ? context.params?.swingId[0]
-    : context.params?.swingId;
+  const swingId =
+    (Array.isArray(context.params?.swingId)
+      ? context.params?.swingId[0]
+      : context.params?.swingId) || "";
+  console.log(swingId, "swingId");
+
   // TODO needs to be predictionId instead of `swingId` so it cannot be enumerated
   // const result =
   //   await sql`select "PredictionImage".url as image_url from "PredictionImage" INNER JOIN "Prediction" on "Prediction".id = "PredictionImage"."predictionId" where "PredictionImage"."predictionId" = ${swingId}`;
 
   // console.log(result.rows[0], "swing");
-  const urls = getFrameUrls(max_frame);
-  console.log(urls);
-  return { props: { swingFrames: urls } };
+  const urls = getFrameUrls(max_frame, swingId);
+  return { props: { swingFrames: urls, swingId } };
 };
 
 // Share raw video link
 // Share current frame link
-export default function Swing({ swingFrames }: SwingProps) {
-  const [frame, setFrame] = useState(1);
+export default function Swing({ swingFrames, swingId }: SwingProps) {
+  const [frame, setFrame] = useState(0);
 
+  console.log(swingFrames);
   return (
     <Layout>
       <Container p="xs">
@@ -83,7 +88,7 @@ export default function Swing({ swingFrames }: SwingProps) {
               maw={800}
               mx="auto"
               radius="md"
-              src={getFrameUrl(frame)}
+              src={swingFrames[frame]}
               alt={`golf swing ${frame}`}
             />
           </Card.Section>
