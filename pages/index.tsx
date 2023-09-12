@@ -3,7 +3,7 @@ import Layout from "@/components/pagesLayout";
 import { Container, Group, Image, Button, Text, Slider } from "@mantine/core";
 import { useState } from "react";
 import { sql } from "@vercel/postgres";
-import "@/styles/globals.css";
+// import "@/styles/globals.css";
 
 type ViewerProps = {
   swing?: {

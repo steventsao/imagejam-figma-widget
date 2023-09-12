@@ -70,7 +70,7 @@ export default function MyNavbar(props: Props = { items: [] }) {
             return visible ? (
               <LoadingOverlay visible={visible} overlayBlur={2} />
             ) : (
-              <Button variant="outline">Upload</Button>
+              <Button variant="filled">Upload</Button>
             );
           }}
         </FileButton>
