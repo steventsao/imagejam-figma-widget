@@ -54,6 +54,8 @@ model s3 {
   swing       Swing?     @relation(fields: [swingId], references: [id])
   uploadJob   UploadJob?
   uploadJobId Int?       @unique
+  framesId    Int?
+  frames      Frames?
 }
 
 model Prediction {
@@ -99,4 +101,14 @@ model Source {
   lastCrawledAt DateTime?
   objectId      String?   @unique
   words         Word[]
+}
+
+model Frames {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  total     Int
+  s3        s3       @relation(fields: [s3Id], references: [id], onUpdate: Cascade)
+  s3Id      Int      @unique
+  key       String   @unique
 }
