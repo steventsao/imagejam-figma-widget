@@ -38,14 +38,14 @@ const handler = async (request: VercelRequest, response: VercelResponse) => {
     typeof request.query.key === "string"
       ? request.query.key
       : request.query.key[0];
-  const withoutExtension = key.split(".")[0];
+  //   const withoutExtension = key.split(".")[0];
   await prisma.frames.create({
     data: {
       total: Number(request.query.count),
       key: request.query.key as string,
       s3: {
         connect: {
-          key: withoutExtension,
+          key,
         },
       },
     },
