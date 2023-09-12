@@ -8,7 +8,7 @@ Parameters:
     Default: "bogeybot-videos"
   OutputBucketName:
     Type: String
-    Default: "bogeybot-resized"
+    Default: "bogeybot"
   LayerARN:
     Type: String
     Default: "arn:aws:lambda:us-west-1:771594331351:layer:ffmpeg:1"

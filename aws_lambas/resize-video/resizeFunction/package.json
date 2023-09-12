@@ -4,13 +4,13 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "sam:deploy": "sam deploy --guided -t template.yaml"
   },
   "keywords": [],
   "author": "James Beswick",
   "license": "MIT-0",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "@ffmpeg-installer/ffmpeg": "^1.1.0",
     "aws-sdk": "latest"
