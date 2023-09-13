@@ -104,6 +104,7 @@ export default function MyNavbar({
               variant="white"
               className="flex justify-start px-0 text-gray-500 hover:text-black"
               key={`${i}-prop`}
+              onClick={() => setOpened?.(false)}
             >
               <Link href={`/swing/${item.key}`}>Swing #${item.id}</Link>
             </Button>
