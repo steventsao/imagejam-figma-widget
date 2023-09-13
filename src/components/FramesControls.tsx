@@ -80,18 +80,24 @@ export default function Home({
         </Button>
       </Group>
       {share ? (
-        <CopyButton value={shareUrl} timeout={2000}>
-          {({ copied, copy }) => (
-            <Group className="hover:cursor-pointer" onClick={copy}>
-              <ActionIcon color={copied ? "teal" : "gray"}>
-                {copied ? <IconCheck size="1rem" /> : <IconCopy size="1rem" />}
-              </ActionIcon>
-              <Text className="ml">
-                Share frame {frame} of {maxFrame}
-              </Text>
-            </Group>
-          )}
-        </CopyButton>
+        <>
+          <CopyButton value={shareUrl} timeout={2000}>
+            {({ copied, copy }) => (
+              <Group className="hover:cursor-pointer" onClick={copy}>
+                <ActionIcon color={copied ? "teal" : "gray"}>
+                  {copied ? (
+                    <IconCheck size="1rem" />
+                  ) : (
+                    <IconCopy size="1rem" />
+                  )}
+                </ActionIcon>
+                <Text className="ml">
+                  Share frame {frame} of {maxFrame}
+                </Text>
+              </Group>
+            )}
+          </CopyButton>
+        </>
       ) : (
         <Text>
           Frame {frame} of {maxFrame}
@@ -99,16 +105,18 @@ export default function Home({
       )}
 
       <Slider
-        value={Math.floor((frame / maxFrame) * 100)}
-        onChange={(currentPercent: number) => {
-          const frame = Math.floor(maxFrame * (currentPercent / 100));
+        min={1}
+        max={maxFrame}
+        onChange={(frame: number) => {
           setFrameQuery(frame);
           // const currentPercent = Math.floor((frame / maxFrame) * 100);
         }}
+        step={5}
         marks={[
-          { value: 20, label: "20%" },
-          { value: 50, label: "50%" },
-          { value: 80, label: "80%" },
+          {
+            value: Math.round(maxFrame / 2),
+            label: Math.round(maxFrame / 2) + "",
+          },
         ]}
       />
     </Stack>
