@@ -27,6 +27,12 @@ export default function RootLayout({
                 bogeybot
               </Link>{" "}
               <Badge>beta</Badge>
+              <a
+                className="text-red-500"
+                href="https://docs.google.com/document/d/1LJvrmXdLpJSufbX-nzulfnKQEHDlqJ8o_E3qnYZ44Bk/edit"
+              >
+                BUGS 4 DAYZ
+              </a>
             </Text>
             {/* Header content */}
           </Header>
