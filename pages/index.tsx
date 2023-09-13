@@ -82,7 +82,12 @@ export default function Home({ uploads }: ViewerProps) {
         />
         <Suspense fallback={<div>Loading...</div>}>
           {/* HARD coding 750 */}
-          <FramesControls frame={frame} setFrame={setFrame} maxFrame={750} />
+          <FramesControls
+            frame={frame}
+            setFrame={setFrame}
+            maxFrame={750}
+            share={false}
+          />
         </Suspense>
       </Container>
     </Layout>
