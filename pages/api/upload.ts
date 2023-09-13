@@ -1,8 +1,10 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node";
-import { sql } from "@vercel/postgres";
 import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
+
+const BUCKET_NAME = "bogeybot-videos";
+// Create a s3
 export default async function Upload(
   request: VercelRequest,
   response: VercelResponse
@@ -17,7 +19,8 @@ export default async function Upload(
     const s3instance = await prisma.s3.create({
       data: {
         key: uuid,
-        url: `https://bogeybot.s3-us-west-1.amazonaws.com/${uuid}`,
+        // TODO wrong because this actually goes to the `bogeybot-videos` bucket. This will break the `Explore` page
+        url: `https://${BUCKET_NAME}.s3-us-west-1.amazonaws.com/${uuid}`,
       },
     });
 

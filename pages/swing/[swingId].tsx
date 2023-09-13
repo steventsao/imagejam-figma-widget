@@ -1,18 +1,29 @@
 import { GetServerSidePropsContext } from "next";
 import FramesControls from "@/components/FramesControls";
 import Layout from "@/components/pagesLayout";
-import {
-  Container,
-  Group,
-  Image,
-  Card,
-  Button,
-  Text,
-  Slider,
-} from "@mantine/core";
+import { Container, Image, Card, Text } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { sql } from "@vercel/postgres";
 import { useRouter } from "next/router";
+
+const RAW_VIDEOS_BUCKET = "https://bogeybot-videos.s3.us-west-1.amazonaws.com";
+
+// key can be uuid + extension
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
+const getMimeType = (key: string): string => {
+  const extension = key.split(".")[1];
+
+  switch (extension) {
+    case "mp4":
+      return "video/mp4";
+    case "mov":
+      return "video/quicktime";
+    case "m4v":
+      return "video/x-m4v";
+    default:
+      return "video/mp4";
+  }
+};
 
 type SwingProps = {
   isReady: boolean;
@@ -86,6 +97,7 @@ export const getServerSideProps = async (
 // Share current frame link
 export default function Swing({
   swingFrames,
+  swingId,
   frames,
   isReady = false,
 }: SwingProps) {
@@ -121,7 +133,16 @@ export default function Swing({
             />
           </Card>
         ) : (
-          <Text>Processing...</Text>
+          // Render the video link from s3 instead
+          <>
+            <Text>Creating frames from video...</Text>
+            <video controls width="70%">
+              <source
+                src={`${RAW_VIDEOS_BUCKET}/${swingId}`}
+                type={getMimeType(swingId)}
+              />
+            </video>
+          </>
         )}
       </Container>
     </Layout>
