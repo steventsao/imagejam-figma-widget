@@ -107,6 +107,7 @@ export default function Home({
       <Slider
         min={1}
         max={maxFrame}
+        value={frame}
         onChange={(frame: number) => {
           setFrameQuery(frame);
           // const currentPercent = Math.floor((frame / maxFrame) * 100);
