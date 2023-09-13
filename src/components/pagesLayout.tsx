@@ -11,14 +11,15 @@ export default function RootLayout({
   onRefresh,
 }: {
   items?: any[];
-  onRefresh: () => void;
+  onRefresh?: () => void;
   children: React.ReactNode;
 }) {
+  const noop = () => {};
   console.log(items);
   return (
     <>
       <AppShell
-        navbar={<Navbar items={items} onRefresh={onRefresh} />}
+        navbar={<Navbar items={items} onRefresh={onRefresh || noop} />}
         header={
           <Header height={60} p="md">
             <Text>
