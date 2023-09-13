@@ -49,7 +49,7 @@ export default function Home({
             setFrameQuery(frame - 10);
           }}
         >
-          Back 10
+          {"<<"} 10 frames
         </Button>
         <Button
           compact={true}
@@ -58,7 +58,7 @@ export default function Home({
             setFrameQuery(frame - 1);
           }}
         >
-          Back
+          {"<"} 1 frame
         </Button>
         <Button
           compact={true}
@@ -67,7 +67,7 @@ export default function Home({
             setFrameQuery(frame + 1);
           }}
         >
-          Next
+          1 frame {">"}
         </Button>
         <Button
           compact={true}
@@ -76,7 +76,7 @@ export default function Home({
             setFrameQuery(frame + 10);
           }}
         >
-          Next 10
+          10 frames {">>"}
         </Button>
       </Group>
       {share ? (
