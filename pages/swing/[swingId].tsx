@@ -152,6 +152,7 @@ export default function Swing({
             <Card.Section>
               {/* <Title>Hi</Title> */}
               {/* #lesson important to keep fit scale-down when my goal is to keep everything in one screen */}
+              {/* TODO use media query so it's height 400 on the phone? */}
               <Image
                 fit="scale-down"
                 mih={400}
