@@ -1,4 +1,4 @@
-import { Navbar, Stack, Button, FileButton } from "@mantine/core";
+import { Navbar, Stack, Button, FileButton, NavLink } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import s3Init from "@/lib/aws";
@@ -96,13 +96,19 @@ export default function MyNavbar({
         {/* <Text>Swings</Text> */}
         {/* TODO implement refresh */}
         {/* https://github.com/steventsao/bogeybot/issues/18 */}
-        {items?.map((item, i) => (
-          // TODO query the swingId page and split image automatically
-          //   Think about the value prop besides frame-by-frame viewing. YouTube does that better
-          <Link href={`/swing/${item.key}`} key={`${i}-prop`}>
-            Swing #{item.id}
-          </Link>
-        ))}
+        <Stack spacing="md">
+          {items?.map((item, i) => (
+            // TODO query the swingId page and split image automatically
+            //   Think about the value prop besides frame-by-frame viewing. YouTube does that better
+            <Link
+              className="text-xl"
+              href={`/swing/${item.key}`}
+              key={`${i}-prop`}
+            >
+              <NavLink label={`Swing #${item.id}`} />
+            </Link>
+          ))}
+        </Stack>
         {/* TODO https://vercel.com/guides/how-can-i-use-aws-s3-with-vercel */}
         {/* Try form data; maybe that would help streaming the upload */}
       </Stack>
