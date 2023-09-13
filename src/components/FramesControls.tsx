@@ -4,15 +4,20 @@ import { Group, Button, Text, Slider } from "@mantine/core";
 type FramesControlsProps = {
   frame: number;
   setFrame: (frame: number) => void;
+  maxFrame: number;
 };
 
-const max_frame = 750;
-export default function Home({ frame, setFrame }: FramesControlsProps) {
+export default function Home({
+  frame,
+  setFrame,
+  maxFrame,
+}: FramesControlsProps) {
   return (
     <>
       <Group position="apart" mt="md" mb="xs">
         <Button
           // secondary
+          // className="text-black-500"
           compact={true}
           variant="outline"
           onClick={() => {
@@ -50,14 +55,14 @@ export default function Home({ frame, setFrame }: FramesControlsProps) {
         </Button>
       </Group>
       <Text>
-        Frame {frame} of {max_frame}
+        Frame {frame} of {maxFrame}
       </Text>
       <Slider
-        value={Math.floor((frame / max_frame) * 100)}
+        value={Math.floor((frame / maxFrame) * 100)}
         onChange={(currentPercent: number) => {
-          const frame = Math.floor(max_frame * (currentPercent / 100));
+          const frame = Math.floor(maxFrame * (currentPercent / 100));
           setFrame(frame);
-          // const currentPercent = Math.floor((frame / max_frame) * 100);
+          // const currentPercent = Math.floor((frame / maxFrame) * 100);
         }}
         marks={[
           { value: 20, label: "20%" },

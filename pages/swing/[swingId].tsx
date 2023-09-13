@@ -1,4 +1,5 @@
 import { GetServerSidePropsContext } from "next";
+import FramesControls from "@/components/FramesControls";
 import Layout from "@/components/pagesLayout";
 import {
   Container,
@@ -30,7 +31,6 @@ type SwingProps = {
   swingId: string;
   frames: number;
 };
-const aws_base = "https://bogeybot.s3.us-west-1.amazonaws.com";
 const imagekit_base = "https://ik.imagekit.io/cirnjtkq1/tr:q-25";
 // https://ik.imagekit.io/cirnjtkq1/steven-test-swing/frame_0700.png
 const getFrameUrl = (
@@ -109,52 +109,7 @@ export default function Swing({ swingFrames, swingId, frames }: SwingProps) {
               alt={`golf swing ${frame}`}
             />
           </Card.Section>
-          <Group position="apart" mt="md" mb="xs">
-            <Button
-              onClick={() => {
-                setFrame(frame - 10);
-              }}
-            >
-              Back 10
-            </Button>
-            <Button
-              onClick={() => {
-                setFrame(frame - 1);
-              }}
-            >
-              Back
-            </Button>
-            <Button
-              onClick={() => {
-                setFrame(frame + 1);
-              }}
-            >
-              Next
-            </Button>
-            <Button
-              onClick={() => {
-                setFrame(frame + 10);
-              }}
-            >
-              Next 10
-            </Button>
-          </Group>
-          <Text>
-            Frame {frame} of {frames}
-          </Text>
-          <Slider
-            value={Math.floor((frame / frames) * 100)}
-            onChange={(currentPercent: number) => {
-              const frame = Math.floor(frames * (currentPercent / 100));
-              setFrame(frame);
-              // const currentPercent = Math.floor((frame / max_frame) * 100);
-            }}
-            marks={[
-              { value: 20, label: "20%" },
-              { value: 50, label: "50%" },
-              { value: 80, label: "80%" },
-            ]}
-          />
+          <FramesControls frame={frame} setFrame={setFrame} maxFrame={frames} />
         </Card>
         {/* <Card>
         <Card.Section>

@@ -24,8 +24,6 @@ type ViewerProps = {
   swingFrames: string[];
   uploads: any[];
 };
-const max_frame = 750;
-const aws_base = "https://bogeybot.s3.us-west-1.amazonaws.com";
 const imagekit_base = "https://ik.imagekit.io/cirnjtkq1/tr:q-25";
 // https://ik.imagekit.io/cirnjtkq1/steven-test-swing/frame_0700.png
 const getFrameUrl = (frame: number, urlBase = imagekit_base): string => {
@@ -51,12 +49,10 @@ const getFrameUrls = (maxFrame: number): string[] => {
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
-  const urls = getFrameUrls(max_frame);
   const uploads =
     await sql`select s3.key, s3.id, "UploadJob".status as status, s3.url as url from "UploadJob" inner join s3 on "UploadJob"."s3Id" = s3.id order by s3."createdAt" desc`;
   return {
     props: {
-      swingFrames: urls,
       uploads: uploads.rows.map((u) => {
         console.log(u);
         return { key: u.key, id: u.id, status: u.status, url: u.url };
@@ -65,7 +61,7 @@ export const getServerSideProps = async (
   };
 };
 
-export default function Home({ swingFrames, uploads }: ViewerProps) {
+export default function Home({ uploads }: ViewerProps) {
   const [frame, setFrame] = useState(1);
   console.log({ uploads });
   const router = useRouter();
@@ -84,7 +80,8 @@ export default function Home({ swingFrames, uploads }: ViewerProps) {
           alt={`golf swing ${frame}`}
         />
         <Suspense fallback={<div>Loading...</div>}>
-          <FramesControls frame={frame} setFrame={setFrame} />
+          {/* HARD coding 750 */}
+          <FramesControls frame={frame} setFrame={setFrame} maxFrame={750} />
         </Suspense>
       </Container>
     </Layout>
