@@ -103,10 +103,9 @@ export default function MyNavbar({
             <Button
               variant="white"
               className="flex justify-start px-0 text-gray-500 hover:text-black"
+              key={`${i}-prop`}
             >
-              <Link href={`/swing/${item.key}`} key={`${i}-prop`}>
-                Swing #${item.id}
-              </Link>
+              <Link href={`/swing/${item.key}`}>Swing #${item.id}</Link>
             </Button>
           ))}
         </Stack>
