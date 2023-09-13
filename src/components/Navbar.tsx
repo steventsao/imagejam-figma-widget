@@ -1,19 +1,14 @@
-import {
-  Navbar,
-  Stack,
-  Button,
-  FileButton,
-  LoadingOverlay,
-} from "@mantine/core";
+import { Navbar, Stack, Button, FileButton } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { useState } from "react";
 import s3Init from "@/lib/aws";
 import Link from "next/link";
 
 const s3 = s3Init();
-type Props = { items?: any[] };
+type Props = { items?: any[]; onRefresh: () => void };
 const TARGET_BUCKET = "bogeybot-videos";
-export default function MyNavbar(props: Props = { items: [] }) {
+
+export default function MyNavbar({ items = [], onRefresh }: Props) {
   const [visible, { open, close }] = useDisclosure(false);
   const [opened, setOpened] = useState(false);
   //   TODO handle reupload
@@ -42,12 +37,13 @@ export default function MyNavbar(props: Props = { items: [] }) {
           });
         })
         .then((res) => {
+          onRefresh();
           close();
         });
     }
   };
   console.log("visible", visible);
-  console.log(props.items, "items");
+  console.log(items, "items");
 
   return (
     <Navbar
@@ -69,20 +65,21 @@ export default function MyNavbar(props: Props = { items: [] }) {
           accept="video/mp4,video/x-m4v,video/*"
           onChange={handleUpload}
         >
-          {(props) => {
-            return visible ? (
-              <LoadingOverlay visible={visible} overlayBlur={2} />
-            ) : (
-              <Button className="bg-blue-500" variant="filled" {...props}>
-                Upload
-              </Button>
-            );
-          }}
+          {(props) => (
+            <Button
+              disabled={visible}
+              className="bg-blue-500"
+              variant="filled"
+              {...props}
+            >
+              Upload
+            </Button>
+          )}
         </FileButton>
         {/* <Text>Swings</Text> */}
         {/* TODO implement refresh */}
         {/* https://github.com/steventsao/bogeybot/issues/18 */}
-        {props.items?.map((item, i) => (
+        {items?.map((item, i) => (
           // TODO query the swingId page and split image automatically
           //   Think about the value prop besides frame-by-frame viewing. YouTube does that better
           <Link href={`/swing/${item.key}`} key={`${i}-prop`}>

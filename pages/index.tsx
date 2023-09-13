@@ -4,6 +4,8 @@ import { Container, Image } from "@mantine/core";
 import { useState, Suspense } from "react";
 import FramesControls from "@/components/FramesControls";
 import { sql } from "@vercel/postgres";
+import { useRouter } from "next/router";
+
 // import "@/styles/globals.css";
 
 type ViewerProps = {
@@ -66,9 +68,13 @@ export const getServerSideProps = async (
 export default function Home({ swingFrames, uploads }: ViewerProps) {
   const [frame, setFrame] = useState(1);
   console.log({ uploads });
+  const router = useRouter();
+  const refreshData = () => {
+    router.replace(router.asPath);
+  };
 
   return (
-    <Layout items={uploads}>
+    <Layout items={uploads} onRefresh={refreshData}>
       <Container p="xs">
         <Image
           maw={800}

@@ -8,15 +8,17 @@ import Link from "next/link";
 export default function RootLayout({
   items = [],
   children,
+  onRefresh,
 }: {
   items?: any[];
+  onRefresh: () => void;
   children: React.ReactNode;
 }) {
   console.log(items);
   return (
     <>
       <AppShell
-        navbar={<Navbar items={items} />}
+        navbar={<Navbar items={items} onRefresh={onRefresh} />}
         header={
           <Header height={60} p="md">
             <Text>
