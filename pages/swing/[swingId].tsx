@@ -9,8 +9,9 @@ import {
   Text,
   Slider,
 } from "@mantine/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { sql } from "@vercel/postgres";
+import { useRouter } from "next/router";
 
 type SwingProps = {
   swing?: {
@@ -82,8 +83,16 @@ export const getServerSideProps = async (
 // Share raw video link
 // Share current frame link
 export default function Swing({ swingFrames, swingId, frames }: SwingProps) {
+  const router = useRouter();
+  const clientSideFrame = router.query.frame;
+
   console.log(frames, "MAX");
   const [frame, setFrame] = useState(0);
+  useEffect(() => {
+    if (clientSideFrame) {
+      setFrame(parseInt(clientSideFrame as string));
+    }
+  }, [router.query.frame]);
 
   // console.log(swingFrames);
   return (
@@ -92,7 +101,8 @@ export default function Swing({ swingFrames, swingId, frames }: SwingProps) {
         <Card shadow="sm" padding="lg" radius="md">
           <Card.Section>
             <Image
-              maw={800}
+              maw={600}
+              // mah={600}
               mx="auto"
               radius="md"
               src={swingFrames[frame]}
