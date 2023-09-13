@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from "next";
 import { Upload, fetchUploads } from "@/lib/queries";
 import FramesControls from "@/components/FramesControls";
 import Layout from "@/components/pagesLayout";
-import { Container, Image, Card, Text, Title } from "@mantine/core";
+import { Container, Image, Card, Text, AspectRatio } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { sql } from "@vercel/postgres";
 import { useRouter } from "next/router";
@@ -151,10 +151,11 @@ export default function Swing({
           <Card shadow="sm" padding="lg" radius="md">
             <Card.Section>
               {/* <Title>Hi</Title> */}
+              {/* #lesson important to keep fit scale-down when my goal is to keep everything in one screen */}
               <Image
-                maw={600}
-                // mah={600}
-                mx="auto"
+                fit="scale-down"
+                mih={400}
+                height={500}
                 radius="md"
                 src={swingFrames[frame]}
                 alt={`golf swing ${frame}`}
