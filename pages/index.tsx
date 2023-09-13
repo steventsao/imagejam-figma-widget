@@ -55,14 +55,26 @@ export default function Home({ uploads }: ViewerProps) {
     <Layout items={uploads} onRefresh={refreshData}>
       <Container p="xs">
         <Stack spacing="sm">
-          <Text fz="lg" fw={500}>
+          <Text fz="lg" fw={700}>
             Super slo-mo golf swing viewer:
           </Text>
           <List>
             <List.Item>1. Upload a video</List.Item>
             <List.Item>2. View your swing by the frame</List.Item>
-            <List.Item>3. *WIP* Label and overlay the target frames</List.Item>
-            <List.Item>4. *WIP* Track your swings</List.Item>
+            <List.Item>
+              3.
+              <Text span fw={600}>
+                *WIP*
+              </Text>{" "}
+              Label and overlay the target frames
+            </List.Item>
+            <List.Item>
+              4.{" "}
+              <Text span fw={600}>
+                *WIP*
+              </Text>{" "}
+              Track your swings
+            </List.Item>
           </List>
           <Image
             maw={800}
