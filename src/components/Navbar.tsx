@@ -13,12 +13,13 @@ type Props = {
 };
 const TARGET_BUCKET = "bogeybot-videos";
 const getKey = (file: File, uuid: string): string => {
+  console.log("CONVERTING FILETYPE: ", file.type);
   switch (file.type) {
     case "video/mp4":
       return `${uuid}.mp4`;
     case "video/x-m4v":
       return `${uuid}.m4v`;
-    case "video/mov":
+    case "video/quicktime":
       return `${uuid}.mov`;
     default:
       return uuid;
