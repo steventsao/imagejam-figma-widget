@@ -63,6 +63,7 @@ export const getServerSideProps = async (
 
 export default function Home({ uploads }: ViewerProps) {
   const [frame, setFrame] = useState(1);
+
   console.log({ uploads });
   const router = useRouter();
   const refreshData = () => {

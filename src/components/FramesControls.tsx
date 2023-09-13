@@ -1,19 +1,44 @@
-import { Group, Button, Text, Slider } from "@mantine/core";
+import {
+  Stack,
+  Group,
+  Button,
+  Text,
+  Slider,
+  ActionIcon,
+  CopyButton,
+} from "@mantine/core";
+import { IconCopy, IconCheck } from "@tabler/icons-react";
+import { useRouter } from "next/router";
 // import "@/styles/globals.css";
 
 type FramesControlsProps = {
   frame: number;
   setFrame: (frame: number) => void;
   maxFrame: number;
+  share: boolean;
 };
 
 export default function Home({
   frame,
   setFrame,
   maxFrame,
+  share = false,
 }: FramesControlsProps) {
+  const router = useRouter();
+  const shareUrl = `https://bogeybot.io/${router.asPath}`;
+  const setFrameQuery = (frame: number) => {
+    setFrame(frame);
+    router.replace(
+      {
+        pathname: router.pathname,
+        query: { ...router.query, frame },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
   return (
-    <>
+    <Stack>
       <Group position="apart" mt="md" mb="xs">
         <Button
           // secondary
@@ -21,7 +46,7 @@ export default function Home({
           compact={true}
           variant="outline"
           onClick={() => {
-            setFrame(frame - 10);
+            setFrameQuery(frame - 10);
           }}
         >
           Back 10
@@ -30,7 +55,7 @@ export default function Home({
           compact={true}
           variant="outline"
           onClick={() => {
-            setFrame(frame - 1);
+            setFrameQuery(frame - 1);
           }}
         >
           Back
@@ -39,7 +64,7 @@ export default function Home({
           compact={true}
           variant="outline"
           onClick={() => {
-            setFrame(frame + 1);
+            setFrameQuery(frame + 1);
           }}
         >
           Next
@@ -48,20 +73,36 @@ export default function Home({
           compact={true}
           variant="outline"
           onClick={() => {
-            setFrame(frame + 10);
+            setFrameQuery(frame + 10);
           }}
         >
           Next 10
         </Button>
       </Group>
-      <Text>
-        Frame {frame} of {maxFrame}
-      </Text>
+      {share ? (
+        <CopyButton value={shareUrl} timeout={2000}>
+          {({ copied, copy }) => (
+            <Group className="hover:cursor-pointer" onClick={copy}>
+              <ActionIcon color={copied ? "teal" : "gray"}>
+                {copied ? <IconCheck size="1rem" /> : <IconCopy size="1rem" />}
+              </ActionIcon>
+              <Text className="ml">
+                Share frame {frame} of {maxFrame}
+              </Text>
+            </Group>
+          )}
+        </CopyButton>
+      ) : (
+        <Text>
+          Frame {frame} of {maxFrame}
+        </Text>
+      )}
+
       <Slider
         value={Math.floor((frame / maxFrame) * 100)}
         onChange={(currentPercent: number) => {
           const frame = Math.floor(maxFrame * (currentPercent / 100));
-          setFrame(frame);
+          setFrameQuery(frame);
           // const currentPercent = Math.floor((frame / maxFrame) * 100);
         }}
         marks={[
@@ -70,6 +111,6 @@ export default function Home({
           { value: 80, label: "80%" },
         ]}
       />
-    </>
+    </Stack>
   );
 }

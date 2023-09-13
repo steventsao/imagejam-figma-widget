@@ -86,14 +86,11 @@ export const getServerSideProps = async (
 // Share current frame link
 export default function Swing({
   swingFrames,
-  swingId,
   frames,
   isReady = false,
 }: SwingProps) {
   const router = useRouter();
   const clientSideFrame = router.query.frame;
-
-  console.log(frames, "MAX");
   const [frame, setFrame] = useState(0);
   useEffect(() => {
     if (clientSideFrame) {
@@ -101,7 +98,6 @@ export default function Swing({
     }
   }, [router.query.frame]);
 
-  // console.log(swingFrames);
   return (
     <Layout>
       <Container p="xs">
@@ -121,6 +117,7 @@ export default function Swing({
               frame={frame}
               setFrame={setFrame}
               maxFrame={frames}
+              share={true}
             />
           </Card>
         ) : (
