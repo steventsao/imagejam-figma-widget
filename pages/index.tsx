@@ -3,7 +3,7 @@ import Layout from "@/components/pagesLayout";
 import { Container, Image } from "@mantine/core";
 import { useState, Suspense } from "react";
 import FramesControls from "@/components/FramesControls";
-import { sql } from "@vercel/postgres";
+import { fetchUploads } from "@/lib/queries";
 import { useRouter } from "next/router";
 
 // import "@/styles/globals.css";
@@ -36,29 +36,11 @@ const getFrameUrl = (frame: number, urlBase = imagekit_base): string => {
   }
   return `${urlBase}/slomo/frame_${frameString}.png`;
 };
-const getFrameUrls = (maxFrame: number): string[] => {
-  let currentFrame = 1;
-  const urls: string[] = [];
-  while (currentFrame <= maxFrame) {
-    urls.push(getFrameUrl(currentFrame));
-    currentFrame++;
-  }
-  return urls;
-};
+
 // Get swingId from path /swing/[swingId]
-export const getServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  const uploads =
-    await sql`select s3.key, s3.id, "UploadJob".status as status, s3.url as url from "UploadJob" inner join s3 on "UploadJob"."s3Id" = s3.id order by s3."createdAt" desc`;
-  return {
-    props: {
-      uploads: uploads.rows.map((u) => {
-        console.log(u);
-        return { key: u.key, id: u.id, status: u.status, url: u.url };
-      }),
-    },
-  };
+export const getServerSideProps = async () => {
+  const uploads = await fetchUploads();
+  return { props: { uploads } };
 };
 
 export default function Home({ uploads }: ViewerProps) {
