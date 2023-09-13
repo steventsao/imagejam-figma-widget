@@ -9,6 +9,8 @@ import {
 } from "@mantine/core";
 import { IconCopy, IconCheck } from "@tabler/icons-react";
 import { useRouter } from "next/router";
+import { Bookmark } from "@/lib/types";
+import { useState, useEffect } from "react";
 // import "@/styles/globals.css";
 
 type FramesControlsProps = {
@@ -16,16 +18,25 @@ type FramesControlsProps = {
   setFrame: (frame: number) => void;
   maxFrame: number;
   share: boolean;
+  bookmarks?: Bookmark[];
 };
 
-export default function Home({
+export default function FramesControls({
   frame,
   setFrame,
   maxFrame,
   share = false,
+  bookmarks = [],
 }: FramesControlsProps) {
   const router = useRouter();
   const shareUrl = `https://bogeybot.io/${router.asPath}`;
+
+  // TODO local bookmark state is fucking shit up
+  console.log("bookmarks", bookmarks);
+  // Reflect edit right away, but post separately
+  const [optimisticBookmarks, setOptimisticBookmarks] = useState([
+    ...bookmarks,
+  ]);
   const setFrameQuery = (frame: number) => {
     setFrame(frame);
     router.replace(
@@ -37,6 +48,13 @@ export default function Home({
       { shallow: true }
     );
   };
+
+  // useEffect(() => {
+  //   fetch("/api/bookmarks", {
+  //     method: "POST",
+  //     body: JSON.stringify({ bookmarks, swingId: router.query.swingId }),
+  //   });
+  // }, [bookmarks]);
   return (
     <Stack>
       <Group position="apart" mt="md" mb="xs">
@@ -80,7 +98,7 @@ export default function Home({
         </Button>
       </Group>
       {share ? (
-        <>
+        <Group position="apart">
           <CopyButton value={shareUrl} timeout={2000}>
             {({ copied, copy }) => (
               <Group className="hover:cursor-pointer" onClick={copy}>
@@ -97,7 +115,34 @@ export default function Home({
               </Group>
             )}
           </CopyButton>
-        </>
+          <Button
+            variant="outline"
+            onClick={async () => {
+              // Optimistic update alongside hard refresh? https://www.joshwcomeau.com/nextjs/refreshing-server-side-props/
+              setOptimisticBookmarks((b) => [
+                ...b,
+                { value: frame, label: "impact" },
+              ]);
+
+              const result = await fetch("/api/bookmarks", {
+                method: "POST",
+                body: JSON.stringify({
+                  // Destructure to avoid sending the same thing back
+                  bookmarks: [{ value: frame, label: "impact" }],
+                  swingId: router.query.swingId,
+                }),
+              }).then((success) => {
+                // REFRESH?
+                // I want to localize the changes instead of the whole page
+                // https://www.joshwcomeau.com/nextjs/refreshing-server-side-props/
+                router.replace(router.asPath);
+              });
+              console.log("POSTED bookmarks:", result);
+            }}
+          >
+            Bookmark frame {frame} as impact frame
+          </Button>
+        </Group>
       ) : (
         <Text>
           Frame {frame} of {maxFrame}
@@ -113,12 +158,8 @@ export default function Home({
           // const currentPercent = Math.floor((frame / maxFrame) * 100);
         }}
         step={5}
-        marks={[
-          {
-            value: Math.round(maxFrame / 2),
-            label: Math.round(maxFrame / 2) + "",
-          },
-        ]}
+        // TODO why does optimistics updates fuck up on transition such that it leaves the last swing bookmark present?
+        marks={bookmarks}
       />
     </Stack>
   );

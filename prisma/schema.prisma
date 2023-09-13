@@ -13,14 +13,15 @@ datasource db {
 // "A upload job can have 0 or 1 s3 instance"
 // `userId` is non-unique because a user can have multiple upload jobs
 model UploadJob {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
   status    String
-  s3        s3?      @relation(fields: [s3Id], references: [id], onUpdate: Cascade)
-  s3Id      Int?     @unique
+  s3        s3?        @relation(fields: [s3Id], references: [id], onUpdate: Cascade)
+  s3Id      Int?       @unique
   userId    Int
-  user      User     @relation(fields: [userId], references: [id])
+  user      User       @relation(fields: [userId], references: [id])
+  bookmarks Bookmark[]
 }
 
 model User {
@@ -32,6 +33,18 @@ model User {
   password  String
   swings    Swing[]
   UploadJob UploadJob[]
+}
+
+model Bookmark {
+  id          Int        @id @default(autoincrement())
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  frame       Int
+  label       String
+  uploadJob   UploadJob? @relation(fields: [uploadJobId], references: [id])
+  uploadJobId Int?
+  s3          s3         @relation(fields: [s3Id], references: [id])
+  s3Id        Int
 }
 
 model Swing {
@@ -56,6 +69,7 @@ model s3 {
   uploadJobId Int?       @unique
   framesId    Int?
   frames      Frames?
+  bookmarks   Bookmark[]
 }
 
 model Prediction {

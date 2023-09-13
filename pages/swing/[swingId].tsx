@@ -2,10 +2,11 @@ import { GetServerSidePropsContext } from "next";
 import { Upload, fetchUploads } from "@/lib/queries";
 import FramesControls from "@/components/FramesControls";
 import Layout from "@/components/pagesLayout";
-import { Container, Image, Card, Text } from "@mantine/core";
+import { Container, Image, Card, Text, Title } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { sql } from "@vercel/postgres";
 import { useRouter } from "next/router";
+import { Bookmark } from "@/lib/types";
 
 const RAW_VIDEOS_BUCKET = "https://bogeybot-videos.s3.us-west-1.amazonaws.com";
 
@@ -44,6 +45,7 @@ type SwingProps = {
   swingId: string;
   frames: number;
   uploads: Upload[];
+  bookmarks: Bookmark[];
 };
 const imagekit_base = "https://ik.imagekit.io/cirnjtkq1/tr:q-25";
 // https://ik.imagekit.io/cirnjtkq1/steven-test-swing/frame_0700.png
@@ -70,7 +72,13 @@ const getFrameUrls = (maxFrame: number, key: string): string[] => {
   }
   return urls;
 };
-// Get swingId from path /swing/[swingId]
+
+const fetchBookmarks = async (swingId: string) => {
+  const { rows: bookmarks } =
+    await sql`select "Bookmark".label as label, "Bookmark".frame as value from "Bookmark" inner join s3 on "Bookmark"."s3Id" = s3.id where s3.key = ${swingId} limit 1`;
+  return bookmarks;
+};
+
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
 ) => {
@@ -81,11 +89,11 @@ export const getServerSideProps = async (
   console.log(swingId, "swingId");
   const frames =
     await sql`select total from "Frames" where key = ${swingId} limit 1`;
-  console.log("FRAMES: ", frames);
+  const bookmarks = await fetchBookmarks(swingId);
   const isReady = !!frames.rows[0];
   const maxFrames = frames.rows[0]?.total || 0;
   const uploads = await fetchUploads();
-  console.log(maxFrames, "maxFrames");
+  // console.log(maxFrames, "maxFrames");
 
   // TODO needs to be predictionId instead of `swingId` so it cannot be enumerated
   // const result =
@@ -93,8 +101,16 @@ export const getServerSideProps = async (
 
   // console.log(result.rows[0], "swing");
   const urls = getFrameUrls(maxFrames, swingId);
+  console.log("FETCHED BOOKMARKS:", bookmarks);
   return {
-    props: { swingFrames: urls, swingId, frames: maxFrames, isReady, uploads },
+    props: {
+      swingFrames: urls,
+      swingId,
+      frames: maxFrames,
+      isReady,
+      uploads,
+      bookmarks,
+    },
   };
 };
 
@@ -106,19 +122,27 @@ export default function Swing({
   frames,
   uploads,
   isReady = false,
+  bookmarks,
 }: SwingProps) {
   const router = useRouter();
   const refreshData = () => {
     router.replace(router.asPath);
   };
-
-  const clientSideFrame = router.query.frame;
-  const [frame, setFrame] = useState(0);
   useEffect(() => {
+    router.replace(router.asPath);
+    console.log("REFRESH DATA");
+  }, [swingId]);
+  const [frame, setFrame] = useState(0);
+
+  // Using `useEffect` to keep router and frame in-sync.
+  useEffect(() => {
+    const clientSideFrame = router.query.frame;
     if (clientSideFrame) {
       setFrame(parseInt(clientSideFrame as string));
+    } else {
+      setFrame(1);
     }
-  }, [router.query.frame]);
+  }, [router.query.frame, swingId]);
 
   return (
     <Layout items={uploads} onRefresh={refreshData}>
@@ -126,6 +150,7 @@ export default function Swing({
         {isReady ? (
           <Card shadow="sm" padding="lg" radius="md">
             <Card.Section>
+              {/* <Title>Hi</Title> */}
               <Image
                 maw={600}
                 // mah={600}
@@ -140,6 +165,7 @@ export default function Swing({
               setFrame={setFrame}
               maxFrame={frames}
               share={true}
+              bookmarks={bookmarks}
             />
             <div className="mt-10 flex justify-end text-gray-500 underline">
               <a href={`${RAW_VIDEOS_BUCKET}/${swingId}`}>Source</a>

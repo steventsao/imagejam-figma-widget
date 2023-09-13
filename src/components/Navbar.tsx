@@ -35,7 +35,7 @@ export default function MyNavbar({
   const [visible, { open, close }] = useDisclosure(false);
   //   TODO handle reupload
   const handleUpload = async (e: File) => {
-    console.log(e);
+    // console.log(e);
     if (e) {
       // TODO stream  issue #17
       const fileBuffer = await e.arrayBuffer();
@@ -52,7 +52,6 @@ export default function MyNavbar({
       await request
         .promise()
         .then((data) => {
-          console.log(data, "promise");
           return fetch("/api/upload", {
             method: "POST",
             body: JSON.stringify({ uuid: key, etag: data.ETag }),
@@ -65,7 +64,7 @@ export default function MyNavbar({
     }
   };
   console.log("visible", visible);
-  console.log(items, "items");
+  // console.log(items, "items");
 
   return (
     <Navbar
@@ -98,16 +97,15 @@ export default function MyNavbar({
         {/* https://github.com/steventsao/bogeybot/issues/18 */}
         <Stack spacing="md">
           {items?.map((item, i) => (
-            // TODO query the swingId page and split image automatically
-            //   Think about the value prop besides frame-by-frame viewing. YouTube does that better
-            <Button
-              variant="white"
-              className="flex justify-start px-0 text-gray-500 hover:text-black"
-              key={`${i}-prop`}
+            // #lesson wrapping button around makes it clickable but noop
+            <Link
+              className="flex text-lg justify-start px-0  hover:text-blue-500"
+              key={`${i}-item`}
+              href={`/swing/${item.key}`}
               onClick={() => setOpened?.(false)}
             >
-              <Link href={`/swing/${item.key}`}>Swing #{item.id}</Link>
-            </Button>
+              Swing {item.id}
+            </Link>
           ))}
         </Stack>
         {/* TODO https://vercel.com/guides/how-can-i-use-aws-s3-with-vercel */}

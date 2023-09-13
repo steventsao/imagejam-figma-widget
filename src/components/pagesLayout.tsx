@@ -23,8 +23,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const noop = () => {};
-  console.log(items);
   const [opened, setOpened] = useState(false);
+  console.log(`Rendering ${items.length} items in Navbar`);
+
   return (
     <>
       <AppShell
