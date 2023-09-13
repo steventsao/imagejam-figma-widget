@@ -106,7 +106,7 @@ export default function MyNavbar({
               key={`${i}-prop`}
               onClick={() => setOpened?.(false)}
             >
-              <Link href={`/swing/${item.key}`}>Swing #${item.id}</Link>
+              <Link href={`/swing/${item.key}`}>Swing #{item.id}</Link>
             </Button>
           ))}
         </Stack>
