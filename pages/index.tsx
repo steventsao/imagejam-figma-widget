@@ -1,6 +1,5 @@
-import { GetServerSidePropsContext } from "next";
 import Layout from "@/components/pagesLayout";
-import { Container, Image } from "@mantine/core";
+import { Container, Image, List, Text, Stack } from "@mantine/core";
 import { useState, Suspense } from "react";
 import FramesControls from "@/components/FramesControls";
 import { fetchUploads } from "@/lib/queries";
@@ -55,22 +54,33 @@ export default function Home({ uploads }: ViewerProps) {
   return (
     <Layout items={uploads} onRefresh={refreshData}>
       <Container p="xs">
-        <Image
-          maw={800}
-          mx="auto"
-          radius="md"
-          src={getFrameUrl(frame)}
-          alt={`golf swing ${frame}`}
-        />
-        <Suspense fallback={<div>Loading...</div>}>
-          {/* HARD coding 750 */}
-          <FramesControls
-            frame={frame}
-            setFrame={setFrame}
-            maxFrame={750}
-            share={false}
+        <Stack spacing="sm">
+          <Text fz="lg" fw={500}>
+            Super slo-mo golf swing viewer:
+          </Text>
+          <List>
+            <List.Item>1. Upload a video</List.Item>
+            <List.Item>2. View your swing by the frame</List.Item>
+            <List.Item>3. *WIP* Label and overlay the target frames</List.Item>
+            <List.Item>4. *WIP* Track your swings</List.Item>
+          </List>
+          <Image
+            maw={800}
+            mx="auto"
+            radius="md"
+            src={getFrameUrl(frame)}
+            alt={`golf swing ${frame}`}
           />
-        </Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
+            {/* HARD coding 750 */}
+            <FramesControls
+              frame={frame}
+              setFrame={setFrame}
+              maxFrame={750}
+              share={false}
+            />
+          </Suspense>
+        </Stack>
       </Container>
     </Layout>
   );
