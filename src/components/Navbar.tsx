@@ -100,13 +100,14 @@ export default function MyNavbar({
           {items?.map((item, i) => (
             // TODO query the swingId page and split image automatically
             //   Think about the value prop besides frame-by-frame viewing. YouTube does that better
-            <Link
-              className="text-xl"
-              href={`/swing/${item.key}`}
-              key={`${i}-prop`}
+            <Button
+              variant="white"
+              className="flex justify-start px-0 text-gray-500 hover:text-black"
             >
-              <NavLink label={`Swing #${item.id}`} />
-            </Link>
+              <Link href={`/swing/${item.key}`} key={`${i}-prop`}>
+                Swing #${item.id}
+              </Link>
+            </Button>
           ))}
         </Stack>
         {/* TODO https://vercel.com/guides/how-can-i-use-aws-s3-with-vercel */}
