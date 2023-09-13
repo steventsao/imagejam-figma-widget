@@ -3,28 +3,20 @@ Transform: AWS::Serverless-2016-10-31
 Description: Resize video with ffmpeg
 
 Parameters:
+  # needed to configure the event source
   SourceBucketName:
     Type: String
     Default: "bogeybot-videos"
+    # Needed for process.env
   OutputBucketName:
     Type: String
     Default: "bogeybot"
+    # Just reference
   LayerARN:
     Type: String
     Default: "arn:aws:lambda:us-west-1:771594331351:layer:ffmpeg:1"
-
 Resources:
-  ## S3 buckets
-  SourceBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Ref SourceBucketName
-  OutputBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: !Ref OutputBucketName
-
-  ## Lambda functions
+  # Removed Source and Ouptut buckets as they already exist
   ResizeFunction:
     Type: AWS::Serverless::Function
     Properties:
@@ -45,14 +37,3 @@ Resources:
             BucketName: !Ref SourceBucketName
         - S3WritePolicy:
             BucketName: !Ref OutputBucketName
-      Events:
-        CreatedEvent:
-          Type: S3
-          Properties:
-            Bucket: !Ref SourceBucket
-            Events: s3:ObjectCreated:*
-            Filter:
-              S3Key:
-                Rules:
-                  - Name: suffix
-                    Value: ".mp4"
