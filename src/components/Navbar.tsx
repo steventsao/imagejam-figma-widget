@@ -25,6 +25,7 @@ const getKey = (file: File, uuid: string): string => {
       return uuid;
   }
 };
+// TODO on mobile the navbar should close on click
 export default function MyNavbar({
   items = [],
   onRefresh,
