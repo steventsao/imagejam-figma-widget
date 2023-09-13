@@ -47,7 +47,7 @@ export default function RootLayout({
                   className="text-red-500 underline"
                   href="https://docs.google.com/document/d/1LJvrmXdLpJSufbX-nzulfnKQEHDlqJ8o_E3qnYZ44Bk/edit"
                 >
-                  <Badge color="red">BUGS4DAYZ</Badge>
+                  <Badge color="red">alpha</Badge>
                 </a>
               </Text>
               <MediaQuery largerThan="sm" styles={{ display: "none" }}>
