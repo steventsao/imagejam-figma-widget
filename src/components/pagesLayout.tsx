@@ -1,8 +1,16 @@
 "use client";
-import { AppShell, Header, Text, Badge } from "@mantine/core";
+import {
+  AppShell,
+  Header,
+  Text,
+  Badge,
+  MediaQuery,
+  Burger,
+} from "@mantine/core";
 import Navbar from "@/components/Navbar";
 import { Analytics } from "@vercel/analytics/react";
 import Link from "next/link";
+import { useState } from "react";
 
 // Duplicated from /app/layout.tsx
 export default function RootLayout({
@@ -16,25 +24,41 @@ export default function RootLayout({
 }) {
   const noop = () => {};
   console.log(items);
+  const [opened, setOpened] = useState(false);
   return (
     <>
       <AppShell
-        navbar={<Navbar items={items} onRefresh={onRefresh || noop} />}
+        navbar={
+          <Navbar
+            items={items}
+            onRefresh={onRefresh || noop}
+            setOpened={setOpened}
+            opened={opened}
+          />
+        }
         header={
           <Header height={60} p="md">
-            <Text>
-              <Link href="/" className="no-underline">
-                bogeybot
-              </Link>{" "}
-              <Badge>beta</Badge>
-              <a
-                className="text-red-500 underline"
-                href="https://docs.google.com/document/d/1LJvrmXdLpJSufbX-nzulfnKQEHDlqJ8o_E3qnYZ44Bk/edit"
-              >
-                BUGS 4 DAYZ
-              </a>
-            </Text>
-            {/* Header content */}
+            <div className="justify-between flex">
+              <Text>
+                <Link href="/" className="no-underline">
+                  bogeybot
+                </Link>{" "}
+                <a
+                  className="text-red-500 underline"
+                  href="https://docs.google.com/document/d/1LJvrmXdLpJSufbX-nzulfnKQEHDlqJ8o_E3qnYZ44Bk/edit"
+                >
+                  <Badge color="red">BUGS4DAYZ</Badge>
+                </a>
+              </Text>
+              <MediaQuery largerThan="sm" styles={{ display: "none" }}>
+                <Burger
+                  opened={opened}
+                  onClick={() => setOpened((o) => !o)}
+                  size="sm"
+                  mr="xl"
+                />
+              </MediaQuery>
+            </div>
           </Header>
         }
       >

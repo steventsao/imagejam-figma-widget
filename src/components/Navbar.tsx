@@ -5,12 +5,21 @@ import s3Init from "@/lib/aws";
 import Link from "next/link";
 
 const s3 = s3Init();
-type Props = { items?: any[]; onRefresh: () => void };
+type Props = {
+  items?: any[];
+  onRefresh: () => void;
+  setOpened?: (opened: boolean) => void;
+  opened?: boolean;
+};
 const TARGET_BUCKET = "bogeybot-videos";
 
-export default function MyNavbar({ items = [], onRefresh }: Props) {
+export default function MyNavbar({
+  items = [],
+  onRefresh,
+  opened,
+  setOpened,
+}: Props) {
   const [visible, { open, close }] = useDisclosure(false);
-  const [opened, setOpened] = useState(false);
   //   TODO handle reupload
   const handleUpload = async (e: File) => {
     console.log(e);
@@ -54,12 +63,7 @@ export default function MyNavbar({ items = [], onRefresh }: Props) {
     >
       <Stack
         // h={300}
-        sx={(theme) => ({
-          //   backgroundColor:
-          //     theme.colorScheme === "dark"
-          //       ? theme.colors.dark[8]
-          //       : theme.colors.gray[0],
-        })}
+        sx={(theme) => ({})}
       >
         <FileButton
           accept="video/mp4,video/x-m4v,video/*"
