@@ -141,6 +141,9 @@ export default function Swing({
               maxFrame={frames}
               share={true}
             />
+            <div className="mt-10 flex justify-end text-gray-500 underline">
+              <a href={`${RAW_VIDEOS_BUCKET}/${swingId}`}>Source</a>
+            </div>
           </Card>
         ) : (
           // Render the video link from s3 instead
