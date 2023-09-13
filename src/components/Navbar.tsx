@@ -12,7 +12,18 @@ type Props = {
   opened?: boolean;
 };
 const TARGET_BUCKET = "bogeybot-videos";
-
+const getKey = (file: File, uuid: string): string => {
+  switch (file.type) {
+    case "video/mp4":
+      return `${uuid}.mp4`;
+    case "video/x-m4v":
+      return `${uuid}.m4v`;
+    case "video/mov":
+      return `${uuid}.mov`;
+    default:
+      return uuid;
+  }
+};
 export default function MyNavbar({
   items = [],
   onRefresh,
@@ -28,7 +39,7 @@ export default function MyNavbar({
       const fileBuffer = await e.arrayBuffer();
       const uuid = crypto.randomUUID();
       // TODO this is gonna cause problems with other media types. Be certain to check the type
-      const key = e.type === "video/mp4" ? `${uuid}.mp4` : uuid;
+      const key = getKey(e, uuid);
       const request = s3.putObject({
         Bucket: TARGET_BUCKET,
         Key: key,
