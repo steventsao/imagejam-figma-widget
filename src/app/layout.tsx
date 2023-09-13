@@ -12,10 +12,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   console.log(items);
+  const noop = () => {};
   return (
     <>
       <AppShell
-        navbar={<Navbar items={items} />}
+        navbar={<Navbar items={items} onRefresh={noop} />}
         header={
           <Header height={60} p="md">
             <Text>
