@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 
 // import "@/styles/globals.css";
 
-type ViewerProps = {
+type IndexProps = {
   swing?: {
     id: number;
     createdAt: Date;
@@ -42,7 +42,7 @@ export const getServerSideProps = async () => {
   return { props: { uploads } };
 };
 
-export default function Home({ uploads }: ViewerProps) {
+export default function Index({ uploads }: IndexProps) {
   const [frame, setFrame] = useState(1);
 
   console.log({ uploads });
