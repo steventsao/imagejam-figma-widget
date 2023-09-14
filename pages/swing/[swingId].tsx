@@ -2,7 +2,8 @@ import { GetServerSidePropsContext } from "next";
 import { fetchUploads } from "@/lib/queries";
 import FramesControls from "@/components/FramesControls";
 import Layout from "@/components/pagesLayout";
-import { Container, Image, Card, Text, AspectRatio } from "@mantine/core";
+import { Image, Card, Text, AspectRatio } from "@mantine/core";
+import Link from "next/link";
 import { useState, useEffect } from "react";
 import { sql } from "@vercel/postgres";
 import { useRouter } from "next/router";
@@ -91,7 +92,7 @@ export default function Swing({
             enableBookmark={true}
           />
           <div className="mt-10 flex justify-end text-gray-500 underline">
-            <a href={`${RAW_VIDEOS_BUCKET}/${swingId}`}>Source</a>
+            <a href={`${RAW_VIDEOS_BUCKET}/${swingId}`}>source video</a>
           </div>
         </>
       ) : (

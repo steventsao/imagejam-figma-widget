@@ -50,6 +50,9 @@ export default function RootLayout({
                 >
                   <Badge color="red">alpha</Badge>
                 </a>
+                <Link href="https://twitter.com/_steventsao>">
+                  @_steventsao
+                </Link>
               </Text>
               <MediaQuery largerThan="sm" styles={{ display: "none" }}>
                 <Burger

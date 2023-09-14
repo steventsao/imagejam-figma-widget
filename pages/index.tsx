@@ -44,8 +44,7 @@ export default function Index({ uploads }: IndexProps) {
           </Text>
           <List>
             <List.Item>
-              1. Upload a video of your swing. *All videos will be public for
-              now*
+              1. Upload a video of your swing. All uploads are public for now.
             </List.Item>
             <List.Item>2. View your swing by the frame</List.Item>
             <List.Item>
