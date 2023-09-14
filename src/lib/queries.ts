@@ -14,3 +14,9 @@ export const fetchUploads = async (): Promise<Upload[]> => {
     return { key: u.key, id: u.id, status: u.status, url: u.url };
   });
 };
+
+export const fetchBookmarks = async (swingId: string) => {
+  const { rows: bookmarks } =
+    await sql`select "Bookmark".label as label, "Bookmark".frame as value from "Bookmark" inner join s3 on "Bookmark"."s3Id" = s3.id where s3.key = ${swingId} limit 1`;
+  return bookmarks;
+};

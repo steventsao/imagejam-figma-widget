@@ -6,7 +6,9 @@ import { Container, Image, Card, Text, AspectRatio } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { sql } from "@vercel/postgres";
 import { useRouter } from "next/router";
-import { Bookmark } from "@/lib/types";
+import { SwingProps } from "@/lib/types";
+import { imagekit_base } from "@/lib/constants";
+import { fetchBookmarks } from "@/lib/queries";
 
 const RAW_VIDEOS_BUCKET = "https://bogeybot-videos.s3.us-west-1.amazonaws.com";
 
@@ -27,27 +29,6 @@ const getMimeType = (key: string): string => {
   }
 };
 
-type SwingProps = {
-  isReady: boolean;
-  swing?: {
-    id: number;
-    createdAt: Date;
-    image_url?: string;
-    blobId?: string;
-    userId?: number;
-    // The types for `user`, `s3`, and `predictions` would depend on their respective structures.
-    // Replace `any` with the appropriate types.
-    user?: any;
-    s3?: any;
-    predictions?: any[];
-  };
-  swingFrames: string[];
-  swingId: string;
-  frames: number;
-  uploads: Upload[];
-  bookmarks: Bookmark[];
-};
-const imagekit_base = "https://ik.imagekit.io/cirnjtkq1/tr:q-25";
 // https://ik.imagekit.io/cirnjtkq1/steven-test-swing/frame_0700.png
 const getFrameUrl = (
   frame: number,
@@ -71,12 +52,6 @@ const getFrameUrls = (maxFrame: number, key: string): string[] => {
     currentFrame++;
   }
   return urls;
-};
-
-const fetchBookmarks = async (swingId: string) => {
-  const { rows: bookmarks } =
-    await sql`select "Bookmark".label as label, "Bookmark".frame as value from "Bookmark" inner join s3 on "Bookmark"."s3Id" = s3.id where s3.key = ${swingId} limit 1`;
-  return bookmarks;
 };
 
 export const getServerSideProps = async (
