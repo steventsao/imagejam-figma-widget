@@ -2,6 +2,10 @@
 
 database for your golf swings
 
+# Challenges
+
+As of 9/14, I find myself digging into researches on image labeling the past night, which would take me at least years to get proficient.
+
 # Migrate DB
 
 - `npx prisma migrate dev`
@@ -41,3 +45,17 @@ database for your golf swings
 - https://imagekit.io/dashboard
 - https://vercel.com/steventsao-pro/bogeybot/deployments
 - https://app.ahrefs.com/dashboard
+
+# ML
+
+- https://www.kaggle.com/code/marcmarais/golfer-detector-cropping
+- https://arxiv.org/abs/1903.06528
+
+- finetune blip
+
+https://github.com/salesforce/BLIP/issues/37#issuecomment-1075764704
+https://huggingface.co/ybelkada/blip-image-captioning-base-football-finetuned
+
+- finetune openpose
+  https://github.com/open-mmlab/mmpose
+  https://cmu-perceptual-computing-lab.github.io/openpose/web/html/doc/index.html
