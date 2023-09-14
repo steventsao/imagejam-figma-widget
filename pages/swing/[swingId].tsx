@@ -72,47 +72,40 @@ export default function Swing({
 
   return (
     <Layout items={uploads} onRefresh={refreshData}>
-      <Container p="xs">
-        {isReady ? (
-          <Card shadow="sm" padding="lg" radius="md">
-            <Card.Section>
-              {/* <Title>Hi</Title> */}
-              {/* #lesson important to keep fit scale-down when my goal is to keep everything in one screen */}
-              {/* TODO use media query so it's height 400 on the phone? */}
-              <Image
-                fit="scale-down"
-                mih={400}
-                height={500}
-                radius="md"
-                src={swingFrames[frame]}
-                alt={`golf swing ${frame}`}
-              />
-            </Card.Section>
-            <FramesControls
-              frame={frame}
-              setFrame={setFrame}
-              maxFrame={frames}
-              share={true}
-              bookmarks={bookmarks}
-              enableBookmark={true}
+      {isReady ? (
+        <>
+          <Image
+            fit="scale-down"
+            mih={400}
+            height={500}
+            radius="md"
+            src={swingFrames[frame]}
+            alt={`golf swing ${frame}`}
+          />
+          <FramesControls
+            frame={frame}
+            setFrame={setFrame}
+            maxFrame={frames}
+            share={true}
+            bookmarks={bookmarks}
+            enableBookmark={true}
+          />
+          <div className="mt-10 flex justify-end text-gray-500 underline">
+            <a href={`${RAW_VIDEOS_BUCKET}/${swingId}`}>Source</a>
+          </div>
+        </>
+      ) : (
+        // Render the video link from s3 instead
+        <>
+          <Text>Creating frames from video...</Text>
+          <video controls width="70%">
+            <source
+              src={`${RAW_VIDEOS_BUCKET}/${swingId}`}
+              type={getMimeType(swingId)}
             />
-            <div className="mt-10 flex justify-end text-gray-500 underline">
-              <a href={`${RAW_VIDEOS_BUCKET}/${swingId}`}>Source</a>
-            </div>
-          </Card>
-        ) : (
-          // Render the video link from s3 instead
-          <>
-            <Text>Creating frames from video...</Text>
-            <video controls width="70%">
-              <source
-                src={`${RAW_VIDEOS_BUCKET}/${swingId}`}
-                type={getMimeType(swingId)}
-              />
-            </video>
-          </>
-        )}
-      </Container>
+          </video>
+        </>
+      )}
     </Layout>
   );
 }
