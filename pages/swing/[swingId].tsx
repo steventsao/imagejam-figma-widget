@@ -94,6 +94,7 @@ export default function Swing({
               maxFrame={frames}
               share={true}
               bookmarks={bookmarks}
+              enableBookmark={true}
             />
             <div className="mt-10 flex justify-end text-gray-500 underline">
               <a href={`${RAW_VIDEOS_BUCKET}/${swingId}`}>Source</a>

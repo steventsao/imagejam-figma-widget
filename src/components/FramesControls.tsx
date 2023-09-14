@@ -19,6 +19,7 @@ type FramesControlsProps = {
   maxFrame: number;
   share: boolean;
   bookmarks?: Bookmark[];
+  enableBookmark?: boolean;
 };
 
 export default function FramesControls({
@@ -27,6 +28,7 @@ export default function FramesControls({
   maxFrame,
   share = false,
   bookmarks = [],
+  enableBookmark = false,
 }: FramesControlsProps) {
   const router = useRouter();
   const shareUrl = `https://bogeybot.io/${router.asPath}`;
@@ -97,52 +99,57 @@ export default function FramesControls({
           1 frame {">"}
         </Button>
       </Group>
-      {bookmarks.length ? (
-        <CopyButton value={shareUrl} timeout={2000}>
-          {({ copied, copy }) => (
-            <Group className="hover:cursor-pointer" onClick={copy}>
-              <ActionIcon
-                className="hover:cursor-pointer"
-                onClick={copy}
-                color={copied ? "teal" : "gray"}
-              >
-                {copied ? <IconCheck size="1rem" /> : <IconCopy size="1rem" />}
-              </ActionIcon>
-              <Text className="ml">
-                Share frame {frame} of {maxFrame}
-              </Text>
-            </Group>
-          )}
-        </CopyButton>
-      ) : (
-        <Button
-          variant="outline"
-          onClick={async () => {
-            // Optimistic update alongside hard refresh? https://www.joshwcomeau.com/nextjs/refreshing-server-side-props/
-            setOptimisticBookmarks((b) => [
-              ...b,
-              { value: frame, label: "impact" },
-            ]);
+      {enableBookmark &&
+        (bookmarks.length ? (
+          <CopyButton value={shareUrl} timeout={2000}>
+            {({ copied, copy }) => (
+              <Group className="hover:cursor-pointer" onClick={copy}>
+                <ActionIcon
+                  className="hover:cursor-pointer"
+                  onClick={copy}
+                  color={copied ? "teal" : "gray"}
+                >
+                  {copied ? (
+                    <IconCheck size="1rem" />
+                  ) : (
+                    <IconCopy size="1rem" />
+                  )}
+                </ActionIcon>
+                <Text className="ml">
+                  Share frame {frame} of {maxFrame}
+                </Text>
+              </Group>
+            )}
+          </CopyButton>
+        ) : (
+          <Button
+            variant="outline"
+            onClick={async () => {
+              // Optimistic update alongside hard refresh? https://www.joshwcomeau.com/nextjs/refreshing-server-side-props/
+              setOptimisticBookmarks((b) => [
+                ...b,
+                { value: frame, label: "impact" },
+              ]);
 
-            const result = await fetch("/api/bookmarks", {
-              method: "POST",
-              body: JSON.stringify({
-                // Destructure to avoid sending the same thing back
-                bookmarks: [{ value: frame, label: "impact" }],
-                swingId: router.query.swingId,
-              }),
-            }).then((success) => {
-              // REFRESH?
-              // I want to localize the changes instead of the whole page
-              // https://www.joshwcomeau.com/nextjs/refreshing-server-side-props/
-              router.replace(router.asPath);
-            });
-            console.log("POSTED bookmarks:", result);
-          }}
-        >
-          Bookmark frame
-        </Button>
-      )}
+              const result = await fetch("/api/bookmarks", {
+                method: "POST",
+                body: JSON.stringify({
+                  // Destructure to avoid sending the same thing back
+                  bookmarks: [{ value: frame, label: "impact" }],
+                  swingId: router.query.swingId,
+                }),
+              }).then((success) => {
+                // REFRESH?
+                // I want to localize the changes instead of the whole page
+                // https://www.joshwcomeau.com/nextjs/refreshing-server-side-props/
+                router.replace(router.asPath);
+              });
+              console.log("POSTED bookmarks:", result);
+            }}
+          >
+            Bookmark frame
+          </Button>
+        ))}
     </Stack>
   );
 }
