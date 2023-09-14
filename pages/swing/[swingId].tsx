@@ -1,5 +1,5 @@
 import { GetServerSidePropsContext } from "next";
-import { Upload, fetchUploads } from "@/lib/queries";
+import { fetchUploads } from "@/lib/queries";
 import FramesControls from "@/components/FramesControls";
 import Layout from "@/components/pagesLayout";
 import { Container, Image, Card, Text, AspectRatio } from "@mantine/core";
@@ -7,52 +7,10 @@ import { useState, useEffect } from "react";
 import { sql } from "@vercel/postgres";
 import { useRouter } from "next/router";
 import { SwingProps } from "@/lib/types";
-import { imagekit_base } from "@/lib/constants";
-import { fetchBookmarks } from "@/lib/queries";
+import { fetchBookmarks, getMimeType } from "@/lib/queries";
+import { getFrameUrls } from "@/lib/frame";
 
 const RAW_VIDEOS_BUCKET = "https://bogeybot-videos.s3.us-west-1.amazonaws.com";
-
-// key can be uuid + extension
-// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
-const getMimeType = (key: string): string => {
-  const extension = key.split(".")[1];
-
-  switch (extension) {
-    case "mp4":
-      return "video/mp4";
-    case "mov":
-      return "video/quicktime";
-    case "m4v":
-      return "video/x-m4v";
-    default:
-      return "video/mp4";
-  }
-};
-
-// https://ik.imagekit.io/cirnjtkq1/steven-test-swing/frame_0700.png
-const getFrameUrl = (
-  frame: number,
-  key: string,
-  urlBase = imagekit_base
-): string => {
-  // for frame 1, return frame_0001.png, for frame 750, return frame_0750.png
-  let frameString = frame.toString();
-  let frameLength = frameString.length;
-  while (frameLength < 4) {
-    frameString = "0" + frameString;
-    frameLength++;
-  }
-  return `${urlBase}/${key}/frame_${frameString}.png`;
-};
-const getFrameUrls = (maxFrame: number, key: string): string[] => {
-  let currentFrame = 1;
-  const urls: string[] = [];
-  while (currentFrame <= maxFrame) {
-    urls.push(getFrameUrl(currentFrame, key));
-    currentFrame++;
-  }
-  return urls;
-};
 
 export const getServerSideProps = async (
   context: GetServerSidePropsContext
@@ -68,20 +26,13 @@ export const getServerSideProps = async (
   const isReady = !!frames.rows[0];
   const maxFrames = frames.rows[0]?.total || 0;
   const uploads = await fetchUploads();
-  // console.log(maxFrames, "maxFrames");
-
-  // TODO needs to be predictionId instead of `swingId` so it cannot be enumerated
-  // const result =
-  //   await sql`select "PredictionImage".url as image_url from "PredictionImage" INNER JOIN "Prediction" on "Prediction".id = "PredictionImage"."predictionId" where "PredictionImage"."predictionId" = ${swingId}`;
-
-  // console.log(result.rows[0], "swing");
   const urls = getFrameUrls(maxFrames, swingId);
-  console.log("FETCHED BOOKMARKS:", bookmarks);
+
   return {
     props: {
       swingFrames: urls,
-      swingId,
       frames: maxFrames,
+      swingId,
       isReady,
       uploads,
       bookmarks,

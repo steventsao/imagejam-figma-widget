@@ -20,3 +20,20 @@ export const fetchBookmarks = async (swingId: string) => {
     await sql`select "Bookmark".label as label, "Bookmark".frame as value from "Bookmark" inner join s3 on "Bookmark"."s3Id" = s3.id where s3.key = ${swingId} limit 1`;
   return bookmarks;
 };
+
+// key can be uuid + extension
+// https://developer.mozilla.org/en-US/docs/Web/HTML/Element/video
+export const getMimeType = (key: string): string => {
+  const extension = key.split(".")[1];
+
+  switch (extension) {
+    case "mp4":
+      return "video/mp4";
+    case "mov":
+      return "video/quicktime";
+    case "m4v":
+      return "video/x-m4v";
+    default:
+      return "video/mp4";
+  }
+};
