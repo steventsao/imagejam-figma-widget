@@ -43,7 +43,10 @@ export default function Index({ uploads }: IndexProps) {
             Super slo-mo golf swing viewer:
           </Text>
           <List>
-            <List.Item>1. Upload a video</List.Item>
+            <List.Item>
+              1. Upload a video of your swing. *All videos will be public for
+              now*
+            </List.Item>
             <List.Item>2. View your swing by the frame</List.Item>
             <List.Item>
               3.
