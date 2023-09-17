@@ -25,17 +25,8 @@ export default async function (
 ) {
   // image/octet-stream
   const requestType = request.headers["content-type"];
-  console.log(requestType);
-
-  //   const data = JSON.parse(request.body);
-  //   Unit8Array buffer to a URI
-  //   Assuming request.body is octet-stream
-  const buffer = request.body as Buffer;
-  const base64 = btoa(
-    new Uint8Array(buffer).reduce((data, byte) => {
-      return data + String.fromCharCode(byte);
-    }, "")
-  );
+  const base64 = request.body;
+  console.log(base64);
   //   Doesn't make sense it's base64
   //   GPT says raw binary can be directly piped to s3
   const action = s3.putObject({
