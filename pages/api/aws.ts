@@ -32,6 +32,8 @@ export default async function (
 
       // Set text/html so browser renders instead of download
       response.setHeader("Content-Type", "text/html");
+      response.setHeader("Access-Control-Allow-Origin", "*");
+
       response.send(url);
     });
   } catch (err) {
