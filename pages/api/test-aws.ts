@@ -20,11 +20,12 @@ export default async function (
   response: VercelResponse
 ) {
   const data = request.body;
+  const image = Buffer.from(data).toString("base64");
   //   https://replicate.com/philz1337/controlnet-deliberate/api
   const prediction = await replicate.predictions.create({
     version: "57d86bd78018d138449fda45bfcafb8b10888379a600034cc2c7186faab98c66",
     input: {
-      image: data.toString("base64"),
+      image,
       // TODO remove this model so it's only pose later
       prompt: "just pose detection",
     },
