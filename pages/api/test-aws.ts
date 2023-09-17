@@ -20,11 +20,17 @@ export default async function (
   response: VercelResponse
 ) {
   const data = request.body;
-  console.log(request.headers);
-  console.log(typeof request.body);
+  const buffer = Buffer.from(request.body, "base64");
+  const uint8array = new Uint8Array(buffer);
+  const blob = new Blob([uint8array], { type: "image/png" });
+  const action = s3.putObject({
+    Bucket: "bogeybot",
+    Key: "test" + crypto.randomUUID(),
+    Body: blob,
+  });
+
   //   console.log(data)
 
-  const image = Buffer.from(data).toString("base64");
   //   console.log(image);
   //   https://replicate.com/philz1337/controlnet-deliberate/api
   //   const prediction = await replicate.predictions.create({
@@ -40,6 +46,7 @@ export default async function (
   //   });
 
   response.setHeader("Access-Control-Allow-Origin", "*");
+  const saved = await action.promise();
   response.send({ message: "ok" });
 }
 
