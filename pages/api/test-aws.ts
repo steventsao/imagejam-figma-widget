@@ -20,14 +20,19 @@ export default async function (
   response: VercelResponse
 ) {
   //   const data = JSON.parse(request.body);
+  //   Unit8Array buffer to a URI
   const data = await request.body;
+  const arr = Object.values(data) as number[];
+  const unit8 = new Uint8Array(arr);
+  const base64 = Buffer.from(unit8).toString("base64");
+  const dataURI = "data:image/png;base64," + base64;
 
   console.log(data);
   //   Doesn't make sense it's base64
   const action = s3.putObject({
     Bucket: "bogeybot",
     Key: "test" + crypto.randomUUID(),
-    Body: JSON.stringify(data),
+    Body: dataURI,
   });
 
   //   console.log(data)
