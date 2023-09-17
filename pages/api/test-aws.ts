@@ -31,13 +31,13 @@ export default async function (
   //   Unit8Array buffer to a URI
   //   Assuming request.body is octet-stream
   const buffer = request.body as Buffer;
-  const dataURI =
-    "data:image/png;base64," + Buffer.from(buffer).toString("base64");
+  const base64 = Buffer.from(buffer).toString("base64");
+  const dataURI = "data:image/png;base64," + base64;
   //   Doesn't make sense it's base64
   const action = s3.putObject({
     Bucket: "bogeybot",
     Key: "test-" + crypto.randomUUID(),
-    Body: dataURI,
+    Body: buffer,
     ContentType: "image/png",
   });
 
