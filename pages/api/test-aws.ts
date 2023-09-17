@@ -31,13 +31,17 @@ export default async function (
   //   Unit8Array buffer to a URI
   //   Assuming request.body is octet-stream
   const buffer = request.body as Buffer;
-  const base64 = Buffer.from(buffer).toString("base64");
-  const dataURI = "data:image/png;base64," + base64;
+  const base64 = btoa(
+    new Uint8Array(buffer).reduce((data, byte) => {
+      return data + String.fromCharCode(byte);
+    }, "")
+  );
   //   Doesn't make sense it's base64
+  //   GPT says raw binary can be directly piped to s3
   const action = s3.putObject({
     Bucket: "bogeybot",
     Key: "test-" + crypto.randomUUID(),
-    Body: buffer,
+    Body: base64,
     ContentType: "image/png",
   });
 
@@ -48,7 +52,7 @@ export default async function (
   const prediction = await replicate.predictions.create({
     version: "57d86bd78018d138449fda45bfcafb8b10888379a600034cc2c7186faab98c66",
     input: {
-      image: dataURI,
+      image: base64,
       // TODO remove this model so it's only pose later
       prompt: "just pose detection",
     },
