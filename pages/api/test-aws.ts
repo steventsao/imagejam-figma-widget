@@ -49,21 +49,27 @@ export default async function (
 
   //   console.log(image);
   //   https://replicate.com/philz1337/controlnet-deliberate/api
-  const prediction = await replicate.predictions.create({
-    version: "57d86bd78018d138449fda45bfcafb8b10888379a600034cc2c7186faab98c66",
-    input: {
-      image: base64,
-      // TODO remove this model so it's only pose later
-      prompt: "just pose detection",
-    },
-    // TODO fix later
-    webhook: "https://bogeybot.com/api/pose-webhook",
-    webhook_events_filter: ["completed"],
-  });
+  try {
+    const prediction = await replicate.predictions.create({
+      version:
+        "57d86bd78018d138449fda45bfcafb8b10888379a600034cc2c7186faab98c66",
+      input: {
+        image: base64,
+        // TODO remove this model so it's only pose later
+        prompt: "just pose detection",
+      },
+      // TODO fix later
+      webhook: "https://bogeybot.com/api/pose-webhook",
+      webhook_events_filter: ["completed"],
+    });
 
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  const saved = await action.promise();
-  response.send({ message: "ok" });
+    response.setHeader("Access-Control-Allow-Origin", "*");
+    const saved = await action.promise();
+    response.send({ message: "ok" });
+  } catch (e) {
+    console.error(e);
+    response.status(500).send({ message: base64 });
+  }
 }
 
 // {
