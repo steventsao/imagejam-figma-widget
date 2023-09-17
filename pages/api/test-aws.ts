@@ -19,20 +19,22 @@ export default async function (
   request: VercelRequest,
   response: VercelResponse
 ) {
+  // image/octet-stream
+  const requestType = request.headers["content-type"];
+  console.log(requestType);
+
   //   const data = JSON.parse(request.body);
   //   Unit8Array buffer to a URI
-  const data = await request.body;
-  const arr = Object.values(data) as number[];
-  const unit8 = new Uint8Array(arr);
-  const base64 = Buffer.from(unit8).toString("base64");
-  const dataURI = "data:image/png;base64," + base64;
-
-  console.log(data);
+  //   Assuming request.body is octet-stream
+  const buffer = request.body as Buffer;
+  const dataURI = "data:image/png;base64," + buffer.toString("base64");
+  console.log(dataURI);
   //   Doesn't make sense it's base64
   const action = s3.putObject({
     Bucket: "bogeybot",
     Key: "test" + crypto.randomUUID(),
-    Body: dataURI,
+    Body: buffer,
+    ContentType: "image/png",
   });
 
   //   console.log(data)
@@ -53,7 +55,7 @@ export default async function (
 
   response.setHeader("Access-Control-Allow-Origin", "*");
   const saved = await action.promise();
-  response.send({ message: "ok" });
+  response.send({ message: "ok", location: saved.Location });
 }
 
 // {
