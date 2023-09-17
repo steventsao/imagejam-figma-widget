@@ -2,6 +2,7 @@ import type { VercelRequest, VercelResponse } from "@vercel/node";
 import Replicate from "replicate";
 import aws from "aws-sdk";
 import crypto from "crypto";
+import { Buffer } from "buffer";
 
 aws.config.update({
   accessKeyId: process.env.NEXT_PUBLIC_AWS_S3_ACCESS_ID,
@@ -30,12 +31,13 @@ export default async function (
   //   Unit8Array buffer to a URI
   //   Assuming request.body is octet-stream
   const buffer = request.body as Buffer;
-  const dataURI = "data:image/png;base64," + buffer.toString("base64");
+  const dataURI =
+    "data:image/png;base64," + Buffer.from(buffer).toString("base64");
   //   Doesn't make sense it's base64
   const action = s3.putObject({
     Bucket: "bogeybot",
     Key: "test-" + crypto.randomUUID(),
-    Body: buffer,
+    Body: dataURI,
     ContentType: "image/png",
   });
 
