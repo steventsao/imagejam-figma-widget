@@ -31,7 +31,6 @@ export default async function (
   //   Assuming request.body is octet-stream
   const buffer = request.body as Buffer;
   const dataURI = "data:image/png;base64," + buffer.toString("base64");
-  console.log(dataURI);
   //   Doesn't make sense it's base64
   const action = s3.putObject({
     Bucket: "bogeybot",
