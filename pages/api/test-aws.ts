@@ -20,8 +20,9 @@ export default async function (
   response: VercelResponse
 ) {
   const data = request.body;
+  //   https://replicate.com/philz1337/controlnet-deliberate/api
   const prediction = await replicate.predictions.create({
-    version: "0304f7f774ba7341ef754231f794b1ba3d129e3c46af3022241325ae0c50fb99",
+    version: "57d86bd78018d138449fda45bfcafb8b10888379a600034cc2c7186faab98c66",
     input: {
       image: data.toString("base64"),
       // TODO remove this model so it's only pose later
