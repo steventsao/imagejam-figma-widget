@@ -19,14 +19,13 @@ export default async function (
   request: VercelRequest,
   response: VercelResponse
 ) {
-  const data = request.body;
-  const buffer = Buffer.from(request.body, "base64");
-  const uint8array = new Uint8Array(buffer);
-  const blob = new Blob([uint8array], { type: "image/png" });
+  const data = JSON.parse(request.body);
+  console.log(data);
+  //   Doesn't make sense it's base64
   const action = s3.putObject({
     Bucket: "bogeybot",
     Key: "test" + crypto.randomUUID(),
-    Body: blob,
+    Body: data,
   });
 
   //   console.log(data)
