@@ -15,6 +15,8 @@ const replicate = new Replicate({
 
 const s3 = new aws.S3();
 
+// Dealing with octet-stream is something new for me
+// Usually I would parse or await the body
 export default async function (
   request: VercelRequest,
   response: VercelResponse
@@ -55,7 +57,7 @@ export default async function (
 
   response.setHeader("Access-Control-Allow-Origin", "*");
   const saved = await action.promise();
-  response.send({ message: "ok", location: saved.Location });
+  response.send({ message: "ok" });
 }
 
 // {
