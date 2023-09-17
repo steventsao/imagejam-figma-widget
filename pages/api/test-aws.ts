@@ -34,7 +34,7 @@ export default async function (
   //   Doesn't make sense it's base64
   const action = s3.putObject({
     Bucket: "bogeybot",
-    Key: "test" + crypto.randomUUID(),
+    Key: "test-" + crypto.randomUUID(),
     Body: buffer,
     ContentType: "image/png",
   });
