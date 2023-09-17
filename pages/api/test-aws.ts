@@ -21,6 +21,7 @@ export default async function (
 ) {
   const data = request.body;
   const image = Buffer.from(data).toString("base64");
+  console.log(image);
   //   https://replicate.com/philz1337/controlnet-deliberate/api
   const prediction = await replicate.predictions.create({
     version: "57d86bd78018d138449fda45bfcafb8b10888379a600034cc2c7186faab98c66",
