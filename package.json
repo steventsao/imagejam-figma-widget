@@ -32,6 +32,7 @@
     "aws-sdk": "^2.1447.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "cors": "^2.8.5",
     "eslint": "8.47.0",
     "eslint-config-next": "13.4.19",
     "next": "13.4.19",
@@ -46,6 +47,7 @@
     "typescript": "5.1.6"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.14",
     "prisma": "^5.2.0"
   }
 }

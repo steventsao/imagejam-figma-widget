@@ -3,6 +3,28 @@ import Replicate from "replicate";
 import aws from "aws-sdk";
 import crypto from "crypto";
 import { Buffer } from "buffer";
+import Cors from "cors";
+import { NextApiRequest, NextApiResponse } from "next";
+
+const cors = Cors({
+  methods: ["POST", "GET", "HEAD"],
+});
+
+function runMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: Function
+) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+}
 
 aws.config.update({
   accessKeyId: process.env.NEXT_PUBLIC_AWS_S3_ACCESS_ID,
@@ -20,9 +42,11 @@ const s3 = new aws.S3();
 // Dealing with octet-stream is something new for me
 // Usually I would parse or `await` the `body`
 export default async function (
-  request: VercelRequest,
-  response: VercelResponse
+  request: NextApiRequest,
+  response: NextApiResponse
 ) {
+  await runMiddleware(request, response, cors);
+
   // image/octet-stream
   const requestType = request.headers["content-type"];
   const base64 = request.body;
