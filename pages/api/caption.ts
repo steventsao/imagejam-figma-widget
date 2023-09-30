@@ -41,29 +41,29 @@ export default async function (
   await runMiddleware(request, response, cors);
   // image/octet-stream
   const requestType = request.headers["content-type"];
-  const base64 = request.body;
-  console.log(base64);
+  const url = request.body;
+  console.log(url);
   //   Doesn't make sense it's base64
   //   GPT says raw binary can be directly piped to s3
-  const action = s3.putObject({
-    Bucket: "bogeybot",
-    Key: "test-" + crypto.randomUUID(),
-    Body: base64,
-    ContentType: "image/png",
-  });
+  //   const action = s3.putObject({
+  //     Bucket: "bogeybot",
+  //     Key: "test-" + crypto.randomUUID(),
+  //     Body: base64,
+  //     ContentType: "image/png",
+  //   });
 
   try {
     const output = await replicate.run(
       "rmokady/clip_prefix_caption:9a34a6339872a03f45236f114321fb51fc7aa8269d38ae0ce5334969981e4cd8",
       {
         input: {
-          image: base64,
+          image: url,
           // TODO remove this model so it's only pose later
         },
       }
     );
     response.setHeader("Access-Control-Allow-Origin", "*");
-    const saved = await action.promise();
+    // const saved = await action.promise();
     console.log(output);
     response.send({ message: "ok", output });
   } catch (e) {
