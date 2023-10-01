@@ -17,7 +17,7 @@ export default async function (
 ) {
   // image/octet-stream
   const requestType = request.headers["content-type"];
-  const { url, text } = await request.body;
+  const { url, text } = JSON.parse(request.body);
   console.log(url);
 
   try {
