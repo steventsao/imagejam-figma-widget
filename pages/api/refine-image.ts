@@ -11,23 +11,22 @@ const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN as string,
 });
 
-
 export default async function (
   request: NextApiRequest,
   response: NextApiResponse
 ) {
   // image/octet-stream
   const requestType = request.headers["content-type"];
-  const { url, text}  = request.body;
+  const { url, text } = request.body;
   console.log(url);
 
   try {
     const output = await replicate.run(
-        "stability-ai/sdxl:af1a68a271597604546c09c64aabcd7782c114a63539a4a8d14d1eeda5630c33",,
+      "stability-ai/sdxl:af1a68a271597604546c09c64aabcd7782c114a63539a4a8d14d1eeda5630c33",
       {
         input: {
           image: url,
-          prompt:text
+          prompt: text,
           // TODO remove this model so it's only pose later
         },
       }
