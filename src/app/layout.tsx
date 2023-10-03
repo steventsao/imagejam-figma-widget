@@ -1,8 +1,3 @@
-"use client";
-import { AppShell, Header, Text, Badge } from "@mantine/core";
-import Navbar from "@/components/Navbar";
-import { Analytics } from "@vercel/analytics/react";
-
 // Duplicated from /app/layout.tsx
 export default function RootLayout({
   items = [],
@@ -14,21 +9,11 @@ export default function RootLayout({
   console.log(items);
   const noop = () => {};
   return (
-    <>
-      <AppShell
-        navbar={<Navbar items={items} onRefresh={noop} />}
-        header={
-          <Header height={60} p="md">
-            <Text>
-              bogeybot <Badge>beta</Badge>
-            </Text>
-            {/* Header content */}
-          </Header>
-        }
-      >
-        {children}
-      </AppShell>
-      <Analytics />
-    </>
+    <html>
+      <head>
+        <meta http-equiv="refresh" content="0; URL=https://steventsao.com" />
+      </head>
+      {children}
+    </html>
   );
 }
