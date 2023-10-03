@@ -1,44 +1,13 @@
 import Replicate from "replicate";
-import aws from "aws-sdk";
-import crypto from "crypto";
 import { NextApiRequest, NextApiResponse } from "next";
-import Cors from "cors";
-const cors = Cors({
-  methods: ["POST", "GET", "HEAD"],
-});
-function runMiddleware(
-  req: NextApiRequest,
-  res: NextApiResponse,
-  fn: Function
-) {
-  return new Promise((resolve, reject) => {
-    fn(req, res, (result: any) => {
-      if (result instanceof Error) {
-        return reject(result);
-      }
-
-      return resolve(result);
-    });
-  });
-}
-
-aws.config.update({
-  accessKeyId: process.env.NEXT_PUBLIC_AWS_S3_ACCESS_ID,
-  secretAccessKey: process.env.NEXT_PUBLIC_AWS_S3_SECRET_ACCESS_KEY,
-  region: "us-west-1", // e.g., 'us-west-1'
-});
-
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN as string,
 });
-
-const s3 = new aws.S3();
 
 export default async function (
   request: NextApiRequest,
   response: NextApiResponse
 ) {
-  await runMiddleware(request, response, cors);
   // image/octet-stream
   const requestType = request.headers["content-type"];
   const url = request.body;
