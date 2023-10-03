@@ -2,11 +2,7 @@
   {
     "AllowedHeaders": ["*"],
     "AllowedMethods": ["POST", "PUT", "GET"],
-    "AllowedOrigins": [
-      "https://www.bogeybot.io",
-      "https://www.bogeybot.com",
-      "http://localhost:3000"
-    ],
+    "AllowedOrigins": ["https://www.imagejam.app", "http://localhost:3000"],
     "ExposeHeaders": ["ETag"],
     "MaxAgeSeconds": 3000
   }

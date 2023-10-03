@@ -6,15 +6,15 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "bogeybot.s3.us-west-1.amazonaws.com",
+        hostname: "imagejamapp.s3.us-west-1.amazonaws.com",
         port: "",
         pathname: "/**",
       },
       {
         protocol: "https",
-        hostname: "bogeybot.s3.us-west-1.amazonaws.com",
+        hostname: "imagejamapp.s3.us-west-1.amazonaws.com",
         port: "",
-        pathname: "/bogeybot/**",
+        pathname: "/imagejamapp/**",
       },
     ],
   },
