@@ -14,7 +14,6 @@ export default async function Caption(
   }
   // image/octet-stream
   const url = request.body;
-  console.log(url);
 
   try {
     const output = await replicate.run(
@@ -22,7 +21,6 @@ export default async function Caption(
       {
         input: {
           image: url,
-          // TODO remove this model so it's only pose later
         },
       }
     );

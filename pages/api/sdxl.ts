@@ -17,11 +17,9 @@ export default async function (
       {
         input: {
           prompt: text,
-          // TODO remove this model so it's only pose later
         },
       }
     );
-    response.setHeader("Access-Control-Allow-Origin", "*");
     console.log(output);
     response.send({ message: "ok", output });
   } catch (e) {

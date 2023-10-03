@@ -10,7 +10,7 @@ export default async function (
   response: NextApiResponse
 ) {
   const { url, text } = JSON.parse(request.body);
-  console.log(url);
+  response.setHeader("Access-Control-Allow-Origin", "*");
 
   try {
     const output = await replicate.run(
@@ -22,7 +22,6 @@ export default async function (
         },
       }
     );
-    response.setHeader("Access-Control-Allow-Origin", "*");
     response.send({ message: "ok", output });
   } catch (e) {
     console.error(e);
