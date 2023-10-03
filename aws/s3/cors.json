@@ -1,9 +1,0 @@
-[
-  {
-    "AllowedHeaders": ["*"],
-    "AllowedMethods": ["POST", "PUT", "GET"],
-    "AllowedOrigins": ["https://www.imagejam.app", "http://localhost:3000"],
-    "ExposeHeaders": ["ETag"],
-    "MaxAgeSeconds": 3000
-  }
-]

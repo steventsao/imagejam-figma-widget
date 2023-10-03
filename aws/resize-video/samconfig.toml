@@ -1,9 +1,0 @@
-version = 0.1
-[default.deploy.parameters]
-stack_name = "sam-app-300"
-resolve_s3 = true
-s3_prefix = "sam-app-300"
-region = "us-west-1"
-capabilities = "CAPABILITY_IAM"
-parameter_overrides = "SourceBucketName=\"bogeybot-videos\" OutputBucketName=\"bogeybot\" LayerARN=\"arn:aws:lambda:us-west-1:771594331351:layer:ffmpeg:1\t\""
-image_repositories = []
