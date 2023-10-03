@@ -59,3 +59,7 @@ https://huggingface.co/ybelkada/blip-image-captioning-base-football-finetuned
 - finetune openpose
   https://github.com/open-mmlab/mmpose
   https://cmu-perceptual-computing-lab.github.io/openpose/web/html/doc/index.html
+
+
+
+- duplicate bucket setting

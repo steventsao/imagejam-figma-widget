@@ -1,5 +1,24 @@
 import Replicate from "replicate";
 import { NextApiRequest, NextApiResponse } from "next";
+import Cors from "cors";
+const cors = Cors({
+  methods: ["POST", "GET", "HEAD"],
+});
+function runMiddleware(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: Function
+) {
+  return new Promise((resolve, reject) => {
+    fn(req, res, (result: any) => {
+      if (result instanceof Error) {
+        return reject(result);
+      }
+
+      return resolve(result);
+    });
+  });
+}
 const replicate = new Replicate({
   auth: process.env.REPLICATE_API_TOKEN as string,
 });
@@ -8,6 +27,7 @@ export default async function (
   request: NextApiRequest,
   response: NextApiResponse
 ) {
+  await runMiddleware(request, response, cors);
   // image/octet-stream
   const requestType = request.headers["content-type"];
   const url = request.body;
