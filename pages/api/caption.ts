@@ -32,7 +32,6 @@ export default async function (
     response.status(400).send("POST only");
     return;
   }
-  await runMiddleware(request, response, cors);
   // image/octet-stream
   const requestType = request.headers["content-type"];
   const url = request.body;
@@ -48,8 +47,6 @@ export default async function (
         },
       }
     );
-    response.setHeader("Access-Control-Allow-Origin", "*");
-    // const saved = await action.promise();
     console.log(output);
     response.send({ message: "ok", output });
   } catch (e) {
