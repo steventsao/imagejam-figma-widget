@@ -27,6 +27,10 @@ export default async function (
   request: NextApiRequest,
   response: NextApiResponse
 ) {
+  if (request.method !== "POST") {
+    response.status(400).send("POST only");
+    return;
+  }
   await runMiddleware(request, response, cors);
   // image/octet-stream
   const requestType = request.headers["content-type"];
