@@ -1,13 +1,14 @@
 import Replicate from "replicate";
 import { NextApiRequest, NextApiResponse } from "next";
-const replicate = new Replicate({
-  auth: process.env.REPLICATE_API_TOKEN as string,
-});
 
 export default async function Caption(
   request: NextApiRequest,
   response: NextApiResponse
 ) {
+  console.log(process.env.REPLICATE_API_TOKEN);
+  const replicate = new Replicate({
+    auth: process.env.REPLICATE_API_TOKEN as string,
+  });
   if (request.method !== "POST") {
     response.status(400).send("POST only");
     return;
