@@ -17,7 +17,7 @@ export default async function Caption(
 
   try {
     const output = await replicate.run(
-      "rmokady/clip_prefix_caption:9a34a6339872a03f45236f114321fb51fc7aa8269d38ae0ce5334969981e4cd8",
+      "pharmapsychotic/clip-interrogator:8151e1c9f47e696fa316146a2e35812ccf79cfc9eba05b11c7f450155102af70",
       {
         input: {
           image: url,
