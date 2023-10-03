@@ -3,6 +3,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import Cors from "cors";
 const cors = Cors({
   methods: ["POST", "GET", "HEAD"],
+  origin: "*",
 });
 function runMiddleware(
   req: NextApiRequest,
