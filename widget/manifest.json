@@ -1,0 +1,19 @@
+{
+  "name": "image jam",
+  "id": "1290910998240758133",
+  "api": "1.0.0",
+  "editorType": ["figjam"],
+  "permissions": [],
+  "containsWidget": true,
+  "main": "dist/code.js",
+  "ui": "dist/index.html",
+  "widgetApi": "1.0.0",
+  "networkAccess": {
+    "devAllowedDomains": ["http://localhost:3000"],
+    "allowedDomains": [
+      "https://www.imagejam.app/",
+      "https://pbxt.replicate.delivery/",
+      "https://api.cloudinary.com/v1_1/dhr6dzeov/upload"
+    ]
+  }
+}
